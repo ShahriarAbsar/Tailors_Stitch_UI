@@ -1,0 +1,194 @@
+nav {
+  position: absolute;
+  width: 100%;
+  background-color: rgba(0, 0, 0, 0);
+  color: white;
+  width: 100%;
+  height: 86px;
+
+  display: flex; // Add this
+  justify-content: center; // Horizontally center .navInside
+  align-items: center; // Vertically center .navInside
+  border-bottom: 1px solid white;
+  .navInside {
+    display: flex;
+    max-width: 1320px;
+    width: 100%; // Add this for responsiveness
+    justify-content: space-between;
+    align-items: center; // Vertically center items
+    margin: 0 auto; // Horizontally center .navInside
+    
+    @media(max-width: 1400px) {
+      max-width: 1215px;
+    }
+
+    @media(max-width: 1200px) {
+      max-width: 1000px;
+    }
+    @media(max-width: 1000px) {
+      max-width: 800px;
+    }
+      
+    @media (max-width: 900px) {
+      justify-content: space-around;
+      gap: 40%;
+    }
+
+    .logo {
+      img {
+        width: 126px;
+        //    height: 33px;
+      }
+    }
+    ul {
+      display: flex;
+      justify-content: space-between;
+      gap: 32px;
+      list-style: none;
+      align-items: center;
+
+      @media (max-width: 1000px) {
+        display: none; // Hide on mobile
+      }
+      li {
+        .btn1 {
+          border: none;
+          border-radius: 40px;
+          padding: 10px 32px;
+          background-color: transparent;
+          color: white;
+          text-decoration: none;
+          transition: background-color 0.3s ease, color 0.3s ease;
+          cursor: pointer;
+          font: inherit;
+
+          &.active {
+            background-color: black;
+            color: white;
+          }
+
+          &:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+          }
+        }
+        .btn2 {
+          border: none;
+          border-radius: 40px;
+          padding-top: 10px;
+          padding-bottom: 10px;
+          padding-left: 32px;
+          padding-right: 32px;
+        }
+      }
+    }
+
+    .card {
+      display: none; // Hide by default
+     
+      @media (max-width: 1000px) {
+        display: block;
+      }
+      .hamburger {
+        button {
+          background: white;
+          border: none;
+          width: 42px;
+          height: 42px;
+          border-radius: 50%;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          img {
+            width: 24px;
+            background: transparent;
+          }
+        }
+      }
+
+      
+      
+    }
+  }
+}
+
+//styles for the nav bar
+
+      .p-sidebar {
+        background: #000000cf ;
+         color: #4b5563;
+        border: 0 none;
+         box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+}
+     .p-sidebar .p-sidebar-header {
+    padding: 1.0rem;
+    position: relative;
+    top: 1%;
+    right: .5%;
+    color: white;
+    /* width: 24px; */
+}
+
+ .p-sidebar-icon {
+  
+    width: 2.5rem;
+    height: 2.5rem;
+    color: #000000;
+    border: 0 none;
+    background: #f5f5f5;
+    border-radius: 50%;
+    transition: background-color 0.2s, color 0.2s, box-shadow 0.2s;
+}
+
+.p-sidebar {
+  ul {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 32px;
+    list-style: none;
+    align-items: flex-start;  // use flex-start instead of 'left'
+    margin-left: 10%;
+    margin-top: 10%;
+    
+    text-decoration: none; // this does not affect <ul>, can remove
+
+    li {
+      list-style: none;
+      font-size: 20px;
+      color: red;
+
+      .btn1 {
+          border: none;
+          border-radius: 40px;
+          // padding: 10px 32px;
+          background-color: transparent;
+          color: white;
+          text-decoration: none;
+          transition: background-color 0.3s ease, color 0.3s ease;
+          cursor: pointer;
+          font: inherit;
+
+          &.active {
+            background-color: black;
+            color: white;
+          }
+
+          &:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+          }
+        }
+        .btn2 {
+          border: none;
+          border-radius: 40px;
+          padding-top: 10px;
+          padding-bottom: 10px;
+          padding-left: 32px;
+          padding-right: 32px;
+        }
+      a {
+        text-decoration: none;  // Remove underline from links
+        color: inherit;         // Keep the red color from li
+      }
+    }
+  }
+}
