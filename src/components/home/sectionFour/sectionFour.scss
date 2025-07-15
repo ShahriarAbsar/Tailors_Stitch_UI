@@ -1,0 +1,124 @@
+.four {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  .fourBody {
+    margin-top: 140px;
+    margin-bottom: 140px;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 40px; // optional spacing between left and right columns
+    width: 100%;
+    max-width: 1370px;
+    padding: 0 32px;
+    align-items: center;
+    justify-content: center;
+    gap: 64px;
+
+    @media (max-width: 450px) {
+      max-width: 320px;
+      padding: 0 0px;
+      margin-bottom: 60px;
+    }
+    @media (max-width: 320px) {
+      max-width: 280px;
+      margin-top: 0px;
+      margin-bottom: 32px;
+    }
+
+    .btnView {
+      display: flex;
+      padding: 9px 24px;
+      justify-content: center;
+      align-items: center;
+      gap: 10px;
+      border-radius: 40px;
+      background: #0b1a31;
+      color: white;
+      border: none;
+      display: none;
+      justify-self: center;
+      @media (max-width: 1000px) {
+        display: block;
+      }
+    }
+
+    .fourHeading {
+      justify-self: center;
+      text-align: center;
+      @media (max-width: 320px) {
+        margin-top: 50px;
+      }
+      h1 {
+        color: #1a1a1a;
+
+        text-align: center;
+
+        font-size: clamp(28px, 5vw, 56px);
+        font-style: normal;
+        font-weight: 300;
+        line-height: 120%; /* 67.2px */
+        text-transform: uppercase;
+      }
+    }
+    .bodyCards {
+      max-width: 1320px;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      row-gap: 48px;
+      column-gap: 24px;
+
+      @media (max-width: 1450px) {
+        max-width: 1200px;
+      }
+      @media (max-width: 1000px) {
+        grid-template-columns: 1fr 1fr;
+        justify-self: center;
+      }
+
+      @media (max-width: 450px) {
+        grid-template-columns: 1fr;
+        max-width: 310px;
+      }
+
+      @media (max-width: 320px) {
+        grid-template-columns: 1fr;
+        max-width: 280px;
+      }
+      .box {
+        background: #f1e9dc;
+        max-width: 424px;
+        max-height: 590px;
+        height: 100%;
+
+        @media (max-width: 1450px) {
+          max-width: 490px;
+        }
+        @media (max-width: 450px) {
+          max-width: 310px;
+        }
+        @media (max-width: 320px) {
+          max-width: 280px;
+        }
+        .image {
+          img {
+            max-width: 424px;
+            width: 100%;
+            object-fit: cover;
+          }
+        }
+        .title {
+          display: flex;
+          max-width: 424px;
+          height: 85px;
+          padding: 24px;
+          flex-direction: column;
+          justify-content: center;
+          align-items: flex-start;
+          gap: 10px;
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,145 @@
+.three {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  .threeBody {
+    @media (max-width: 450px) {
+      max-width: 320px;
+    }
+    @media (max-width: 320px) {
+      max-width: 280px;
+    }
+
+    .threeHeading {
+      justify-self: center;
+      text-align: center;
+      @media (max-width: 320px) {
+        margin-top: 50px;
+      }
+      h1 {
+        color: #1a1a1a;
+
+        text-align: center;
+
+        font-size: clamp(28px, 5vw, 56px);
+        font-style: normal;
+        font-weight: 300;
+        line-height: 120%; /* 67.2px */
+        text-transform: uppercase;
+      }
+      h2 {
+        color: #1a1a1a;
+
+        font-size: clamp(28px, 5vw, 56px);
+        font-style: normal;
+        font-weight: 600;
+        line-height: 120%;
+        text-transform: uppercase;
+      }
+    }
+    .threeMainBody {
+      margin-top: 84px;
+      margin-bottom: 140px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 40px; // optional spacing between left and right columns
+      width: 100%;
+      max-width: 1370px;
+      padding: 0 32px;
+      align-items: center;
+      justify-content: center;
+      gap: 67px;
+
+      @media (max-width: 1000px) {
+        grid-template-columns: 1fr;
+        margin-top: 32px;
+        margin-bottom: 32px;
+      }
+      @media (max-width: 450px) {
+        margin-top: 32px;
+        margin-bottom: 32px;
+        grid-template-columns: 1fr;
+        gap: 0px;
+      }
+      @media (max-width: 320px) {
+        margin-top: 32px;
+        margin-bottom: 32px;
+        grid-template-columns: 1fr;
+        gap: 0px;
+      }
+      .mainBodyLeft {
+        @media (max-width: 1000px) {
+          justify-self: center;
+        }
+        img {
+          max-width: 645px;
+
+          @media (max-width: 450px) {
+            max-width: 310px;
+          }
+          @media (max-width: 320px) {
+            max-width: 280px;
+          }
+        }
+      }
+      .mainBodyRight {
+        .listOne {
+          display: grid;
+          grid-template-columns: 0.4fr 1.5fr;
+          margin-top: 40px;
+
+          @media (max-width: 450px) {
+            max-width: 310px;
+          }
+          @media (max-width: 320px) {
+            max-width: 280px;
+          }
+          .image {
+            @media (max-width: 450px) {
+              align-self: center;
+            }
+            @media (max-width: 320px) {
+              align-self: center;
+            }
+            img {
+              max-width: 92px;
+
+              @media (max-width: 450px) {
+                max-width: 48px;
+              }
+              @media (max-width: 320px) {
+                max-width: 48px;
+              }
+            }
+          }
+          .text {
+            align-self: center;
+            max-width: 453px;
+            h1 {
+              margin-bottom: 16px;
+              color: #1a1a1a;
+              font-size: clamp(20px, 1.5vw, 24px);
+              font-weight: 600;
+              line-height: 120%; /* 24px */
+              @media (max-width: 320px) {
+                margin-bottom: 2px;
+              }
+            }
+            p {
+              color: #3b3b3b;
+
+              font-size: clamp(14px, 1.5vw, 16px);
+
+              font-weight: 400;
+              line-height: 150%;
+
+              @media (max-width: 320px) {
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
