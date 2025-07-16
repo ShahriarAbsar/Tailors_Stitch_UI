@@ -10,6 +10,7 @@ nav {
   justify-content: center; // Horizontally center .navInside
   align-items: center; // Vertically center .navInside
   border-bottom: 1px solid white;
+  mix-blend-mode: difference;
   .navInside {
     display: flex;
     max-width: 1320px;
@@ -35,6 +36,7 @@ nav {
     }
 
     .logo {
+      
       img {
         width: 126px;
         //    height: 33px;
@@ -63,8 +65,8 @@ nav {
           font: inherit;
 
           &.active {
-            background-color: black;
-            color: white;
+            background-color: rgb(223, 222, 222);
+            color: rgb(0, 0, 0);
           }
 
           &:hover {
