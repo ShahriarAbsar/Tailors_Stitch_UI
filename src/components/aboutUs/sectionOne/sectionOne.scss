@@ -1,11 +1,11 @@
-.sectionOne {
+.AboutSectionOne {
 //   border: 2px solid red;
 margin-bottom: 120px;
-
+// border: 2px solid red;
 @media(max-width:450px){
       margin-bottom: 50px;
 }
-  .sectionOneBody {
+  .AboutSectionOneBody {
     max-width: 1320px;
     width: 100%;
 //     border: 2px solid black;
@@ -25,7 +25,7 @@ margin-bottom: 120px;
     @media(max-width:320px){
       padding-top: 35%;
     }
-    .oneBodyTop {
+    .AboutoneBodyTop {
       display: flex;
       flex-direction: row;
       justify-content: space-between;

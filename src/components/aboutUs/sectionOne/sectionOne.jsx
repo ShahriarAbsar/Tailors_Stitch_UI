@@ -3,9 +3,9 @@ import image1 from '../../../assets/AboutUs/sectionOneImage1.png'
 import "./sectionOne.scss";
 const sectionOne = () => {
   return (
-    <div className="sectionOne">
-      <div className="sectionOneBody">
-        <div className="oneBodyTop">
+    <div className="AboutSectionOne">
+      <div className="AboutSectionOneBody">
+        <div className="AboutoneBodyTop">
           <div className="oneBodyTopLeft">
             <h1>
               ABOUT
