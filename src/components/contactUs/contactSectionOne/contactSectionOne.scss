@@ -1,0 +1,104 @@
+.contactSectionOne {
+//   border: 2px solid red;
+margin-bottom: 120px;
+// border: 2px solid red;
+@media(max-width:450px){
+      margin-bottom: 50px;
+}
+  .contactSectionOneBody {
+    max-width: 1320px;
+    width: 100%;
+//     border: 2px solid black;
+    padding-top: 7.2%;
+    padding-bottom: 4%;
+    // align-self: center;
+    justify-self: center;
+
+    @media(max-width:1000px){
+      padding-top: 15%;
+    }
+
+    @media(max-width:450px){
+      padding-top: 35%;
+      padding-bottom: 4%;
+    }
+    @media(max-width:320px){
+      padding-top: 35%;
+    }
+    .contactoneBodyTop {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+
+      @media(max-width:1000px){
+            
+            flex-direction: column;
+            justify-self: center;
+      }
+      .contactBodyTopLeft {
+        max-width: 450px;
+        width: 100%;
+            align-self: center;
+
+            
+        h1 {
+          color: #1a1a1a;
+
+          font-size: clamp(32px , 5vw , 56px);
+          font-style: normal;
+          font-weight: 700;
+          line-height: 120%; /* 67.2px */
+          text-transform: uppercase;
+
+          @media(max-width:1000px){
+                  justify-self: center;
+            }
+        }
+      }
+      .contactBodyTopRight {
+        max-width: 650px;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+
+        @media(max-width:450px){
+            padding: 0 20px;
+        }
+        @media(max-width:1000px){
+                  margin-top: 5%;
+                  margin-bottom: 5%;
+            }
+        p {
+          color: #3b3b3b;
+
+          
+          font-size: 16px;
+          font-style: normal;
+          font-weight: 400;
+          line-height: 150%; /* 24px */
+
+          
+        }
+      //   :nth-child(1){
+      //       font-weight: 600;
+      //   }
+      }
+    }
+    
+  }
+  .contactBodyBottom{
+      .image{
+            img{
+            object-fit: cover;
+              width: 100%; 
+            //   max-height: 536px;
+            //   height: 100%;
+              
+            @media(max-width:450px){
+                  aspect-ratio: 1/1;
+            }
+            }
+      }
+    }
+}

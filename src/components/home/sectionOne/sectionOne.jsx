@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "./sectionOne.scss";
-
+import { NavLink } from "react-router-dom";
 
 const sectionOne = () => {
   return (
@@ -16,7 +16,10 @@ const sectionOne = () => {
                 relationships with our customers by consistently.
               </h2>
             </div>
-            <button className="btn2">Contact Us</button>
+            <NavLink to={"/contact"}>
+              <button className="btn2">Contact Us</button>
+            </NavLink>
+            
           </div>
           <div className="homebodyRight"></div>
         </div>

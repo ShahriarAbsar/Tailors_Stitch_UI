@@ -1,0 +1,332 @@
+.contactSectionTwo {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  .contactSectionTwoBody {
+    @media (max-width: 450px) {
+      max-width: 320px;
+    }
+    @media (max-width: 320px) {
+      max-width: 280px;
+    }
+
+    .contactSectionTwoHeading {
+      justify-self: center;
+      text-align: center;
+
+      @media (max-width: 320px) {
+        margin-top: 50px;
+      }
+      h1 {
+        color: #1a1a1a;
+
+        text-align: center;
+
+        font-size: clamp(28px, 5vw, 56px);
+        font-style: normal;
+        font-weight: 300;
+        line-height: 120%; /* 67.2px */
+        text-transform: uppercase;
+      }
+      h2 {
+        color: #1a1a1a;
+
+        font-size: clamp(28px, 5vw, 56px);
+        font-style: normal;
+        font-weight: 600;
+        line-height: 120%;
+        text-transform: uppercase;
+      }
+    }
+    .contactSectionTwoMainBody {
+      margin-top: 84px;
+      margin-bottom: 140px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 40px; // optional spacing between left and right columns
+
+      max-width: 1370px;
+      padding: 0 32px;
+      align-items: center;
+      justify-content: center;
+      gap: 67px;
+
+      @media (max-width: 1000px) {
+        grid-template-columns: 1fr;
+        margin-top: 32px;
+        margin-bottom: 32px;
+        padding: 0;
+      }
+      @media (max-width: 450px) {
+        max-width: 320px !important;
+        margin-top: 32px;
+        margin-bottom: 32px;
+
+        grid-template-columns: 1fr;
+        gap: 0px;
+        padding: 0;
+      }
+      @media (max-width: 320px) {
+        margin-top: 32px;
+        margin-bottom: 32px;
+        grid-template-columns: 1fr;
+        gap: 0px;
+      }
+      .contactmainBodyLeft {
+        @media (max-width: 1000px) {
+          justify-self: center;
+        }
+        img {
+          max-width: 645px;
+
+          @media (max-width: 450px) {
+            max-width: 310px;
+          }
+          @media (max-width: 320px) {
+            max-width: 280px;
+          }
+        }
+      }
+      .contactmainBodyRight {
+        max-width: 575px;
+
+        @media (max-width: 1000px) {
+          justify-self: center;
+        }
+
+        @media (max-width: 450px) {
+          justify-self: left;
+          max-width: 320px;
+        }
+
+        .contactforms {
+          max-width: 480px;
+          width: 100%;
+          justify-self: center;
+
+          @media (max-width: 450px) {
+            max-width: 550px;
+            width: 100%;
+          }
+          .contactformHeading {
+            max-width: 480px;
+
+            @media (max-width: 450px) {
+              margin-top: 50px;
+            }
+            @media (max-width: 450px) {
+              justify-self: left;
+              max-width: 343px;
+              width: 100%;
+            }
+
+            h1 {
+              color: #101828;
+
+              font-size: clamp(32px, 5vw, 56px);
+              font-style: normal;
+              font-weight: 600;
+              line-height: 44px; /* 122.222% */
+              letter-spacing: -0.72px;
+              margin-bottom: 20px;
+
+              @media (max-width: 450px) {
+                justify-self: left;
+                margin-bottom: 12px;
+              }
+              @media (max-width: 320px) {
+                justify-self: center;
+              }
+            }
+            p {
+              color: #475467;
+
+              font-size: clamp(16px, 1.5vw, 20px);
+              font-style: normal;
+              font-weight: 400;
+              line-height: 30px; /* 150% */
+
+              @media (max-width: 450px) {
+                justify-self: left;
+              }
+              @media (max-width: 320px) {
+                text-align: center;
+              }
+            }
+          }
+          .contactforms {
+            margin-top: 48px;
+            justify-self: center;
+            @media (max-width: 450px) {
+              justify-self: left;
+            }
+            form {
+              max-width: 480px;
+              .formGroupName {
+                display: flex;
+                flex-direction: row;
+                margin-bottom: 20px;
+                gap: 32px;
+
+                @media (max-width: 450px) {
+                  flex-direction: column;
+                }
+                @media (max-width: 320px) {
+                  flex-direction: column;
+                }
+                .firstName {
+                  max-width: 225px;
+                }
+                .lastName {
+                  max-width: 225px;
+                }
+                label {
+                  margin-bottom: 8px;
+                  font-size: 16px;
+                  font-weight: 500;
+                  color: #333;
+                }
+
+                input {
+                  margin-top: 8px;
+                  padding: 10px 12px;
+                  border: 1px solid #ccc;
+                  border-radius: 0px;
+                  font-size: 16px;
+
+                  border: 1px solid rgba(128, 128, 128, 0.403);
+                  /* Shadows/shadow-xs */
+                  box-shadow: 0px 1px 2px 0px rgba(16, 24, 40, 0.05);
+                  &:focus {
+                    border-color: #000;
+                    outline: none;
+                  }
+                  &::placeholder {
+                    color: #aaa;
+                  }
+
+                  // @media(max-width: 1000px) {
+                  //   width: 380px;
+                  // }
+                  @media (max-width: 450px) {
+                    width: 310px;
+                  }
+                  @media (max-width: 320px) {
+                    padding: 10px 0px;
+                    padding-left: 15px;
+                    padding-right: 35px;
+                  }
+                }
+              }
+              .formGroup {
+                display: flex;
+                flex-direction: column;
+                margin-bottom: 20px;
+
+                // @media (max-width:1000px){
+                //   width: 650px;
+                // }
+                label {
+                  margin-bottom: 8px;
+                  font-size: 16px;
+                  font-weight: 500;
+                  color: #333;
+                }
+
+                input {
+                  margin-top: 8px;
+                  padding: 10px 12px;
+                  border: 1px solid #ccc;
+                  border-radius: 0px;
+                  font-size: 16px;
+
+                  border: 1px solid rgba(128, 128, 128, 0.423);
+                  /* Shadows/shadow-xs */
+                  box-shadow: 0px 1px 2px 0px rgba(16, 24, 40, 0.05);
+                  &:focus {
+                    border-color: #000;
+                    outline: none;
+                  }
+                  &::placeholder {
+                    color: #aaa;
+                  }
+
+                  @media (max-width: 1000px) {
+                    width: 100%;
+                  }
+                  @media (max-width: 450px) {
+                    width: 310px;
+                  }
+                }
+
+                textarea {
+                  padding: 12px 14px;
+                  font-size: 16px;
+                  border: 1px solid #ccc;
+                  border-radius: 0px;
+                  resize: vertical; // allow vertical resize only
+                  min-height: 120px;
+                  font-family: inherit;
+
+                  &:focus {
+                    border-color: #000;
+                    outline: none;
+                  }
+
+                  &::placeholder {
+                    color: #aaa;
+                  }
+                  @media (max-width: 450px) {
+                    width: 310px;
+                  }
+                }
+
+                .phoneContainer {
+                  margin-bottom: 20px;
+
+                  .flag-dropdown {
+                    border: 1px solid #ccc;
+                    border-radius: 6px 0 0 6px;
+                    background-color: white;
+                  }
+
+                  .phoneInput {
+                    padding-top: 20px;
+                    padding-bottom: 20px;
+                    padding-left: 40px;
+                    border: 1px solid #ccc;
+                    border-radius: 0;
+                    font-size: 16px;
+                    width: 100%;
+
+                    &:focus {
+                      outline: none;
+                      border-color: #000;
+                    }
+                  }
+                }
+              }
+            }
+            .button {
+              .btn3 {
+                width: 100%;
+                color: white;
+                margin-top: 32px;
+
+                padding: 12px 18px;
+
+                gap: 6px;
+
+                border: 1px solid var(--Brand-600, #7f56d9);
+                background: var(--TSL-Navy-Blue, #0b1a31);
+                /* Shadows/shadow-xs */
+                box-shadow: 0px 1px 2px 0px rgba(16, 24, 40, 0.05);
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

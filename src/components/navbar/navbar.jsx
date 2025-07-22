@@ -13,7 +13,9 @@ const navbar = () => {
     <nav className="navigation">
       <div className="navInside">
         <div className="logo">
-          <img src={Logo} alt="some photo" />
+          <NavLink to="/home">
+            <img src={Logo} alt="Logo" />
+          </NavLink>
         </div>
 
         <ul>
@@ -35,7 +37,7 @@ const navbar = () => {
           </li>
           <li>
             <NavLink
-              to="/Out Products"
+              to={"/contact"}
               className={({ isActive }) => (isActive ? "btn1 active" : "btn1")}
             >
               Contact
