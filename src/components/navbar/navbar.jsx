@@ -10,7 +10,7 @@ const navbar = () => {
   const [visibleRight, setVisibleRight] = useState(false);
 
   return (
-    <nav>
+    <nav className="navigation">
       <div className="navInside">
         <div className="logo">
           <img src={Logo} alt="some photo" />
