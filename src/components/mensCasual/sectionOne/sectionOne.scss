@@ -1,0 +1,67 @@
+.casualOne {
+  margin-bottom: 100px;
+
+  .casualBody {
+    .image {
+      img {
+        padding-top: 86px;
+        width: 100%;
+
+        @media (max-width: 450px) {
+          aspect-ratio: 4/4;
+        }
+        @media (max-width: 320px) {
+          aspect-ratio: 4/4;
+        }
+      }
+    }
+    .casualbodyTitle {
+      max-width: 1320px;
+      width: 100%;
+      position: relative;
+      bottom: 70px;
+      left: 50%;
+      transform: translate(-50%, -70px);
+      @media (max-width: 1450px) {
+        max-width: 1200px;
+      }
+      @media (max-width: 1000px) {
+        max-width: 600px;
+        width: 100%;
+        bottom: 45px;
+        left: 50%;
+        transform: translate(-50%, -45px);
+      }
+      @media (max-width: 450px) {
+        // border: 2px solid red;
+        max-width: 280px;
+        width: 100%;
+        bottom: 20px;
+      }
+      @media (max-width: 320px) {
+        // bottom: 20px;
+      }
+
+      .casualTitle {
+        h4 {
+          color: #ffffff;
+          //   text-align: center;
+          font-family: "Bricolage Grotesque";
+          font-size: clamp(18px, 5vw, 40px);
+          font-style: normal;
+          font-weight: 600;
+          line-height: 48px; /* 120% */
+          text-transform: uppercase;
+        }
+      }
+
+      // .breadcrumbs{
+      //       border: 2px solid red;
+
+      //       .p-menuitem-separator{
+      //             display: none;
+      //       }
+      // }
+    }
+  }
+}
