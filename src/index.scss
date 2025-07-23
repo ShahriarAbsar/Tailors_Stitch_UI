@@ -7,9 +7,15 @@
 
 body{
  background: #FFFFFF;
+ font-family: BricolageGrotesque ;
 }
 
 a{
       cursor: pointer;
       color: inherit;
+}
+
+@font-face {
+      font-family: BricolageGrotesque;
+      src: url('./assets/Fonts/Bricolage_Grotesque/BricolageGrotesque-VariableFont_opsz\,wdth\,wght.ttf');
 }
