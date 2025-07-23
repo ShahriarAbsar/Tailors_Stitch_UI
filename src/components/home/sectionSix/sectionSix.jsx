@@ -27,20 +27,20 @@ const sectionSix = () => {
                   <form>
                     <div className="formGroupName">
                       <div className="firstName">
-                        <label htmlFor="name">First Name</label>
+                        <label htmlFor="name"><h4>First Name</h4></label>
                         <input type="text" placeholder="First Name" required />
                       </div>
                       <div className="lastName">
-                        <label htmlFor="name">Last Name</label>
+                        <label htmlFor="name"><h4>Last Name</h4></label>
                         <input type="text" placeholder="Last Name" required />
                       </div>
                     </div>
                     <div className="formGroup">
-                      <label htmlFor="email">Email</label>
+                      <label htmlFor="email"><h4>Email</h4></label>
                       <input type="email" placeholder="Your Email" required />
                     </div>
                     <div className="formGroup">
-                      <label htmlFor="phone">Phone</label>
+                      <label htmlFor="phone"><h4>Phone</h4></label>
                       <PhoneInput
                         country={"bd"}
                         value={phone}
@@ -51,7 +51,7 @@ const sectionSix = () => {
                     </div>
 
                     <div className="formGroup">
-                      <label htmlFor="message">Message</label>
+                      <label htmlFor="message"> <h4>Message</h4></label>
                       <textarea
                         placeholder="Leave us a message"
                         rows="4"
@@ -63,7 +63,7 @@ const sectionSix = () => {
                   </form>
                   <div className="button">
                   <button className="btn3">
-                      Send Message
+                      <h4>Send Message</h4>
                     </button>
                 </div>
                 </div>

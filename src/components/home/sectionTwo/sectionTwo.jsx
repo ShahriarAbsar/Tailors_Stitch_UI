@@ -28,7 +28,7 @@ const sectionTwo = () => {
           </div>
           <div className="button">
             <button className="btn">
-              <NavLink to={"/about"}>Learn More About Us</NavLink>
+              <NavLink to={"/about"}> <h4>Learn More About Us</h4></NavLink>
             </button>
             <div className="line">
               <hr />

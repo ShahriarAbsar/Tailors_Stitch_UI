@@ -17,7 +17,7 @@ const sectionOne = () => {
               </h2>
             </div>
             <NavLink to={"/contact"}>
-              <button className="btn2">Contact Us</button>
+              <button className="btn2"> <h4>Contact Us</h4></button>
             </NavLink>
             
           </div>

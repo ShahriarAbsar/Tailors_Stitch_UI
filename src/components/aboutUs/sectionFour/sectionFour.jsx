@@ -90,7 +90,7 @@ const SectionFour = () => {
           </div>
           <div className="fourFooterBottom">
             <button className="btn">
-              Get in Touch
+              <h4>Get in Touch</h4>
             </button>
           </div>
         </div>
