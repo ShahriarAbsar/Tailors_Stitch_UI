@@ -96,6 +96,8 @@
             max-width: 280px;
           }
           .image {
+            justify-self: center;
+            align-self: center;
             @media (max-width: 450px) {
               align-self: center;
             }

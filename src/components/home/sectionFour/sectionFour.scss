@@ -20,7 +20,7 @@
       max-width: 320px;
       padding: 0 0px;
       margin-bottom: 60px;
-      gap:25px
+      gap: 25px;
     }
     @media (max-width: 320px) {
       max-width: 280px;
@@ -62,8 +62,8 @@
         line-height: 120%; /* 67.2px */
         text-transform: uppercase;
         margin-bottom: 48px;
-font-weight: 600;
-        @media(max-width:450px){
+        font-weight: 600;
+        @media (max-width: 450px) {
           margin-bottom: 10px;
         }
       }
@@ -97,7 +97,7 @@ font-weight: 600;
         max-width: 424px;
         max-height: 590px;
         height: 100%;
-
+        transition: 0.5s ease;
         @media (max-width: 1450px) {
           max-width: 490px;
         }
@@ -125,10 +125,13 @@ font-weight: 600;
           gap: 10px;
         }
       }
+      .box:hover {
+        transform: scale(1.05);
+      }
     }
   }
 }
 
-a{
+a {
   text-decoration: none;
 }

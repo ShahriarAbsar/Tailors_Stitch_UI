@@ -37,6 +37,10 @@
       display: grid;
       grid-template-columns: 1fr;
       .headingText {
+        margin-top: 30%;
+        @media(max-width:450px){
+            margin-top: 80%;
+          }
         h1 {
           max-width: 600px;
           font-size: clamp(35px, 5vw, 64px);
@@ -46,7 +50,7 @@
           //     @media(max-width:1400px){
           //       margin-left: 9%;
           //     }
-          @media (max-width: 900px) {
+          @media (max-width: 1000px) {
             color: #fff;
 
             font-style: normal;
@@ -55,6 +59,7 @@
 
             max-width: 340px;
           }
+          
           @media (max-width: 320px) {
             margin-top: 20%;
           }

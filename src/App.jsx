@@ -5,6 +5,14 @@ import About from "./components/aboutUs/aboutUs.jsx";
 import Services from "./components/ourServices/ourServices.jsx";
 import MensFormalwear from "./components/mensFormal/mensFormalwear.jsx";
 import Menscasualwear from "./components/mensCasual/mensCasual.jsx";
+
+import WomensFormalwear from "./components/womensFormal/womensFormal.jsx";
+import Womenscasualwear from "./components/womensCasual/womensCasual.jsx";
+
+import WomensKnitwear from "./components/womensknitwear/womensknitwear.jsx";
+import Kids from "./components/kidswear/kidswear.jsx";
+
+
 import ContactUs from './components/contactUs/contactUs.jsx'
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { PrimeReactProvider } from "primereact/api";
@@ -27,7 +35,11 @@ const App = () => {
           <Route path="/services" element={<Services />} />
           <Route path="/mensFormalwear" element={<MensFormalwear />} />
           <Route path="/menscasualwear" element={<Menscasualwear />} />
-          <Route path="/contact" element={<ContactUs />} /> 
+          <Route path="/womensFormalwear" element={<WomensFormalwear />} />
+          <Route path="/womensCasualwear" element={<Womenscasualwear />} />
+          <Route path="/womensKnitwear" element={<WomensKnitwear />} />
+          <Route path="/kidswear" element={<Kids />} />
+          <Route path="/Contact" element={<ContactUs />} /> 
         </Routes>
       
     </div>

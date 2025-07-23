@@ -4,8 +4,8 @@
   //   border: 2px solid black;
   justify-self: center;
 
-  @media(max-width:1450px){
-      max-width: 1100px;
+  @media (max-width: 1450px) {
+    max-width: 1100px;
   }
   .serviceSectionTwoBody {
     .serviceTop {
@@ -40,7 +40,7 @@
         }
 
         @media (max-width: 450px) {
-      //     border: 2px solid red;
+          //     border: 2px solid red;
           max-width: 343px;
           width: 100%;
           display: grid;
@@ -143,12 +143,12 @@
         margin-bottom: 80px;
 
         @media (max-width: 1000px) {
-      //     border: 2px solid red;
+          //     border: 2px solid red;
           justify-self: center;
           max-width: 740px;
         }
-        @media(max-width:450px){
-           row-gap: 40px;
+        @media (max-width: 450px) {
+          row-gap: 40px;
         }
         .card {
           display: grid;
@@ -157,12 +157,13 @@
           //     margin-top: 80px;
           //     margin-bottom: 100px;
 
-          @media(max-width:450px){
+          @media (max-width: 450px) {
             max-width: 340px;
             grid-template-columns: 1fr;
+            
           }
 
-          @media(max-width:320px){
+          @media (max-width: 320px) {
             max-width: 280px;
             grid-template-columns: 1fr;
           }
@@ -179,8 +180,9 @@
             @media (max-width: 1000px) {
               padding: 25px 24px;
             }
-            @media(max-width:450px){
-              padding: 40px 25px;    
+            @media (max-width: 450px) {
+              padding: 40px 25px;
+              order: 1;
             }
             img {
               max-width: 54px;
@@ -199,7 +201,7 @@
             h4 {
               color: #3b3b3b;
               max-width: 380px;
-              font-size: clamp(12px , 1.5vw ,14px);
+              font-size: clamp(12px, 1.5vw, 14px);
               font-style: normal;
               font-weight: 400;
             }
