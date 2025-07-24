@@ -1,4 +1,8 @@
 import React, { useState, useEffect } from "react"; // Import useEffect
+// src/index.js or src/App.js
+import 'primereact/resources/themes/saga-blue/theme.css'; // Or any other theme
+import 'primereact/resources/primereact.min.css';
+import 'primeicons/primeicons.css';
 import Navbar from "./components/navbar/navbar.jsx";
 import Home from "./components/home/home.jsx";
 import About from "./components/aboutUs/aboutUs.jsx";
