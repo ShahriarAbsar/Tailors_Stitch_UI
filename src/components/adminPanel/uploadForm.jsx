@@ -1,47 +1,12 @@
-import React, { useState } from "react";
-import './admin.scss'
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+import './Admin.scss';
 
-const categories = [
-  {
-    name: "Formal Shirts",
-    description:
-      "Professional formal shirts for business and special occasions",
-    products: 15,
-    image: "https://via.placeholder.com/300x200?text=Formal+Shirts",
-  },
-  {
-    name: "Casual Shirts",
-    description: "Comfortable casual shirts for everyday wear",
-    products: 23,
-    image: "https://via.placeholder.com/300x200?text=Casual+Shirts",
-  },
-  {
-    name: "Suits",
-    description: "Premium tailored suits for formal events",
-    products: 8,
-    image: "https://via.placeholder.com/300x200?text=Suits",
-  },
-  {
-    name: "Pants",
-    description: "High-quality pants and trousers",
-    products: 31,
-    image: "https://via.placeholder.com/300x200?text=Pants",
-  },
-  {
-    name: "Blazers",
-    description: "Stylish blazers for semi-formal occasions",
-    products: 12,
-    image: "https://via.placeholder.com/300x200?text=Blazers",
-  },
-  {
-    name: "Accessories",
-    description: "Ties, cufflinks, and other fashion accessories",
-    products: 27,
-    image: "https://via.placeholder.com/300x200?text=Accessories",
-  },
-];
+const AdminDashboard = ({ setAuthenticated }) => {
+  const [categories, setCategories] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
-const uploadForm = () => {
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [showForm, setShowForm] = useState(false);
   const [formData, setFormData] = useState({
@@ -51,6 +16,24 @@ const uploadForm = () => {
     images: []
   });
 
+  // --- API Integration: Fetch Categories on component mount ---
+  useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+        const response = await axios.get('http://localhost:3000/category'); // Correct API URI
+        setCategories(response.data);
+      } catch (err) {
+        setError('Failed to fetch categories. Please try again.');
+        console.error('Error fetching categories:', err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchCategories();
+  }, []);
+
+  // --- Form Handling (remains largely the same) ---
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
@@ -67,10 +50,17 @@ const uploadForm = () => {
   };
 
   const handleSubmit = () => {
-    // Here you can handle your product submission logic
     console.log("Submitted Product:", formData);
     setFormData({ name: '', description: '', price: '', images: [] });
     setShowForm(false);
+  };
+
+  const handleLogout = () => {
+    localStorage.removeItem('accessToken');
+    localStorage.removeItem('userEmail');
+    localStorage.removeItem('userRole');
+    setAuthenticated(false);
+    window.location.href = '/';
   };
 
   return (
@@ -82,6 +72,7 @@ const uploadForm = () => {
           <button>Categories</button>
           <button>All Products</button>
           <button>Settings</button>
+          <button className="logout-sidebar-btn" onClick={handleLogout}>Logout</button>
         </nav>
         <div className="admin-footer">
           <p>
@@ -95,16 +86,25 @@ const uploadForm = () => {
         {!selectedCategory ? (
           <div>
             <h1>Product Categories</h1>
+            {loading && <p>Loading categories...</p>}
+            {error && <p style={{ color: 'red' }}>{error}</p>}
+            {!loading && !error && categories.length === 0 && <p>No categories found.</p>}
+
             <div className="category-grid">
               {categories.map((cat, idx) => (
                 <div
-                  key={idx}
+                  key={cat.id || idx}
                   className="category-card"
                   onClick={() => setSelectedCategory(cat)}
                 >
-                  <img src={cat.image} alt={cat.name} />
+                  {/* THIS IS THE ONLY IMG TAG YOU NEED */}
+                  <img
+                    src={`${cat.image ? `http://localhost:3000/${cat.image}` : 'https://via.placeholder.com/300x200?text=No+Image'}`}
+                    alt={cat.name}
+                  />
+
                   <div className="category-info">
-                    <p>{cat.products} Products</p>
+                    <p>{cat.products || 0} Products</p>
                     <h3>{cat.name}</h3>
                     <p>{cat.description}</p>
                   </div>
@@ -122,7 +122,7 @@ const uploadForm = () => {
             </button>
             <h1>{selectedCategory.name}</h1>
             <p>
-              {selectedCategory.description} • {selectedCategory.products} products
+              {selectedCategory.description} • {selectedCategory.products || 0} products
             </p>
             <button className="add-product" onClick={() => setShowForm(!showForm)}>
               + Add Product
@@ -167,6 +167,21 @@ const uploadForm = () => {
                 <button onClick={handleSubmit}>Submit Product</button>
               </div>
             )}
+            <h3>Products in {selectedCategory.name}</h3>
+            <div className="product-grid">
+                <p>No products displayed for this category yet.</p>
+                <div className="product-card">
+                    <div className="image-placeholder">No Image</div>
+                    <div className="product-details">
+                        <h3>Sample Product <span className="price">$19.99</span></h3>
+                        <p>Description of sample product.</p>
+                        <div className="actions">
+                            <button>Edit</button>
+                            <button>Delete</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
           </div>
         )}
       </main>
@@ -174,4 +189,4 @@ const uploadForm = () => {
   );
 };
 
-export default uploadForm;
+export default AdminDashboard;
