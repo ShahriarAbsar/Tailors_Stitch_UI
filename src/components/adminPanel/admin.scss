@@ -1,11 +1,15 @@
-$primary-color: #4a90e2;
-$danger-color: #e74c3c;
+/* Admin.scss */
+
+// Variables from your provided code
+$primary-color: #4a90e2; // Your primary blue
+$danger-color: #e74c3c; // Your danger red
 $bg-color: #f5f7fa;
 $text-color: #333;
 $card-bg: #fff;
 $border-radius: 8px;
 $shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 
+// --- Global Body and Login Page Styles (from your provided code) ---
 body {
   font-family: 'Segoe UI', sans-serif;
   background-color: $bg-color;
@@ -20,9 +24,9 @@ body {
 .login-page-wrapper {
   display: flex;
   justify-content: center; // Horizontally center
-  align-items: center;   // Vertically center
-  min-height: 100vh;     // Make it take the full viewport height
-  width: 100%;           // Ensure it spans the full width
+  align-items: center;    // Vertically center
+  min-height: 100vh;      // Make it take the full viewport height
+  width: 100%;            // Ensure it spans the full width
 }
 
 .login-container {
@@ -38,6 +42,45 @@ body {
     font-size: 28px;
     margin-bottom: 30px;
     color: $primary-color;
+  }
+
+  // --- Pagination Controls (from your code, integrated here for consistency) ---
+  .pagination-controls {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 30px;
+    gap: 15px; // Space between elements
+    padding: 15px;
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+
+    button {
+      background-color: #007bff; // Note: This is different from your $primary-color. Adjust if needed.
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 1em;
+      transition: background-color 0.3s ease;
+
+      &:hover:not(:disabled) {
+        background-color: darken(#007bff, 10%);
+      }
+
+      &:disabled {
+        background-color: #cccccc;
+        cursor: not-allowed;
+      }
+    }
+
+    span {
+      font-size: 1.1em;
+      color: #333;
+      font-weight: 500;
+    }
   }
 
   .admin-input {
@@ -77,24 +120,73 @@ body {
   }
 }
 
-/* --- Keep all your other existing styles below this line as they were --- */
+/* --- Dashboard Specific Styles --- */
+.dashboard-summary {
+  padding: 20px;
+  background-color: #f8f9fa;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
 
-.dashboardBody{
+  h1 {
+    color: #333;
+    margin-bottom: 15px;
+  }
+
+  p {
+    color: #555;
+    line-height: 1.6;
+  }
+
+  .summary-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); // Responsive grid
+    gap: 20px;
+    margin-top: 25px;
+
+    .summary-card {
+      background-color: #fff;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+      text-align: center;
+      transition: transform 0.2s ease-in-out;
+
+      &:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+      }
+
+      h3 {
+        color: #007bff; // A nice blue for titles - consider using $primary-color here for consistency
+        margin-bottom: 10px;
+        font-size: 1.1em;
+      }
+
+      .summary-count {
+        font-size: 2.5em;
+        font-weight: bold;
+        color: #333;
+      }
+    }
+  }
+}
+
+.dashboardBody {
   padding-top: 10%;
   max-width: 1320px;
   width: 100%;
   justify-self: center;
 
-  .logoutButton{
+  .logoutButton {
     margin-top: 10px;
   }
 }
 
-
-.uploadForm{
+.uploadForm {
   margin-top: 20px;
 }
 
+// Global input/textarea styles (consolidated)
 input[type="text"],
 input[type="password"],
 input[type="file"],
@@ -106,6 +198,8 @@ textarea {
   font-size: 16px;
   outline: none;
   transition: border 0.2s ease;
+  box-sizing: border-box; /* Crucial for width: 100% to work with padding */
+
   &:focus {
     border-color: $primary-color;
   }
@@ -116,12 +210,13 @@ textarea {
   min-height: 100px;
 }
 
+// Button base style from your existing .btnn
 .btnn {
   padding: 12px;
   font-size: 16px;
   border: none;
   border-radius: $border-radius;
-  background-color: $primary-color;
+  background-color: $primary-color; // Use your primary color
   color: white;
   cursor: pointer;
   transition: background 0.2s ease;
@@ -138,7 +233,6 @@ textarea {
     }
   }
 }
-
 
 .adminDashBody {
   display: flex;
@@ -177,7 +271,7 @@ textarea {
 
 .productcat .btn:hover,
 .productcat .btn.active {
-  background-color: #ff4081;
+  background-color: #ff4081; /* Consider using your $danger-color or another variable */
 }
 
 .adminDashBodyRight {
@@ -185,15 +279,17 @@ textarea {
   padding: 20px;
 }
 
-input[type="text"] {
-  width: 100%;
-  padding: 10px;
-  margin-bottom: 15px;
-  font-size: 1rem;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-}
+// These specific input styles were mostly redundant with the global one above, adjusted for consistency
+// input[type="text"] {
+//   width: 100%;
+//   padding: 10px;
+//   margin-bottom: 15px;
+//   font-size: 1rem;
+//   border: 1px solid #ccc;
+//   border-radius: 5px;
+// }
 
+// Your generic .btn and .btn1 styles
 .btn {
   display: inline-block;
   margin: 10px 10px 0 0;
@@ -243,57 +339,86 @@ input[type="text"] {
   cursor: pointer;
 }
 
-
+// --- Admin Container (Main Layout) ---
 .admin-container {
   display: flex;
   min-height: 100vh;
   font-family: 'Segoe UI', sans-serif;
-  background-color: #f9f9f9;
+  background-color: $bg-color; // Using your defined background color
 
   .sidebar {
     width: 250px;
-    background-color: #212121;
+    background-color: #212121; // Your existing sidebar dark background
     color: #fff;
     padding: 20px;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
+    justify-content: space-between; /* This will push footer to bottom */
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1); /* Added subtle shadow */
+    position: sticky; /* Make sidebar sticky */
+    top: 0;
+    height: 100vh; /* Ensure it takes full viewport height */
 
     h2 {
       margin-bottom: 20px;
-      font-size: 1.5rem;
+      font-size: 1.8rem; /* Slightly larger heading */
+      color: $primary-color; /* Use primary color for main title */
+      text-align: center; /* Center the title */
     }
 
     nav {
       display: flex;
       flex-direction: column;
       gap: 10px;
+      flex-grow: 1; /* Allow nav to take available space */
 
       button {
-        background: #333;
+        background: #333; // Your existing button background
         color: white;
         border: none;
-        padding: 10px;
+        padding: 12px 15px; /* More padding */
         border-radius: 5px;
         text-align: left;
         cursor: pointer;
         transition: background 0.3s;
+        font-size: 1.1em; /* Slightly larger font */
 
         &:hover {
-          background: #ff4081;
+          background: #ff4081; /* Your existing hover color */
         }
+        &.active { /* Style for active tab */
+          background-color: $primary-color;
+          font-weight: bold;
+          box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+      }
+    }
+
+    .logout-sidebar-btn { /* Specific class for logout button */
+      margin-top: 20px; /* Space from other nav items */
+      background-color: $danger-color !important; /* Override other styles */
+      &:hover {
+        background-color: darken($danger-color, 10%) !important;
       }
     }
 
     .admin-footer {
       margin-top: 30px;
+      padding-top: 20px; /* Add padding above the border */
+      border-top: 1px solid rgba(255, 255, 255, 0.1); /* Subtle separator */
       font-size: 0.85rem;
       color: #ccc;
+      text-align: center; /* Center the footer text */
 
       strong {
         display: block;
         font-weight: bold;
         margin-bottom: 5px;
+        color: #fff; /* Ensure strong text is white */
+      }
+      p {
+        margin: 5px 0; /* Adjust margin for paragraphs */
+        color: rgba(255, 255, 255, 0.8);
       }
     }
   }
@@ -301,9 +426,19 @@ input[type="text"] {
   .main-content {
     flex: 1;
     padding: 40px;
+    background-color: #f0f2f5; /* A slightly different background for content area, good practice */
 
     h1 {
       font-size: 2rem;
+      margin-bottom: 20px;
+      border-bottom: 2px solid $primary-color; /* Add a bottom border */
+      padding-bottom: 10px; /* Space for the border */
+      color: $text-color; /* Use your text color */
+    }
+    h3 {
+      font-size: 1.6em; /* Consistent with other headings */
+      color: $text-color;
+      margin-top: 30px;
       margin-bottom: 20px;
     }
 
@@ -311,85 +446,121 @@ input[type="text"] {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
       gap: 20px;
+      padding: 20px 0; /* Add padding here for better spacing */
 
       .category-card {
         background: #fff;
         border: 1px solid #ddd;
         border-radius: 8px;
+        box-shadow: $shadow; /* Use your shadow variable */
         overflow: hidden;
         cursor: pointer;
-        transition: transform 0.2s;
+        transition: transform 0.2s, box-shadow 0.2s; /* Add box-shadow to transition */
+        display: flex; /* Make it a flex container */
+        flex-direction: column; /* Stack image and info vertically */
 
         &:hover {
-          transform: translateY(-3px);
-          box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+          transform: translateY(-5px); /* More pronounced hover */
+          box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15); /* More pronounced shadow */
         }
 
         img {
           width: 100%;
-          height: 150px;
+          height: 180px; /* Consistent height for category images */
           object-fit: cover;
+          object-position: center;
+          display: block;
         }
 
         .category-info {
           padding: 15px;
+          flex: 1; /* Allows this section to grow */
+          display: flex;
+          flex-direction: column;
+          justify-content: space-between; /* Pushes content appropriately */
 
           p {
             margin: 4px 0;
             color: #555;
+            line-height: 1.4;
+            font-size: 0.9em;
           }
 
           h3 {
             margin: 8px 0;
-            color: #333;
+            color: $text-color;
+            font-size: 1.3em;
           }
         }
       }
     }
 
     .back-btn {
-      background-color: transparent;
+      background-color: #6c757d; /* Use a secondary color for clarity */
+      color: white;
       border: none;
+      padding: 10px 15px;
+      border-radius: 5px;
       font-size: 1rem;
-      color: #555;
       cursor: pointer;
       margin-bottom: 20px;
+      transition: background-color 0.2s ease;
 
       &:hover {
-        text-decoration: underline;
+        background-color: darken(#6c757d, 8%);
+        text-decoration: none; /* Remove underline on hover if button */
       }
     }
 
     .add-product {
-      background-color: #4caf50;
+      background-color: #28a745; /* A success green */
       color: white;
-      padding: 10px 15px;
+      padding: 12px 20px;
       margin: 15px 0;
       border: none;
       border-radius: 4px;
       cursor: pointer;
+      font-size: 1.1em;
+      transition: background-color 0.2s ease;
 
       &:hover {
-        background-color: #43a047;
+        background-color: darken(#28a745, 8%);
       }
     }
 
+    // --- Product Grid & Card Styles (Updated for alignment & image fit) ---
     .product-grid {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 20px;
+      display: grid; /* Changed from flex to grid for better control */
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); /* Responsive grid */
+      gap: 25px;
+      padding: 20px 0;
 
       .product-card {
-        background: white;
+        background: $card-bg;
         border: 1px solid #ddd;
-        border-radius: 8px;
-        width: 250px;
+        border-radius: $border-radius;
+        box-shadow: $shadow;
         overflow: hidden;
         display: flex;
         flex-direction: column;
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+        cursor: pointer; /* Indicate it's clickable */
 
-        .image-placeholder {
-          height: 150px;
+        &:hover {
+          transform: translateY(-5px);
+          box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15); /* More pronounced shadow */
+        }
+
+        img.product-image { /* Specific selector for product images */
+          width: 100%;
+          height: 180px; /* Fixed height for consistent image size */
+          object-fit: cover; /* ESSENTIAL: crops image to fit without distortion */
+          object-position: center; /* Center the image within the frame */
+          display: block;
+        }
+
+        .image-placeholder { /* For cases with no actual image */
+          height: 180px;
           background-color: #e0e0e0;
           display: flex;
           align-items: center;
@@ -400,46 +571,63 @@ input[type="text"] {
 
         .product-details {
           padding: 15px;
+          flex: 1; /* Allows this section to grow and push actions to bottom */
+          display: flex;
+          flex-direction: column; /* Stack elements inside details */
+          justify-content: space-between; /* Distribute space vertically */
 
           h3 {
-            font-size: 1rem;
-            margin-bottom: 5px;
+            font-size: 1.25rem; /* Larger font for product name */
+            margin-bottom: 8px; /* Space below title */
+            color: $text-color;
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline; /* Align price with text baseline */
 
             .price {
-              float: right;
-              color: #4caf50;
-              font-size: 0.9rem;
+              color: #4caf50; /* Consistent green for price */
+              font-size: 1.1rem;
+              font-weight: 600;
             }
           }
 
           p {
-            font-size: 0.9rem;
+            font-size: 0.95rem; /* Slightly larger description */
             color: #666;
+            line-height: 1.4;
+            margin-bottom: 12px;
+            flex-grow: 1; /* Allow description to take available space */
           }
 
           .actions {
-            margin-top: 10px;
+            margin-top: auto; /* Pushes buttons to the bottom of the card */
+            padding-top: 10px; /* Space above buttons */
+            border-top: 1px solid #eee; /* Visual separator */
             display: flex;
-            justify-content: space-between;
+            gap: 10px; /* Space between buttons */
 
             button {
-              flex: 1;
-              padding: 8px;
-              font-size: 0.85rem;
-              margin-right: 5px;
+              flex: 1; /* Make buttons fill available width evenly */
+              padding: 8px 12px;
+              font-size: 0.9rem;
               border: none;
               border-radius: 4px;
               cursor: pointer;
-              background-color: #2196f3;
+              transition: background-color 0.2s;
               color: white;
 
-              &:last-child {
-                margin-right: 0;
-                background-color: #f44336;
+              &:first-child { /* Edit button */
+                background-color: $primary-color;
+                &:hover {
+                  background-color: darken($primary-color, 8%);
+                }
               }
 
-              &:hover {
-                opacity: 0.9;
+              &:last-child { /* Delete button */
+                background-color: $danger-color;
+                &:hover {
+                  background-color: darken($danger-color, 8%);
+                }
               }
             }
           }
@@ -449,29 +637,191 @@ input[type="text"] {
   }
 }
 
-// Responsive tweaks
+// --- Product Form (Add Product Modal) Styling ---
+.product-form {
+  padding: 20px; // Add internal padding if used directly, or PrimeReact dialog will handle it.
+
+  .admin-input { // Re-using global admin-input
+    margin-bottom: 15px;
+  }
+
+  .preview-gallery {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 20px;
+
+    .preview-item {
+      position: relative;
+      border: 1px solid #ddd;
+      padding: 5px;
+      border-radius: 4px;
+
+      img {
+        width: 100px;
+        height: 100px;
+        object-fit: cover;
+        border-radius: 2px;
+      }
+
+      button { // Remove image button
+        position: absolute;
+        top: -5px; /* Adjust position for top right corner */
+        right: -5px;
+        background: $danger-color;
+        color: white;
+        border: none;
+        border-radius: 50%;
+        width: 20px;
+        height: 20px;
+        line-height: 1;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 12px;
+        font-weight: bold;
+        z-index: 1;
+        box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+      }
+    }
+  }
+
+  .btnn { // Re-using your .btnn for submit button
+    width: 100%;
+    margin-top: 10px;
+    background-color: #28a745; // Green for submit
+    &:hover {
+      background-color: darken(#28a745, 8%);
+    }
+  }
+}
+
+// --- NEW: Product Detail Modal Styling ---
+.product-detail-modal-content {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 10px; /* Internal padding for the modal content */
+
+  .main-info {
+    text-align: center;
+    h2 {
+      margin-top: 0;
+      margin-bottom: 10px;
+      color: $text-color;
+      font-size: 2em;
+    }
+    .price-display {
+      font-size: 1.8em;
+      font-weight: 700;
+      color: #4caf50; /* Consistent green for price */
+      margin-bottom: 15px;
+    }
+    p {
+      color: #555;
+      line-height: 1.6;
+      font-size: 1.1em;
+    }
+  }
+
+  .image-gallery {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    justify-content: center;
+    padding: 10px 0;
+    border-top: 1px solid #eee;
+    border-bottom: 1px solid #eee;
+
+    img {
+      width: 180px; // Slightly larger images in detail view
+      height: 180px;
+      object-fit: cover;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+  }
+
+  .category-link {
+    font-weight: 500;
+    color: $primary-color;
+    text-align: center;
+    margin-top: 10px;
+    font-size: 1em;
+  }
+}
+
+
+// --- Responsive Tweaks (from your provided code) ---
 @media (max-width: 768px) {
   .admin-container {
     flex-direction: column;
 
     .sidebar {
       width: 100%;
-      flex-direction: row;
+      flex-direction: row; /* Horizontal layout for sidebar items */
       align-items: center;
       justify-content: space-around;
+      height: auto; /* Allow height to adjust */
+      position: static; /* No longer sticky on mobile */
+      padding: 15px; /* Adjust padding for mobile */
+
+      h2 {
+        display: none; /* Hide title on small screens */
+      }
 
       nav {
         flex-direction: row;
-        gap: 15px;
+        gap: 10px;
+        flex-wrap: wrap; /* Allow nav items to wrap */
+        justify-content: center; /* Center nav items */
+
+        button {
+          padding: 8px 12px; /* Smaller padding for mobile buttons */
+          font-size: 0.9em;
+          text-align: center;
+          width: auto; /* Auto width */
+        }
+      }
+
+      .logout-sidebar-btn {
+        margin-top: 0; /* No top margin on horizontal layout */
       }
 
       .admin-footer {
-        display: none;
+        display: none; /* Hide footer on small screens */
       }
     }
 
     .main-content {
       padding: 20px;
+    }
+
+    .login-container {
+      width: 95%; /* Wider on small screens */
+      padding: 25px;
+    }
+
+    .category-grid,
+    .product-grid {
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); /* Smaller minmax for mobile */
+      gap: 15px; /* Smaller gap */
+    }
+
+    .summary-cards {
+      grid-template-columns: 1fr; /* Stack summary cards on mobile */
+    }
+
+    .product-detail-modal-content {
+      padding: 5px;
+      .image-gallery {
+        img {
+          width: 100px;
+          height: 100px;
+        }
+      }
     }
   }
 }
