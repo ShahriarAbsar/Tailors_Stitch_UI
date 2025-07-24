@@ -2,20 +2,22 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import './Admin.scss';
 import { Dialog } from 'primereact/dialog';
+import { useNavigate } from 'react-router-dom';
 
 const AdminDashboard = ({ setAuthenticated }) => {
-  // --- State for Categories ---
+  const navigate = useNavigate();
+
+  const [activeTab, setActiveTab] = useState('categories');
+
   const [categories, setCategories] = useState([]);
   const [loadingCategories, setLoadingCategories] = useState(true);
   const [categoriesError, setCategoriesError] = useState(null);
 
-  // --- State for Selected Category & Products ---
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [products, setProducts] = useState([]);
   const [loadingProducts, setLoadingProducts] = useState(false);
   const [productsError, setProductsError] = useState(null);
 
-  // --- State for Product Add Form (now within a modal) ---
   const [showProductFormModal, setShowProductFormModal] = useState(false);
   const [formData, setFormData] = useState({
     name: '',
@@ -25,7 +27,6 @@ const AdminDashboard = ({ setAuthenticated }) => {
   });
   const [formSubmitError, setFormSubmitError] = useState(null);
 
-  // Effect to Fetch Categories on Component Mount
   useEffect(() => {
     const fetchCategories = async () => {
       try {
@@ -44,7 +45,6 @@ const AdminDashboard = ({ setAuthenticated }) => {
     fetchCategories();
   }, []);
 
-  // Effect to Fetch Products when a Category is Selected
   const fetchProductsByCategory = async () => {
     if (selectedCategory) {
       setLoadingProducts(true);
@@ -67,7 +67,6 @@ const AdminDashboard = ({ setAuthenticated }) => {
     fetchProductsByCategory();
   }, [selectedCategory]);
 
-  // --- Handlers for Product Add Form ---
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
@@ -99,6 +98,7 @@ const AdminDashboard = ({ setAuthenticated }) => {
     if (!token) {
       setFormSubmitError("Authentication token not found. Please log in again.");
       setAuthenticated(false);
+      navigate('/login');
       return;
     }
 
@@ -131,39 +131,32 @@ const AdminDashboard = ({ setAuthenticated }) => {
     }
   };
 
-  // --- Logout Handler ---
   const handleLogout = () => {
     localStorage.removeItem('accessToken');
     localStorage.removeItem('userEmail');
     localStorage.removeItem('userRole');
     setAuthenticated(false);
-    window.location.href = '/';
+    navigate('/login');
   };
 
-  return (
-    <div className="admin-container">
-      {/* Sidebar Navigation */}
-      <aside className="sidebar">
-        <h2>Tailor Stitch Admin</h2>
-        <nav>
-          <button>Dashboard</button>
-          <button>Categories</button>
-          <button>All Products</button>
-          <button>Settings</button>
-          <button className="logout-sidebar-btn" onClick={handleLogout}>Logout</button>
-        </nav>
-        <div className="admin-footer">
-          <p>
-            <strong>Admin User</strong>
-          </p>
-          <p>admin@tailorstitch.com</p>
-        </div>
-      </aside>
+  const handleTabChange = (tabName) => {
+    setActiveTab(tabName);
+    setSelectedCategory(null);
+    setShowProductFormModal(false);
+    setFormSubmitError(null);
+  };
 
-      {/* Main Content Area */}
-      <main className="main-content">
-        {!selectedCategory ? (
-          // --- View: Product Categories Grid ---
+  const renderMainContent = () => {
+    switch (activeTab) {
+      case 'dashboard':
+        return (
+          <div>
+            <h1>Dashboard Overview</h1>
+            <p>Welcome to your admin dashboard. Use the sidebar to navigate.</p>
+          </div>
+        );
+      case 'categories':
+        return (
           <div>
             <h1>Product Categories</h1>
             {loadingCategories && <p>Loading categories...</p>}
@@ -192,8 +185,61 @@ const AdminDashboard = ({ setAuthenticated }) => {
               ))}
             </div>
           </div>
-        ) : (
-          // --- View: Selected Category Details & Products List ---
+        );
+      case 'allProducts':
+        return (
+          <div>
+            <h1>All Products</h1>
+            <p>This section will display all products across all categories.</p>
+            <div className="product-grid">
+                <p>All products list coming soon!</p>
+                <div className="product-card">
+                    <div className="image-placeholder">No Image</div>
+                    <div className="product-details">
+                        <h3>Global Product <span className="price">$99.99</span></h3>
+                        <p>Description of a global product.</p>
+                        <div className="actions">
+                            <button>Edit</button>
+                            <button>Delete</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+          </div>
+        );
+      case 'settings':
+        return (
+          <div>
+            <h1>Settings</h1>
+            <p>Manage your admin panel settings here.</p>
+          </div>
+        );
+      default:
+        return null;
+    }
+  };
+
+  return (
+    <div className="admin-container">
+      <aside className="sidebar">
+        <h2>Tailor Stitch Admin</h2>
+        <nav>
+          <button className={activeTab === 'dashboard' ? 'active' : ''} onClick={() => handleTabChange('dashboard')}>Dashboard</button>
+          <button className={activeTab === 'categories' ? 'active' : ''} onClick={() => handleTabChange('categories')}>Categories</button>
+          <button className={activeTab === 'allProducts' ? 'active' : ''} onClick={() => handleTabChange('allProducts')}>All Products</button>
+          <button className={activeTab === 'settings' ? 'active' : ''} onClick={() => handleTabChange('settings')}>Settings</button>
+          <button className="logout-sidebar-btn" onClick={handleLogout}>Logout</button>
+        </nav>
+        <div className="admin-footer">
+          <p>
+            <strong>Admin User</strong>
+          </p>
+          <p>admin@tailorstitch.com</p>
+        </div>
+      </aside>
+
+      <main className="main-content">
+        {selectedCategory && activeTab === 'categories' ? (
           <div>
             <button
               className="back-btn"
@@ -202,7 +248,7 @@ const AdminDashboard = ({ setAuthenticated }) => {
                 setShowProductFormModal(false);
               }}
             >
-              &larr; Back
+              &larr; Back to Categories
             </button>
             <h1>{selectedCategory.name}</h1>
             <p>
@@ -215,25 +261,21 @@ const AdminDashboard = ({ setAuthenticated }) => {
               + Add Product
             </button>
 
-            {/* PrimeReact Dialog (Modal) for Product Add Form */}
             <Dialog
               header={`Add Product to ${selectedCategory.name}`}
               visible={showProductFormModal}
-              style={{ width: '50vw' }} // Adjust modal width
+              style={{ width: '50vw', maxWidth: '600px' }}
               onHide={() => {
                 setShowProductFormModal(false);
                 setFormData({ name: '', description: '', price: '', images: [] });
                 setFormSubmitError(null);
               }}
               modal
-              // Optional: Add more style classes to the dialog itself if needed
-              // className="my-custom-dialog-class"
-              // contentClassName="my-custom-dialog-content-class"
             >
-              <div className="product-form" style={{ padding: '20px' }}> {/* Added padding for better modal content spacing */}
+              <div className="product-form" style={{ padding: '20px' }}>
                 {formSubmitError && <p style={{ color: 'red', marginBottom: '15px' }}>{formSubmitError}</p>}
-                
-                <div style={{ marginBottom: '15px' }}> {/* Spacing for input fields */}
+
+                <div style={{ marginBottom: '15px' }}>
                   <label htmlFor="productName" style={{ display: 'block', marginBottom: '5px', fontWeight: 'bold' }}>Product Name:</label>
                   <input
                     id="productName"
@@ -242,7 +284,7 @@ const AdminDashboard = ({ setAuthenticated }) => {
                     placeholder="Enter product name"
                     value={formData.name}
                     onChange={handleInputChange}
-                    style={{ width: '100%', padding: '10px', border: '1px solid #ccc', borderRadius: '4px', boxSizing: 'border-box' }}
+                    className="admin-input"
                   />
                 </div>
 
@@ -254,8 +296,8 @@ const AdminDashboard = ({ setAuthenticated }) => {
                     placeholder="Enter product description"
                     value={formData.description}
                     onChange={handleInputChange}
-                    rows="4" // Make textarea taller
-                    style={{ width: '100%', padding: '10px', border: '1px solid #ccc', borderRadius: '4px', boxSizing: 'border-box', resize: 'vertical' }}
+                    rows="4"
+                    className="admin-input"
                   ></textarea>
                 </div>
 
@@ -268,10 +310,10 @@ const AdminDashboard = ({ setAuthenticated }) => {
                     placeholder="e.g., 29.99"
                     value={formData.price}
                     onChange={handleInputChange}
-                    style={{ width: '100%', padding: '10px', border: '1px solid #ccc', borderRadius: '4px', boxSizing: 'border-box' }}
+                    className="admin-input"
                   />
                 </div>
-                
+
                 <div style={{ marginBottom: '20px' }}>
                   <label htmlFor="productImages" style={{ display: 'block', marginBottom: '5px', fontWeight: 'bold' }}>Upload Images:</label>
                   <input
@@ -280,7 +322,8 @@ const AdminDashboard = ({ setAuthenticated }) => {
                     multiple
                     accept="image/*"
                     onChange={handleImageUpload}
-                    style={{ display: 'block', width: '100%' }}
+                    className="admin-input"
+                    style={{ padding: '8px' }}
                   />
                 </div>
 
@@ -290,7 +333,7 @@ const AdminDashboard = ({ setAuthenticated }) => {
                       <img
                         src={URL.createObjectURL(img)}
                         alt={`Preview ${i}`}
-                        style={{ width: '100px', height: '100px', objectFit: 'cover', borderRadius: '2px' }} // Controlled image size
+                        style={{ width: '100px', height: '100px', objectFit: 'cover', borderRadius: '2px' }}
                       />
                       <button
                         onClick={() => removeImage(i)}
@@ -298,7 +341,7 @@ const AdminDashboard = ({ setAuthenticated }) => {
                           position: 'absolute',
                           top: '0px',
                           right: '0px',
-                          background: 'red',
+                          background: '#e74c3c',
                           color: 'white',
                           border: 'none',
                           borderRadius: '50%',
@@ -309,7 +352,8 @@ const AdminDashboard = ({ setAuthenticated }) => {
                           display: 'flex',
                           alignItems: 'center',
                           justifyContent: 'center',
-                          fontSize: '12px'
+                          fontSize: '12px',
+                          fontWeight: 'bold'
                         }}
                       >
                         X
@@ -320,23 +364,14 @@ const AdminDashboard = ({ setAuthenticated }) => {
 
                 <button
                   onClick={handleProductSubmit}
-                  style={{
-                    backgroundColor: '#007bff', // Blue submit button
-                    color: 'white',
-                    padding: '12px 20px',
-                    border: 'none',
-                    borderRadius: '4px',
-                    cursor: 'pointer',
-                    fontSize: '16px',
-                    width: '100%'
-                  }}
+                  className="btnn"
+                  style={{ backgroundColor: '#28a745', width: '100%' }}
                 >
                   Submit Product
                 </button>
               </div>
             </Dialog>
 
-            {/* Products List for Selected Category */}
             <h3>Products in {selectedCategory.name}</h3>
             {loadingProducts && <p>Loading products for this category...</p>}
             {productsError && <p style={{ color: 'red' }}>{productsError}</p>}
@@ -348,7 +383,9 @@ const AdminDashboard = ({ setAuthenticated }) => {
               {!loadingProducts && products.length > 0 && products.map((product) => (
                 <div key={product.id} className="product-card">
                   <img
-                    src={`${product.image ? `http://localhost:3000/${product.image}` : 'https://via.placeholder.com/150x150?text=No+Product+Image'}`}
+                    // --- UPDATED LINE HERE ---
+                    // Check if product.images exists and has at least one element
+                    src={`${product.images && product.images.length > 0 ? `http://localhost:3000/${product.images[0]}` : 'https://via.placeholder.com/150x150?text=No+Product+Image'}`}
                     alt={product.name}
                     className="product-image"
                   />
@@ -374,6 +411,8 @@ const AdminDashboard = ({ setAuthenticated }) => {
               ))}
             </div>
           </div>
+        ) : (
+          renderMainContent()
         )}
       </main>
     </div>
