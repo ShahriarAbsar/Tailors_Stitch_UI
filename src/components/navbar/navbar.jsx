@@ -1,20 +1,25 @@
 import React, { useState } from "react";
 import "./navbar.scss";
 import Logo from "../../assets/navImages/Logo.png";
-import { NavLink } from "react-router-dom";
+import logo2 from '../../assets/navImages/DarkLogo.png';
+import { NavLink , useLocation } from "react-router-dom";
 import { Sidebar } from "primereact/sidebar";
 
 import { Button } from "primereact/button";
 import ham from "../../assets/navImages/ham.png";
-const navbar = () => {
+import ham2 from "../../assets/navImages/hamburger2.png"
+const navbar = ({ homeDark = true }) => {
   const [visibleRight, setVisibleRight] = useState(false);
+  
+const location = useLocation();
 
+  const isHome = location.pathname === "/home";
   return (
-    <nav className="navigation">
+    <nav className={`navigation ${isHome ? (homeDark ? "nav-light" : "nav-dark") : "nav-dark"}`}>
       <div className="navInside">
         <div className="logo">
           <NavLink to="/home">
-            <img src={Logo} alt="Logo" />
+            <img src={isHome && homeDark ? Logo : logo2} alt="Logo" />
           </NavLink>
         </div>
 
@@ -57,9 +62,9 @@ const navbar = () => {
         </ul>
 
         <div className="card">
-          <div className="hamburger">
+          <div className={`hamburger ${isHome ? (homeDark ? "nav-light" : "nav-dark") : "nav-dark"}`}  >
             <Button
-              icon={<img src={ham} alt="hamburger" />}
+              icon={<img src={isHome && homeDark ? ham : ham2} alt="Logo" />}
               onClick={() => setVisibleRight(true)}
             />
           </div>
@@ -74,6 +79,7 @@ const navbar = () => {
               <li>
                 <NavLink
                   to="/home"
+                  onClick={() => setVisibleRight(false)}
                   className={({ isActive }) =>
                     isActive ? "btn1 active" : "btn1"
                   }
@@ -84,6 +90,7 @@ const navbar = () => {
               <li>
                 <NavLink
                   to="/about"
+                  onClick={() => setVisibleRight(false)}
                   className={({ isActive }) =>
                     isActive ? "btn1 active" : "btn1"
                   }
@@ -93,7 +100,8 @@ const navbar = () => {
               </li>
               <li>
                 <NavLink
-                  to="/Out Products"
+                  to="/contact"
+                  onClick={() => setVisibleRight(false)}
                   className={({ isActive }) =>
                     isActive ? "btn1 active" : "btn1"
                   }
@@ -102,7 +110,19 @@ const navbar = () => {
                 </NavLink>
               </li>
               <li>
-                <button className="btn2">Get In Touch</button>
+                <NavLink
+                  to="/services"
+                  onClick={() => setVisibleRight(false)}
+                  className={({ isActive }) =>
+                    isActive ? "btn1 active" : "btn1"
+                  }
+                >
+                  Our Service
+                </NavLink>
+              </li>
+              <li>
+                
+                <button onClick={() => setVisibleRight(false)} className="btn2">Get In Touch</button>
               </li>
             </ul>
           </Sidebar>
