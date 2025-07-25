@@ -1,48 +1,76 @@
 import React, { useEffect, useState } from 'react';
-import './sectionTwo.scss'
-import image from "../../../assets/MensFormalwear/placeholder3.png"
-//this image is temporary replace it from backend
+import axios from 'axios';
+import './sectionTwo.scss';
 
-const sectionTwo = () => {
+const SectionTwo = ({ categoryId }) => {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
-  // Simulate API call
   useEffect(() => {
-    // Replace this with your actual API call
-    setTimeout(() => {
-      setProducts([
-        { id: 1, image: "../../../assets/MensFormalwear/placeholder1.png" },
-        { id: 2, image: "../../../assets/MensFormalwear/placeholder2.png" },
-        { id: 3, image: "../../../assets/MensFormalwear/placeholder3.png" },
-        { id: 4, image: "../../../assets/MensFormalwear/placeholder1.png" },
-        { id: 5, image: "../../../assets/MensFormalwear/placeholder2.png" },
-        { id: 6, image: "../../../assets/MensFormalwear/placeholder3.png" },
-        { id: 7, image: "../../../assets/MensFormalwear/placeholder1.png" },
-        { id: 8, image: "../../../assets/MensFormalwear/placeholder2.png" },
-        { id: 9, image: "../../../assets/MensFormalwear/placeholder3.png" },
-      ]);
-      setLoading(false);
-    }, 1500);
-  }, []);
+    const fetchProducts = async () => {
+      setLoading(true);
+      setError(null);
+      try {
+        const response = await axios.get(
+          `http://localhost:3000/product?categoryId=${categoryId}`
+        );
+        const productsData = response.data[0];
+        setProducts(productsData);
+      } catch (err) {
+        console.error("Error fetching products:", err);
+        setError("Failed to load products. Please try again later.");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    if (categoryId) {
+      fetchProducts();
+    }
+  }, [categoryId]);
+
+  const formatTitle = () => {
+    if (products.length > 0 && products[0].category) {
+      return products[0].category.name.toUpperCase();
+    }
+    return 'PRODUCTS'; 
+  };
+
   return (
     <div className="casualTwo">
       <div className="casualTwoBody">
         <div className="casualtitle">
-          <h1>MEN'S CasualWear</h1>
+          <h1>{formatTitle()}</h1>
         </div>
         <div className="casualproducts">
-          {(loading ? Array.from({ length: 9 }) : products).map(
-            (product, idx) => (
+          {loading ? (
+            Array.from({ length: 9 }).map((_, idx) => (
               <div className="casualproduct-card" key={idx}>
-                {loading ? (
-                  <div className="casualplaceholder" />
-                ) : (
-                  // <img src={product.image} alt={`Product ${idx + 1}`} />
-                  <img src={image} alt={`Product ${idx + 1}`} />
-                )}
+                <div className="casualplaceholder" />
               </div>
-            )
+            ))
+          ) : error ? (
+            <p style={{ color: "red" }}>{error}</p>
+          ) : products && products.length > 0 ? (
+            products.map((product) => (
+              <div className="casualproduct-card" key={product.id}>
+                <img
+                  src={
+                    product.images && product.images.length > 0
+                      ? `http://localhost:3000/${product.images[0]}`
+                      : "https://via.placeholder.com/300x400?text=No+Image"
+                  }
+                  alt={product.name}
+                />
+                <div className="product-info">
+                  <h4>{product.name}</h4>
+                  {/* The price line has been removed */}
+                </div>
+              </div>
+            ))
+          ) : (
+            <p>No products found for this category.</p>
           )}
         </div>
       </div>
@@ -50,4 +78,4 @@ const sectionTwo = () => {
   );
 };
 
-export default sectionTwo;
+export default SectionTwo;

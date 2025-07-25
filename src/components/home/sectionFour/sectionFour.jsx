@@ -22,11 +22,11 @@ const SectionFour = () => {
         const response = await axios.get("http://localhost:3000/category");
         const data = response.data;
 
-        // Map API data to expected format
         const formattedData = data.map((item) => ({
-          image: `http://localhost:3000/${item.image}`, // adjust base URL as needed
+          image: `http://localhost:3000/${item.image}`,
           title: item.name,
-          path: `/${item.name.toLowerCase().replace(/\s+/g, "")}`,
+          // *** CHANGE: Use the category id in the path ***
+          path: `/category/${item.id}`,
         }));
 
         setCardData(formattedData);
@@ -49,7 +49,8 @@ const SectionFour = () => {
             if (!isMobile || showAll || index < 3) {
               return (
                 <div className="box" key={index}>
-                  <NavLink to={item.path}>
+                  {/* *** CHANGE: Pass the title in the state *** */}
+                  <NavLink to={item.path} state={{ categoryTitle: item.title }}>
                     <div className="image">
                       <img src={item.image} alt={`product-${index + 1}`} />
                     </div>

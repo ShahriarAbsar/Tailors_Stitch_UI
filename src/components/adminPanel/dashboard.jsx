@@ -586,18 +586,8 @@ const handleEditSubmit = async () => {
           >
             Categories
           </button>
-          <button
-            className={activeTab === "allProducts" ? "active" : ""}
-            onClick={() => handleTabChange("allProducts")}
-          >
-            All Products
-          </button>
-          <button
-            className={activeTab === "settings" ? "active" : ""}
-            onClick={() => handleTabChange("settings")}
-          >
-            Settings
-          </button>
+         
+          
           <button className="logout-sidebar-btn" onClick={handleLogout}>
             Logout
           </button>
