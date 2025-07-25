@@ -2,6 +2,10 @@ import React, { useState, useEffect, useCallback } from "react";
 import axios from "axios";
 import "./Admin.scss";
 import { Dialog } from "primereact/dialog";
+import { Button } from 'primereact/button';
+import { InputText } from 'primereact/inputtext';
+import { DataTable } from 'primereact/datatable';
+import { Column } from 'primereact/column';
 import { useNavigate } from "react-router-dom";
 
 const AdminDashboard = ({ setAuthenticated }) => {
@@ -23,65 +27,67 @@ const AdminDashboard = ({ setAuthenticated }) => {
   const [loadingProducts, setLoadingProducts] = useState(false);
   const [productsError, setProductsError] = useState(null);
 
-  // --- Pagination States for Products within a Category ---
   const [currentPage, setCurrentPage] = useState(1);
   const [totalProductsInCategory, setTotalProductsInCategory] = useState(0);
-  const productsPerPage = 10; // Matches backend limit
+  const productsPerPage = 10;
 
-  // --- States for ADD Product Modal ---
   const [showProductFormModal, setShowProductFormModal] = useState(false);
+  const [editingProduct, setEditingProduct] = useState(null);
   const [formData, setFormData] = useState({
     name: "",
     description: "",
     price: "",
     images: [],
+    existingImages: [],
+    imagesToDelete: [],
   });
   const [formSubmitError, setFormSubmitError] = useState(null);
 
-  // --- States for EDIT Product Modal ---
-  const [showEditModal, setShowEditModal] = useState(false);
-  const [editingProduct, setEditingProduct] = useState(null);
-  const [editFormError, setEditFormError] = useState(null);
-  const [editImageFiles, setEditImageFiles] = useState([]);
-
-  // --- States for Product Detail Modal ---
   const [selectedProductDetail, setSelectedProductDetail] = useState(null);
   const [showProductDetailModal, setShowProductDetailModal] = useState(false);
   const [loadingProductDetail, setLoadingProductDetail] = useState(false);
   const [productDetailError, setProductDetailError] = useState(null);
+  
+  const [showCategoryFormModal, setShowCategoryFormModal] = useState(false);
+  const [editingCategory, setEditingCategory] = useState(false);
+  const [deleteCategoryDialog, setDeleteCategoryDialog] = useState(false);
+  const [categoryFormData, setCategoryFormData] = useState({
+    id: null,
+    name: '',
+    description: '',
+    newImage: null,
+    image: null,
+  });
 
-  // --- Fetch Categories for Categories Tab & Summary ---
+  const apiBaseUrl = 'http://localhost:3000';
+  const token = localStorage.getItem('accessToken');
+  const authHeader = { headers: { Authorization: `Bearer ${token}` } };
+
+  const fetchCategoriesData = useCallback(async () => {
+    try {
+      setLoadingCategories(true);
+      setCategoriesError(null);
+      const response = await axios.get(`${apiBaseUrl}/category`);
+      setCategories(response.data);
+      setTotalCategories(response.data.length);
+    } catch (err) {
+      setCategoriesError("Failed to fetch categories. Please try again.");
+      console.error("Error fetching categories:", err);
+    } finally {
+      setLoadingCategories(false);
+    }
+  }, [apiBaseUrl]);
+
   useEffect(() => {
-    const fetchCategoriesData = async () => {
-      try {
-        setLoadingCategories(true);
-        setCategoriesError(null);
-        const response = await axios.get("http://localhost:3000/category");
-        setCategories(response.data);
-        setTotalCategories(response.data.length);
-      } catch (err) {
-        setCategoriesError("Failed to fetch categories. Please try again.");
-        console.error("Error fetching categories:", err);
-      } finally {
-        setLoadingCategories(false);
-      }
-    };
-
     fetchCategoriesData();
-  }, []);
+  }, [fetchCategoriesData]);
 
-  // --- Fetch ALL Products for Dashboard Summary ---
-  const fetchAllProductsForSummary = async () => {
+  const fetchAllProductsForSummary = useCallback(async () => {
     setSummaryLoading(true);
     setSummaryError(null);
     try {
-      const response = await axios.get("http://localhost:3000/product");
-      const totalCount =
-        Array.isArray(response.data) &&
-        response.data.length === 2 &&
-        typeof response.data[1] === "number"
-          ? response.data[1]
-          : response.data.length;
+      const response = await axios.get(`${apiBaseUrl}/product?limit=1`);
+      const [_, totalCount] = response.data;
       setTotalProducts(totalCount);
     } catch (err) {
       setSummaryError("Failed to fetch product summary. Please try again.");
@@ -89,13 +95,12 @@ const AdminDashboard = ({ setAuthenticated }) => {
     } finally {
       setSummaryLoading(false);
     }
-  };
+  }, [apiBaseUrl]);
 
   useEffect(() => {
     fetchAllProductsForSummary();
-  }, []);
+  }, [fetchAllProductsForSummary]);
 
-  // --- Fetch Products when a Category is Selected (for categories tab) ---
   const fetchProductsByCategory = useCallback(
     async (pageToFetch = 1) => {
       if (selectedCategory) {
@@ -103,7 +108,7 @@ const AdminDashboard = ({ setAuthenticated }) => {
         setProductsError(null);
         try {
           const response = await axios.get(
-            `http://localhost:3000/product?categoryId=${selectedCategory.id}&page=${pageToFetch}`
+            `${apiBaseUrl}/product?categoryId=${selectedCategory.id}&page=${pageToFetch}`
           );
           const [productsData, totalCount] = response.data;
           setProducts(productsData);
@@ -123,7 +128,7 @@ const AdminDashboard = ({ setAuthenticated }) => {
         setCurrentPage(1);
       }
     },
-    [selectedCategory]
+    [selectedCategory, apiBaseUrl]
   );
 
   useEffect(() => {
@@ -131,7 +136,6 @@ const AdminDashboard = ({ setAuthenticated }) => {
     fetchProductsByCategory(1);
   }, [selectedCategory, fetchProductsByCategory]);
 
-  // --- Handlers for Product Add Form ---
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
@@ -146,31 +150,52 @@ const AdminDashboard = ({ setAuthenticated }) => {
     const newImages = formData.images.filter((_, i) => i !== index);
     setFormData({ ...formData, images: newImages });
   };
+  
+  const removeExistingImage = (imageUrl) => {
+    const updatedExistingImages = formData.existingImages.filter(
+      (url) => url !== imageUrl
+    );
+    const updatedImagesToDelete = [...formData.imagesToDelete, imageUrl];
+    setFormData({
+      ...formData,
+      existingImages: updatedExistingImages,
+      imagesToDelete: updatedImagesToDelete,
+    });
+  };
+
+  const handleEditProduct = (product) => {
+    setEditingProduct(product.id);
+    setFormData({
+      name: product.name,
+      description: product.description,
+      price: product.price,
+      images: [],
+      existingImages: product.images || [],
+      imagesToDelete: [],
+    });
+    setShowProductFormModal(true);
+  };
 
   const handleProductSubmit = async () => {
     if (!selectedCategory) {
-      setFormSubmitError("Please select a category before adding a product.");
+      alert("Please select a category before adding/editing a product.");
       return;
     }
     if (
       !formData.name ||
       !formData.description ||
       !formData.price ||
-      formData.images.length === 0
+      (formData.images.length === 0 && formData.existingImages.length === 0)
     ) {
-      setFormSubmitError(
+      alert(
         "Please fill all product fields and upload at least one image."
       );
       return;
     }
 
-    setFormSubmitError(null);
-
     const token = localStorage.getItem("accessToken");
     if (!token) {
-      setFormSubmitError(
-        "Authentication token not found. Please log in again."
-      );
+      alert("Authentication token not found. Please log in again.");
       setAuthenticated(false);
       navigate("/login");
       return;
@@ -181,22 +206,41 @@ const AdminDashboard = ({ setAuthenticated }) => {
     productPayload.append("description", formData.description);
     productPayload.append("price", formData.price);
     productPayload.append("categoryId", selectedCategory.id.toString());
-
+    
     formData.images.forEach((imageFile) => {
       productPayload.append("images", imageFile);
     });
+    
+    if (editingProduct && formData.existingImages.length > 0) {
+        productPayload.append("existingImages", JSON.stringify(formData.existingImages));
+    }
+
+    if (editingProduct && formData.imagesToDelete.length > 0) {
+      productPayload.append("imagesToDelete", JSON.stringify(formData.imagesToDelete));
+    }
 
     try {
-      await axios.post("http://localhost:3000/product", productPayload, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      if (editingProduct) {
+        await axios.patch(`${apiBaseUrl}/product/${editingProduct}`, productPayload, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        alert("Product updated successfully!");
+      } else {
+        await axios.post(`${apiBaseUrl}/product`, productPayload, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        alert("Product added successfully!");
+      }
 
-      alert("Product added successfully!");
-      setFormData({ name: "", description: "", price: "", images: [] });
+      setFormData({ name: "", description: "", price: "", images: [], existingImages: [], imagesToDelete: [] });
       setShowProductFormModal(false);
+      setEditingProduct(null);
       fetchProductsByCategory(1);
       fetchAllProductsForSummary();
     } catch (error) {
@@ -206,118 +250,11 @@ const AdminDashboard = ({ setAuthenticated }) => {
       );
       setFormSubmitError(
         error.response?.data?.message ||
-          "Failed to add product. Please try again."
+        "Failed to save product. Please try again."
       );
     }
   };
 
-  // --- NEW: Handlers for Product Edit Form ---
-  const handleEditClick = (product) => {
-    setEditingProduct(product);
-    setEditImageFiles([]);
-    setEditFormError(null);
-    setShowEditModal(true);
-  };
-
-  const handleEditInputChange = (e) => {
-    const { name, value } = e.target;
-    setEditingProduct({ ...editingProduct, [name]: value });
-  };
-
-  const handleEditImageUpload = (e) => {
-    const files = Array.from(e.target.files);
-    setEditImageFiles([...editImageFiles, ...files]);
-  };
-
-  const removeEditImage = (index, isNewFile = false) => {
-    if (isNewFile) {
-      setEditImageFiles(editImageFiles.filter((_, i) => i !== index));
-    } else {
-      setEditingProduct({
-        ...editingProduct,
-        images: editingProduct.images.filter((_, i) => i !== index),
-      });
-    }
-  };
-
-  // --- Handlers for Product Edit Form ---
-// ...
-const handleEditSubmit = async () => {
-    if (
-      !editingProduct.name ||
-      !editingProduct.description ||
-      !editingProduct.price
-    ) {
-      setEditFormError("Please fill all required fields.");
-      return;
-    }
-    setEditFormError(null);
-
-    const token = localStorage.getItem("accessToken");
-    if (!token) {
-      setEditFormError("Authentication token not found. Please log in again.");
-      setAuthenticated(false);
-      navigate("/login");
-      return;
-    }
-
-    // Use a clean object for text fields
-    const updatedData = {
-      name: editingProduct.name,
-      description: editingProduct.description,
-      price: editingProduct.price,
-      categoryId: editingProduct.categoryId,
-    };
-    
-    // Create a new FormData object for the PATCH request
-    const productPayload = new FormData();
-    productPayload.append("name", updatedData.name);
-    productPayload.append("description", updatedData.description);
-    productPayload.append("price", updatedData.price);
-    productPayload.append("categoryId", updatedData.categoryId);
-
-    // Append images if there are any new ones
-    editImageFiles.forEach((imageFile) => {
-      productPayload.append("images", imageFile);
-    });
-
-    // Handle existing images to be kept
-    productPayload.append(
-      "existingImages",
-      JSON.stringify(editingProduct.images)
-    );
-
-    try {
-      await axios.patch(
-        `http://localhost:3000/product/${editingProduct.id}`,
-        productPayload, // Send the FormData object
-        {
-          headers: {
-            "Content-Type": "multipart/form-data", // Use multipart/form-data for image updates
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-
-      alert("Product updated successfully!");
-      setShowEditModal(false);
-      setEditingProduct(null);
-      setEditImageFiles([]);
-      fetchProductsByCategory(currentPage);
-      fetchAllProductsForSummary();
-    } catch (error) {
-      console.error(
-        "Error updating product:",
-        error.response?.data || error.message
-      );
-      setEditFormError(
-        error.response?.data?.message ||
-          "Failed to update product. Please try again."
-      );
-    }
-  };
-
-  // --- DELETE Product Handler ---
   const handleDeleteProduct = async (productId, productName) => {
     if (
       !window.confirm(
@@ -336,12 +273,7 @@ const handleEditSubmit = async () => {
     }
 
     try {
-      await axios.delete(`http://localhost:3000/product/${productId}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-
+      await axios.delete(`${apiBaseUrl}/product/${productId}`, authHeader);
       alert(`Product "${productName}" deleted successfully!`);
       const newTotalProductsInCategory = totalProductsInCategory - 1;
       const newTotalPages = Math.ceil(
@@ -360,12 +292,11 @@ const handleEditSubmit = async () => {
       );
       alert(
         error.response?.data?.message ||
-          `Failed to delete product "${productName}". Please try again.`
+        `Failed to delete product "${productName}". Please try again.`
       );
     }
   };
 
-  // --- Handle Product Card Click to Show Details ---
   const handleProductCardClick = async (productId) => {
     setLoadingProductDetail(true);
     setProductDetailError(null);
@@ -374,7 +305,7 @@ const handleEditSubmit = async () => {
 
     try {
       const response = await axios.get(
-        `http://localhost:3000/product/${productId}`
+        `${apiBaseUrl}/product/${productId}`
       );
       setSelectedProductDetail(response.data);
     } catch (err) {
@@ -387,7 +318,6 @@ const handleEditSubmit = async () => {
     }
   };
 
-  // --- Logout Handler ---
   const handleLogout = () => {
     localStorage.removeItem("accessToken");
     localStorage.removeItem("userEmail");
@@ -396,15 +326,11 @@ const handleEditSubmit = async () => {
     navigate("/login");
   };
 
-  // --- Sidebar Navigation Handler ---
   const handleTabChange = (tabName) => {
     setActiveTab(tabName);
     setSelectedCategory(null);
     setShowProductFormModal(false);
     setFormSubmitError(null);
-    setShowEditModal(false);
-    setEditingProduct(null);
-    setEditFormError(null);
     setCurrentPage(1);
     setTotalProductsInCategory(0);
     setSelectedProductDetail(null);
@@ -413,7 +339,6 @@ const handleEditSubmit = async () => {
     setProductDetailError(null);
   };
 
-  // --- Pagination Logic ---
   const totalPages = Math.ceil(totalProductsInCategory / productsPerPage);
   const canGoNext = currentPage < totalPages;
   const canGoPrev = currentPage > 1;
@@ -430,7 +355,114 @@ const handleEditSubmit = async () => {
     }
   };
 
-  // --- Render Content Based on Active Tab ---
+  const openNewCategory = () => {
+    setEditingCategory(false);
+    setCategoryFormData({ id: null, name: '', description: '', newImage: null, image: null });
+    setShowCategoryFormModal(true);
+  };
+
+  const editCategory = (cat) => {
+    setEditingCategory(true);
+    setCategoryFormData({
+      id: cat.id,
+      name: cat.name,
+      description: cat.description,
+      newImage: null,
+      image: cat.image,
+    });
+    setShowCategoryFormModal(true);
+  };
+
+  const confirmDeleteCategory = (cat) => {
+    setCategoryFormData(cat);
+    setDeleteCategoryDialog(true);
+  };
+
+  const deleteCategory = async () => {
+    try {
+      await axios.delete(`${apiBaseUrl}/category/${categoryFormData.id}`, authHeader);
+      alert('Category Deleted Successfully!');
+      setDeleteCategoryDialog(false);
+      setCategoryFormData({ id: null, name: '', description: '', newImage: null, image: null });
+      await fetchCategoriesData();
+    } catch (err) {
+      const errorDetail = err.response?.data?.message || 'An error occurred.';
+      alert(errorDetail);
+    }
+  };
+
+  const onCategoryFormChange = (e) => {
+    const { name, value } = e.target;
+    setCategoryFormData(prev => ({ ...prev, [name]: value }));
+  };
+
+  const onCategoryImageChange = (e) => {
+    const file = e.target.files[0];
+    setCategoryFormData(prev => ({ ...prev, newImage: file }));
+  };
+
+  const saveCategory = async () => {
+    if (!categoryFormData.name.trim()) {
+      alert('Category name is required.');
+      return;
+    }
+
+    console.log("Saving category...");
+    console.log("Current categoryFormData:", categoryFormData);
+
+    const formDataToSend = new FormData();
+    formDataToSend.append('name', categoryFormData.name);
+    if (categoryFormData.description) {
+      formDataToSend.append('description', categoryFormData.description);
+    }
+    if (categoryFormData.newImage) {
+        console.log("New image detected. Appending to FormData.");
+        formDataToSend.append('image', categoryFormData.newImage);
+    } else {
+      console.log("No new image to upload.");
+    }
+
+    console.log("--- FormData before API call ---");
+    for (let [key, value] of formDataToSend.entries()) {
+      console.log(`${key}:`, value);
+    }
+    console.log("----------------------------------");
+
+    try {
+      if (editingCategory) {
+        console.log(`Sending PATCH request to update category ID: ${categoryFormData.id}`);
+        const response = await axios.patch(`${apiBaseUrl}/category/${categoryFormData.id}`, formDataToSend, authHeader);
+        console.log("PATCH request successful. Response:", response.data);
+        alert('Category Updated Successfully!');
+      } else {
+        console.log(`Sending POST request to create new category.`);
+        const response = await axios.post(`${apiBaseUrl}/category`, formDataToSend, authHeader);
+        console.log("POST request successful. Response:", response.data);
+        alert('Category Created Successfully!');
+      }
+      await fetchCategoriesData();
+      setShowCategoryFormModal(false);
+    } catch (err) {
+      console.error("API call failed.", err);
+      const errorDetail = err.response?.data?.message || 'An error occurred.';
+      alert(errorDetail);
+    }
+  };
+  
+  const categoryImageTemplate = (rowData) => {
+    const imageUrl = rowData.image ? `${apiBaseUrl}/${rowData.image}` : null;
+    return imageUrl ? <img src={imageUrl} alt={rowData.name} style={{ width: '64px', objectFit: 'cover' }} /> : null;
+};
+
+  const categoryActionTemplate = (rowData) => {
+    return (
+      <>
+        <Button icon="pi pi-pencil" rounded text className="mr-2" onClick={() => editCategory(rowData)} />
+        <Button icon="pi pi-trash" rounded text severity="danger" onClick={() => confirmDeleteCategory(rowData)} />
+      </>
+    );
+  };
+  
   const renderMainContent = () => {
     switch (activeTab) {
       case "dashboard":
@@ -457,6 +489,32 @@ const handleEditSubmit = async () => {
             </p>
           </div>
         );
+      case "manageCategories":
+        return (
+          <div className="category-management-container">
+            <h1 className="mb-4">Manage Categories</h1>
+            <Button
+              label="Add New Category"
+              icon="pi pi-plus"
+              className="mb-4"
+              onClick={openNewCategory}
+            />
+            <DataTable
+              value={categories}
+              paginator
+              rows={10}
+              dataKey="id"
+              loading={loadingCategories}
+              emptyMessage="No categories found."
+            >
+              <Column field="id" header="ID" sortable />
+              <Column field="name" header="Name" sortable />
+              <Column field="description" header="Description" />
+              <Column header="Image" body={categoryImageTemplate} />
+              <Column body={categoryActionTemplate} headerStyle={{ width: '10rem' }} />
+            </DataTable>
+          </div>
+        );
       case "categories":
         return (
           <div>
@@ -481,7 +539,7 @@ const handleEditSubmit = async () => {
                   <img
                     src={`${
                       cat.image
-                        ? `http://localhost:3000/${cat.image}`
+                        ? `${apiBaseUrl}/${cat.image}`
                         : "https://via.placeholder.com/300x200?text=No+Category+Image"
                     }`}
                     alt={cat.name}
@@ -501,60 +559,6 @@ const handleEditSubmit = async () => {
           <div>
             <h1>All Products</h1>
             <p>This section will display all products across all categories.</p>
-            <div className="product-grid">
-              {!loadingProducts &&
-                products.length > 0 &&
-                products.map((product) => (
-                  <div
-                    key={product.id}
-                    className="product-card"
-                    onClick={() => handleProductCardClick(product.id)}
-                  >
-                    <img
-                      src={`${
-                        product.images && product.images.length > 0
-                          ? `http://localhost:3000/${product.images[0]}`
-                          : "https://via.placeholder.com/150x150?text=No+Product+Image"
-                      }`}
-                      alt={product.name}
-                      className="product-image"
-                    />
-                    <div className="product-details">
-                      <h3>
-                        {product.name}{" "}
-                        <span className="price">
-                          $
-                          {product.price !== undefined && product.price !== null
-                            ? parseFloat(product.price).toFixed(2)
-                            : "N/A"}
-                        </span>
-                      </h3>
-                      <p>{product.description}</p>
-                      {product.category && (
-                        <p>Category: {product.category.name}</p>
-                      )}
-                      <div className="actions">
-                        <button
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            handleEditClick(product);
-                          }}
-                        >
-                          Edit
-                        </button>
-                        <button
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            handleDeleteProduct(product.id, product.name);
-                          }}
-                        >
-                          Delete
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-                ))}
-            </div>
           </div>
         );
       case "settings":
@@ -569,6 +573,20 @@ const handleEditSubmit = async () => {
     }
   };
 
+  const categoryDialogFooter = (
+    <>
+      <Button label="Cancel" icon="pi pi-times" outlined onClick={() => setShowCategoryFormModal(false)} />
+      <Button label="Save" icon="pi pi-check" onClick={saveCategory} />
+    </>
+  );
+
+  const deleteCategoryDialogFooter = (
+    <>
+      <Button label="No" icon="pi pi-times" outlined onClick={() => setDeleteCategoryDialog(false)} />
+      <Button label="Yes" icon="pi pi-check" severity="danger" onClick={deleteCategory} />
+    </>
+  );
+
   return (
     <div className="admin-container">
       <aside className="sidebar">
@@ -581,13 +599,29 @@ const handleEditSubmit = async () => {
             Dashboard
           </button>
           <button
+            className={activeTab === "manageCategories" ? "active" : ""}
+            onClick={() => handleTabChange("manageCategories")}
+          >
+            Manage Categories
+          </button>
+          <button
             className={activeTab === "categories" ? "active" : ""}
             onClick={() => handleTabChange("categories")}
           >
-            Categories
+            Products by Category
           </button>
-         
-          
+          {/* <button
+            className={activeTab === "allProducts" ? "active" : ""}
+            onClick={() => handleTabChange("allProducts")}
+          >
+            All Products
+          </button>
+          <button
+            className={activeTab === "settings" ? "active" : ""}
+            onClick={() => handleTabChange("settings")}
+          >
+            Settings
+          </button> */}
           <button className="logout-sidebar-btn" onClick={handleLogout}>
             Logout
           </button>
@@ -608,6 +642,7 @@ const handleEditSubmit = async () => {
               onClick={() => {
                 setSelectedCategory(null);
                 setShowProductFormModal(false);
+                setEditingProduct(null);
               }}
             >
               &larr; Back to Categories
@@ -619,24 +654,29 @@ const handleEditSubmit = async () => {
             </p>
             <button
               className="add-product"
-              onClick={() => setShowProductFormModal(true)}
+              onClick={() => {
+                setEditingProduct(null);
+                setFormData({
+                    name: "", description: "", price: "", images: [],
+                    existingImages: [], imagesToDelete: []
+                });
+                setShowProductFormModal(true);
+              }}
             >
               + Add Product
             </button>
 
-            {/* --- Add Product Modal --- */}
             <Dialog
-              header={`Add Product to ${selectedCategory.name}`}
+              header={editingProduct ? "Edit Product" : `Add Product to ${selectedCategory.name}`}
               visible={showProductFormModal}
               style={{ width: "50vw", maxWidth: "600px" }}
               onHide={() => {
                 setShowProductFormModal(false);
                 setFormData({
-                  name: "",
-                  description: "",
-                  price: "",
-                  images: [],
+                  name: "", description: "", price: "", images: [],
+                  existingImages: [], imagesToDelete: []
                 });
+                setEditingProduct(null);
                 setFormSubmitError(null);
               }}
               modal
@@ -714,6 +754,37 @@ const handleEditSubmit = async () => {
                   />
                 </div>
 
+                {formData.existingImages.length > 0 && (
+                  <div style={{ marginBottom: "20px" }}>
+                    <p style={{ fontWeight: "bold", marginBottom: "10px" }}>
+                      Current Images:
+                    </p>
+                    <div className="preview-gallery" style={{ display: "flex", flexWrap: "wrap", gap: "10px" }}>
+                      {formData.existingImages.map((imgUrl, i) => (
+                        <div key={`existing-${i}`} className="preview-item" style={{ position: "relative" }}>
+                          <img
+                            src={`${apiBaseUrl}/${imgUrl}`}
+                            alt={`Existing Preview ${i}`}
+                            style={{ width: "100px", height: "100px", objectFit: "cover", borderRadius: "2px" }}
+                          />
+                          <button
+                            onClick={() => removeExistingImage(imgUrl)}
+                            style={{
+                              position: "absolute", top: "0", right: "0",
+                              background: "#e74c3c", color: "white", border: "none",
+                              borderRadius: "50%", width: "20px", height: "20px",
+                              lineHeight: "1", cursor: "pointer", fontSize: "12px", fontWeight: "bold",
+                            }}
+                          >
+                            X
+                          </button>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
+
                 <div style={{ marginBottom: "20px" }}>
                   <label
                     htmlFor="productImages"
@@ -723,7 +794,7 @@ const handleEditSubmit = async () => {
                       fontWeight: "bold",
                     }}
                   >
-                    Upload Images:
+                    Upload New Images:
                   </label>
                   <input
                     id="productImages"
@@ -736,69 +807,50 @@ const handleEditSubmit = async () => {
                   />
                 </div>
 
-                <div
-                  className="preview-gallery"
-                  style={{
-                    display: "flex",
-                    flexWrap: "wrap",
-                    gap: "10px",
-                    marginBottom: "20px",
-                  }}
-                >
-                  {formData.images.map((img, i) => (
+                {formData.images.length > 0 && (
+                    <div style={{ marginBottom: "20px" }}>
+                    <p style={{ fontWeight: "bold", marginBottom: "10px" }}>
+                      New Images to Upload:
+                    </p>
                     <div
-                      key={i}
-                      className="preview-item"
-                      style={{
-                        position: "relative",
-                        border: "1px solid #ddd",
-                        padding: "5px",
-                        borderRadius: "4px",
-                      }}
+                        className="preview-gallery"
+                        style={{
+                            display: "flex", flexWrap: "wrap", gap: "10px",
+                        }}
                     >
-                      <img
-                        src={URL.createObjectURL(img)}
-                        alt={`Preview ${i}`}
-                        style={{
-                          width: "100px",
-                          height: "100px",
-                          objectFit: "cover",
-                          borderRadius: "2px",
-                        }}
-                      />
-                      <button
-                        onClick={() => removeImage(i)}
-                        style={{
-                          position: "absolute",
-                          top: "0px",
-                          right: "0px",
-                          background: "#e74c3c",
-                          color: "white",
-                          border: "none",
-                          borderRadius: "50%",
-                          width: "20px",
-                          height: "20px",
-                          lineHeight: "1",
-                          cursor: "pointer",
-                          display: "flex",
-                          alignItems: "center",
-                          justifyContent: "center",
-                          fontSize: "12px",
-                          fontWeight: "bold",
-                        }}
-                      >
-                        X
-                      </button>
+                        {formData.images.map((img, i) => (
+                        <div
+                            key={`new-${i}`}
+                            className="preview-item"
+                            style={{ position: "relative" }}
+                        >
+                            <img
+                            src={URL.createObjectURL(img)}
+                            alt={`New Preview ${i}`}
+                            style={{ width: "100px", height: "100px", objectFit: "cover", borderRadius: "2px" }}
+                            />
+                            <button
+                            onClick={() => removeImage(i)}
+                            style={{
+                                position: "absolute", top: "0", right: "0",
+                                background: "#e74c3c", color: "white", border: "none",
+                                borderRadius: "50%", width: "20px", height: "20px",
+                                lineHeight: "1", cursor: "pointer", fontSize: "12px", fontWeight: "bold",
+                            }}
+                            >
+                            X
+                            </button>
+                        </div>
+                        ))}
                     </div>
-                  ))}
-                </div>
-
+                  </div>
+                )}
                 <button
                   onClick={handleProductSubmit}
                   className="btnn"
-                  style={{ backgroundColor: "#28a745", width: "100%" }}
+                  style={{ backgroundColor: editingProduct ? "#17a2b8" : "#28a745", width: "100%" }}
                 >
-                  Submit Product
+                  {editingProduct ? "Save Changes" : "Submit Product"}
                 </button>
               </div>
             </Dialog>
@@ -825,7 +877,7 @@ const handleEditSubmit = async () => {
                     <img
                       src={`${
                         product.images && product.images.length > 0
-                          ? `http://localhost:3000/${product.images[0]}`
+                          ? `${apiBaseUrl}/${product.images[0]}`
                           : "https://via.placeholder.com/150x150?text=No+Product+Image"
                       }`}
                       alt={product.name}
@@ -843,13 +895,15 @@ const handleEditSubmit = async () => {
                       </h3>
                       <p>{product.description}</p>
                       {product.category && (
-                        <p>Category: {product.category.name}</p>
+                        <p className="category-link">
+                          Category: {product.category.name}
+                        </p>
                       )}
                       <div className="actions">
                         <button
                           onClick={(e) => {
                             e.stopPropagation();
-                            handleEditClick(product);
+                            handleEditProduct(product);
                           }}
                         >
                           Edit
@@ -868,7 +922,6 @@ const handleEditSubmit = async () => {
                 ))}
             </div>
 
-            {/* --- PAGINATION CONTROLS --- */}
             {totalPages > 1 && (
               <div className="pagination-controls">
                 <button onClick={handlePrevPage} disabled={!canGoPrev}>
@@ -883,7 +936,6 @@ const handleEditSubmit = async () => {
               </div>
             )}
 
-            {/* --- Product Detail Modal --- */}
             <Dialog
               header={
                 selectedProductDetail
@@ -923,7 +975,7 @@ const handleEditSubmit = async () => {
                         {selectedProductDetail.images.map((imgUrl, index) => (
                           <img
                             key={index}
-                            src={`http://localhost:3000/${imgUrl}`}
+                            src={`${apiBaseUrl}/${imgUrl}`}
                             alt={`${selectedProductDetail.name} Image ${
                               index + 1
                             }`}
@@ -940,257 +992,68 @@ const handleEditSubmit = async () => {
                 </div>
               )}
             </Dialog>
-            {/* --- NEW: Product Edit Modal --- */}
-            <Dialog
-              header={`Edit Product: ${editingProduct?.name}`}
-              visible={showEditModal}
-              style={{ width: "50vw", maxWidth: "600px" }}
-              onHide={() => {
-                setShowEditModal(false);
-                setEditingProduct(null);
-                setEditImageFiles([]);
-                setEditFormError(null);
-              }}
-              modal
-            >
-              {/* This is the key fix: only render the form if editingProduct is not null */}
-              {editingProduct && (
-                <div className="product-form" style={{ padding: "20px" }}>
-                  {editFormError && (
-                    <p style={{ color: "red", marginBottom: "15px" }}>
-                      {editFormError}
-                    </p>
-                  )}
-
-                  <div style={{ marginBottom: "15px" }}>
-                    <label
-                      htmlFor="editProductName"
-                      style={{
-                        display: "block",
-                        marginBottom: "5px",
-                        fontWeight: "bold",
-                      }}
-                    >
-                      Product Name:
-                    </label>
-                    <input
-                      id="editProductName"
-                      type="text"
-                      name="name"
-                      placeholder="Enter product name"
-                      value={editingProduct.name}
-                      onChange={handleEditInputChange}
-                      className="admin-input"
-                    />
-                  </div>
-
-                  <div style={{ marginBottom: "15px" }}>
-                    <label
-                      htmlFor="editProductDescription"
-                      style={{
-                        display: "block",
-                        marginBottom: "5px",
-                        fontWeight: "bold",
-                      }}
-                    >
-                      Description:
-                    </label>
-                    <textarea
-                      id="editProductDescription"
-                      name="description"
-                      placeholder="Enter product description"
-                      value={editingProduct.description}
-                      onChange={handleEditInputChange}
-                      rows="4"
-                      className="admin-input"
-                    ></textarea>
-                  </div>
-
-                  <div style={{ marginBottom: "15px" }}>
-                    <label
-                      htmlFor="editProductPrice"
-                      style={{
-                        display: "block",
-                        marginBottom: "5px",
-                        fontWeight: "bold",
-                      }}
-                    >
-                      Price:
-                    </label>
-                    <input
-                      id="editProductPrice"
-                      type="text"
-                      name="price"
-                      placeholder="e.g., 29.99"
-                      value={editingProduct.price}
-                      onChange={handleEditInputChange}
-                      className="admin-input"
-                    />
-                  </div>
-
-                  <div style={{ marginBottom: "20px" }}>
-                    <label
-                      style={{
-                        display: "block",
-                        marginBottom: "5px",
-                        fontWeight: "bold",
-                      }}
-                    >
-                      Existing Images:
-                    </label>
-                    {editingProduct.images && (
-                      <div
-                        className="preview-gallery"
-                        style={{
-                          display: "flex",
-                          flexWrap: "wrap",
-                          gap: "10px",
-                        }}
-                      >
-                        {editingProduct.images.map((imgUrl, i) => (
-                          <div
-                            key={`existing-${i}`}
-                            className="preview-item"
-                            style={{
-                              position: "relative",
-                              border: "1px solid #ddd",
-                              padding: "5px",
-                              borderRadius: "4px",
-                            }}
-                          >
-                            <img
-                              src={`http://localhost:3000/${imgUrl}`}
-                              alt={`Existing Image ${i}`}
-                              style={{
-                                width: "100px",
-                                height: "100px",
-                                objectFit: "cover",
-                                borderRadius: "2px",
-                              }}
-                            />
-                            <button
-                              onClick={() => removeEditImage(i)}
-                              style={{
-                                position: "absolute",
-                                top: "0px",
-                                right: "0px",
-                                background: "#e74c3c",
-                                color: "white",
-                                border: "none",
-                                borderRadius: "50%",
-                                width: "20px",
-                                height: "20px",
-                                lineHeight: "1",
-                                cursor: "pointer",
-                                display: "flex",
-                                alignItems: "center",
-                                justifyContent: "center",
-                                fontSize: "12px",
-                                fontWeight: "bold",
-                              }}
-                            >
-                              X
-                            </button>
-                          </div>
-                        ))}
-                      </div>
-                    )}
-                  </div>
-
-                  <div style={{ marginBottom: "20px" }}>
-                    <label
-                      htmlFor="editProductImages"
-                      style={{
-                        display: "block",
-                        marginBottom: "5px",
-                        fontWeight: "bold",
-                      }}
-                    >
-                      Upload New Images:
-                    </label>
-                    <input
-                      id="editProductImages"
-                      type="file"
-                      multiple
-                      accept="image/*"
-                      onChange={handleEditImageUpload}
-                      className="admin-input"
-                      style={{ padding: "8px" }}
-                    />
-                  </div>
-
-                  <div
-                    className="preview-gallery"
-                    style={{
-                      display: "flex",
-                      flexWrap: "wrap",
-                      gap: "10px",
-                      marginBottom: "20px",
-                    }}
-                  >
-                    {editImageFiles.map((img, i) => (
-                      <div
-                        key={`new-${i}`}
-                        className="preview-item"
-                        style={{
-                          position: "relative",
-                          border: "1px solid #ddd",
-                          padding: "5px",
-                          borderRadius: "4px",
-                        }}
-                      >
-                        <img
-                          src={URL.createObjectURL(img)}
-                          alt={`New Preview ${i}`}
-                          style={{
-                            width: "100px",
-                            height: "100px",
-                            objectFit: "cover",
-                            borderRadius: "2px",
-                          }}
-                        />
-                        <button
-                          onClick={() => removeEditImage(i, true)}
-                          style={{
-                            position: "absolute",
-                            top: "0px",
-                            right: "0px",
-                            background: "#e74c3c",
-                            color: "white",
-                            border: "none",
-                            borderRadius: "50%",
-                            width: "20px",
-                            height: "20px",
-                            lineHeight: "1",
-                            cursor: "pointer",
-                            display: "flex",
-                            alignItems: "center",
-                            justifyContent: "center",
-                            fontSize: "12px",
-                            fontWeight: "bold",
-                          }}
-                        >
-                          X
-                        </button>
-                      </div>
-                    ))}
-                  </div>
-
-                  <button
-                    onClick={handleEditSubmit}
-                    className="btnn"
-                    style={{ backgroundColor: "#007bff", width: "100%" }}
-                  >
-                    Save Changes
-                  </button>
-                </div>
-              )}
-            </Dialog>
           </div>
         ) : (
           renderMainContent()
         )}
       </main>
+
+      <Dialog
+        visible={showCategoryFormModal}
+        style={{ width: '450px' }}
+        header={editingCategory ? "Edit Category" : "Add New Category"}
+        modal
+        className="p-fluid"
+        footer={categoryDialogFooter}
+        onHide={() => setShowCategoryFormModal(false)}
+      >
+        <div className="field">
+          <label htmlFor="name" className="font-bold">Name</label>
+          <InputText
+            id="name"
+            name="name"
+            value={categoryFormData.name}
+            onChange={onCategoryFormChange}
+            required
+            autoFocus
+          />
+        </div>
+        <div className="field mt-3">
+          <label htmlFor="description" className="font-bold">Description</label>
+          <InputText
+            id="description"
+            name="description"
+            value={categoryFormData.description}
+            onChange={onCategoryFormChange}
+          />
+        </div>
+        <div className="field mt-3">
+          <label htmlFor="image" className="font-bold">Image</label>
+          <input type="file" id="image" onChange={onCategoryImageChange} />
+        </div>
+
+        <div className="mt-3 image-preview-container">
+          {categoryFormData.newImage ? (
+            <img src={URL.createObjectURL(categoryFormData.newImage)} alt="Preview" className="w-6rem shadow-2 border-round" />
+          ) : categoryFormData.image ? (
+            <img src={`${apiBaseUrl}/${categoryFormData.image}`} alt="Current" className="w-6rem shadow-2 border-round" />
+          ) : null}
+        </div>
+      </Dialog>
+
+      <Dialog
+        visible={deleteCategoryDialog}
+        style={{ width: '450px' }}
+        header="Confirm Deletion"
+        modal
+        footer={deleteCategoryDialogFooter}
+        onHide={() => setDeleteCategoryDialog(false)}
+      >
+        <div className="flex align-items-center">
+          <i className="pi pi-exclamation-triangle mr-3" style={{ fontSize: '2rem' }} />
+          {categoryFormData && <span>Are you sure you want to delete category <b>{categoryFormData.name}</b>?</span>}
+        </div>
+      </Dialog>
     </div>
   );
 };
