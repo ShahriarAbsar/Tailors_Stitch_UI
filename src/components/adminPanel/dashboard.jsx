@@ -240,7 +240,9 @@ const AdminDashboard = ({ setAuthenticated }) => {
     }
   };
 
-  const handleEditSubmit = async () => {
+  // --- Handlers for Product Edit Form ---
+// ...
+const handleEditSubmit = async () => {
     if (
       !editingProduct.name ||
       !editingProduct.description ||
@@ -259,27 +261,39 @@ const AdminDashboard = ({ setAuthenticated }) => {
       return;
     }
 
+    // Use a clean object for text fields
+    const updatedData = {
+      name: editingProduct.name,
+      description: editingProduct.description,
+      price: editingProduct.price,
+      categoryId: editingProduct.categoryId,
+    };
+    
+    // Create a new FormData object for the PATCH request
     const productPayload = new FormData();
-    productPayload.append("name", editingProduct.name);
-    productPayload.append("description", editingProduct.description);
-    productPayload.append("price", editingProduct.price);
-    productPayload.append("categoryId", editingProduct.categoryId);
+    productPayload.append("name", updatedData.name);
+    productPayload.append("description", updatedData.description);
+    productPayload.append("price", updatedData.price);
+    productPayload.append("categoryId", updatedData.categoryId);
+
+    // Append images if there are any new ones
+    editImageFiles.forEach((imageFile) => {
+      productPayload.append("images", imageFile);
+    });
+
+    // Handle existing images to be kept
     productPayload.append(
       "existingImages",
       JSON.stringify(editingProduct.images)
     );
 
-    editImageFiles.forEach((imageFile) => {
-      productPayload.append("images", imageFile);
-    });
-
     try {
       await axios.patch(
         `http://localhost:3000/product/${editingProduct.id}`,
-        productPayload,
+        productPayload, // Send the FormData object
         {
           headers: {
-            "Content-Type": "multipart/form-data",
+            "Content-Type": "multipart/form-data", // Use multipart/form-data for image updates
             Authorization: `Bearer ${token}`,
           },
         }
