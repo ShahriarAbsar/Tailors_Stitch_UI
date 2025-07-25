@@ -1,25 +1,35 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./navbar.scss";
 import Logo from "../../assets/navImages/Logo.png";
-import logo2 from '../../assets/navImages/DarkLogo.png';
-import { NavLink , useLocation } from "react-router-dom";
+import logo2 from "../../assets/navImages/DarkLogo.png";
+import { NavLink, useLocation } from "react-router-dom";
 import { Sidebar } from "primereact/sidebar";
-
 import { Button } from "primereact/button";
 import ham from "../../assets/navImages/ham.png";
-import ham2 from "../../assets/navImages/hamburger2.png"
-const navbar = ({ homeDark = true }) => {
+import ham2 from "../../assets/navImages/hamburger2.png";
+
+const Navbar = ({ homeDark = true }) => {
+  const location = useLocation();
+  const [isDark, setIsDark] = useState(false);
   const [visibleRight, setVisibleRight] = useState(false);
-  
-const location = useLocation();
+
+  useEffect(() => {
+    const isHome = location.pathname === "/home";
+    if (isHome && homeDark) {
+      setIsDark(true);
+    } else {
+      setIsDark(false);
+    }
+  }, [location.pathname, homeDark]);
 
   const isHome = location.pathname === "/home";
+
   return (
-    <nav className={`navigation ${isHome ? (homeDark ? "nav-light" : "nav-dark") : "nav-dark"}`}>
+    <nav className={`navigation ${isDark ? "nav-light" : "nav-dark"}`}>
       <div className="navInside">
         <div className="logo">
           <NavLink to="/home">
-            <img src={isHome && homeDark ? Logo : logo2} alt="Logo" />
+            <img src={isDark ? Logo : logo2} alt="Logo" />
           </NavLink>
         </div>
 
@@ -42,7 +52,7 @@ const location = useLocation();
           </li>
           <li>
             <NavLink
-              to={"/services"}
+              to="/services"
               className={({ isActive }) => (isActive ? "btn1 active" : "btn1")}
             >
               Our Service
@@ -50,7 +60,7 @@ const location = useLocation();
           </li>
           <li>
             <NavLink
-              to={"/contact"}
+              to="/contact"
               className={({ isActive }) => (isActive ? "btn1 active" : "btn1")}
             >
               Contact
@@ -62,9 +72,9 @@ const location = useLocation();
         </ul>
 
         <div className="card">
-          <div className={`hamburger ${isHome ? (homeDark ? "nav-light" : "nav-dark") : "nav-dark"}`}  >
+          <div className={`hamburger ${isDark ? "nav-light" : "nav-dark"}`}>
             <Button
-              icon={<img src={isHome && homeDark ? ham : ham2} alt="Logo" />}
+              icon={<img src={isDark ? ham : ham2} alt="menu" />}
               onClick={() => setVisibleRight(true)}
             />
           </div>
@@ -121,8 +131,14 @@ const location = useLocation();
                 </NavLink>
               </li>
               <li>
-                
-                <button onClick={() => setVisibleRight(false)} className="btn2">Get In Touch</button>
+                <NavLink>
+                  <button
+                    onClick={() => setVisibleRight(false)}
+                    className="btn2"
+                  >
+                    Get In Touch
+                  </button>
+                </NavLink>
               </li>
             </ul>
           </Sidebar>
@@ -132,4 +148,4 @@ const location = useLocation();
   );
 };
 
-export default navbar;
+export default Navbar;

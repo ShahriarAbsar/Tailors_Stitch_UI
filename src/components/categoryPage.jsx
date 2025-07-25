@@ -5,7 +5,7 @@ import { useParams, useLocation } from 'react-router-dom';
 // Assuming SectionOne and SectionTwo are in a common, reusable location
 import SectionOne from './mensCasual/sectionOne/sectionOne';
 import SectionTwo from './mensCasual/sectionTwo/sectionTwo';
-import SectionThree from './home/sectionThree/sectionThree';
+import SectionThree from '../components/mensFormal/sectionThree/sectionThree';
 import Footer from './footer/footer';
 
 const CategoryPage = () => {

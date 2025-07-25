@@ -194,7 +194,7 @@ const AdminDashboard = ({ setAuthenticated }) => {
                 <div className="preview-gallery">
                   {formData.images.map((img, i) => (
                     <div key={i} className="preview-item">
-                      <img src={URL.createObjectURL(img)} alt="preview" />
+                      <img className="preview" src={URL.createObjectURL(img)} alt="preview" />
                       <button onClick={() => removeImage(i)}>Remove</button>
                     </div>
                   ))}
@@ -211,7 +211,7 @@ const AdminDashboard = ({ setAuthenticated }) => {
             <div className="product-grid">
               {!loadingProducts && products.length > 0 && products.map((product) => (
                 <div key={product.id} className="product-card">
-                  <img
+                  <img 
                     src={`${product.image ? `http://localhost:3000/${product.image}` : 'https://via.placeholder.com/150x150?text=No+Product+Image'}`}
                     alt={product.name}
                     className="product-image"

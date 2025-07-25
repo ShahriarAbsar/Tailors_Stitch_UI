@@ -1,15 +1,15 @@
 import React, { useState, useEffect } from "react";
 // src/index.js or src/App.js
-import 'primereact/resources/themes/saga-blue/theme.css'; // Or any other theme
-import 'primereact/resources/primereact.min.css';
-import 'primeicons/primeicons.css';
+import "primereact/resources/themes/saga-blue/theme.css"; // Or any other theme
+import "primereact/resources/primereact.min.css";
+import "primeicons/primeicons.css";
 import Navbar from "./components/navbar/navbar.jsx";
 import Home from "./components/home/home.jsx";
 import About from "./components/aboutUs/aboutUs.jsx";
 import Services from "./components/ourServices/ourServices.jsx";
 
 // Import the new CategoryPage component
-import CategoryPage from "./components/categoryPage.jsx";// Assuming CategoryPage.jsx is in components/
+import CategoryPage from "./components/categoryPage.jsx"; // Assuming CategoryPage.jsx is in components/
 
 import ContactUs from "./components/contactUs/contactUs.jsx";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
@@ -17,13 +17,13 @@ import { PrimeReactProvider } from "primereact/api";
 
 import Dashboard from "./components/adminPanel/dashboard.jsx";
 import Login from "./components/adminPanel/login.jsx";
-import { Navigate } from 'react-router-dom';
+import { Navigate } from "react-router-dom";
 import ScrollToTop from "./components/ScrollToTop.jsx";
 
 const App = () => {
   // *** CRUCIAL CHANGE: Initialize authenticated state from localStorage ***
   const [authenticated, setAuthenticated] = useState(() => {
-    const token = localStorage.getItem('accessToken');
+    const token = localStorage.getItem("accessToken");
     // Returns true if a token exists, false otherwise
     return !!token;
   });
@@ -36,11 +36,35 @@ const App = () => {
 
       <ScrollToTop />
       <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="home" element={<Home />} />
-        <Route path="/about" element={<About />} />
+        {/* <Route
+          path="/"
+          element={
+            <>
+              <Navbar homeDark={true} />
+              <Home />
+            </>
+          }
+        /> */}
+        <Route
+          path="home"
+          element={
+            <>
+              <Navbar homeDark={true} />
+              <Home />
+            </>
+          }
+        />
+        <Route
+          path="/about"
+          element={
+            <>
+              <Navbar homeDark={false} />
+              <About />
+            </>
+          }
+        />
         <Route path="/services" element={<Services />} />
-        
+
         {/*
           // REMOVED: Individual category routes are now replaced by a single dynamic route
           <Route path="/mensFormalwear" element={<MensFormalwear />} />
