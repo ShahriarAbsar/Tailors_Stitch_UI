@@ -1,15 +1,16 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import './Admin.scss';
+import EditProductModal from "./EditProductModal"; // Assuming this is now in the same directory
+import { updateProduct } from "../../api/productService"; // Assuming this is one level up and in an 'api' directory
 
 const AdminDashboard = ({ setAuthenticated }) => {
   const [categories, setCategories] = useState([]);
-  const [loadingCategories, setLoadingCategories] = useState(true); // Renamed for clarity
-  const [categoriesError, setCategoriesError] = useState(null); // Renamed for clarity
+  const [loadingCategories, setLoadingCategories] = useState(true);
+  const [categoriesError, setCategoriesError] = useState(null);
 
   const [selectedCategory, setSelectedCategory] = useState(null);
 
-  // New states for products
   const [products, setProducts] = useState([]);
   const [loadingProducts, setLoadingProducts] = useState(false);
   const [productsError, setProductsError] = useState(null);
@@ -21,6 +22,10 @@ const AdminDashboard = ({ setAuthenticated }) => {
     price: '',
     images: []
   });
+
+  // --- NEW: States for the Update feature ---
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+  const [productToEdit, setProductToEdit] = useState(null);
 
   // --- API Integration: Fetch Categories on component mount ---
   useEffect(() => {
@@ -35,33 +40,31 @@ const AdminDashboard = ({ setAuthenticated }) => {
         setLoadingCategories(false);
       }
     };
-
     fetchCategories();
-  }, []); // Runs once on component mount
+  }, []);
 
-  // --- NEW: API Integration: Fetch Products when selectedCategory changes ---
+  // --- API Integration: Fetch Products when selectedCategory changes ---
+  const fetchProductsByCategory = async (categoryId) => {
+    setLoadingProducts(true);
+    setProductsError(null);
+    try {
+      const response = await axios.get(`http://localhost:3000/product?categoryId=${categoryId}`);
+      setProducts(response.data);
+    } catch (err) {
+      setProductsError(`Failed to fetch products for this category.`);
+      console.error('Error fetching products:', err);
+    } finally {
+      setLoadingProducts(false);
+    }
+  };
+
   useEffect(() => {
-    const fetchProductsByCategory = async () => {
-      if (selectedCategory) { // Only fetch if a category is selected
-        setLoadingProducts(true);
-        setProductsError(null); // Clear previous errors
-        try {
-          // Adjust this URL to your backend's actual product endpoint (e.g., /product)
-          const response = await axios.get(`http://localhost:3000/product?categoryId=${selectedCategory.id}`);
-          setProducts(response.data);
-        } catch (err) {
-          setProductsError(`Failed to fetch products for ${selectedCategory.name}.`);
-          console.error('Error fetching products:', err);
-        } finally {
-          setLoadingProducts(false);
-        }
-      } else {
-        setProducts([]); // Clear products if no category is selected
-      }
-    };
-
-    fetchProductsByCategory();
-  }, [selectedCategory]); // Re-run this effect whenever selectedCategory changes
+    if (selectedCategory) {
+      fetchProductsByCategory(selectedCategory.id);
+    } else {
+      setProducts([]);
+    }
+  }, [selectedCategory]);
 
   // --- Form Handling ---
   const handleInputChange = (e) => {
@@ -81,11 +84,8 @@ const AdminDashboard = ({ setAuthenticated }) => {
 
   const handleSubmit = () => {
     console.log("Submitted Product:", formData);
-    // You'd typically send this product data to your backend here
     setFormData({ name: '', description: '', price: '', images: [] });
     setShowForm(false);
-    // After successful product submission, you might want to re-fetch products
-    // fetchProductsByCategory(); // This would re-fetch for the current selected category
   };
 
   const handleLogout = () => {
@@ -94,6 +94,29 @@ const AdminDashboard = ({ setAuthenticated }) => {
     localStorage.removeItem('userRole');
     setAuthenticated(false);
     window.location.href = '/';
+  };
+
+  // --- NEW: Handlers for the Edit feature ---
+  const handleEditClick = (product) => {
+    setProductToEdit(product);
+    setIsEditModalOpen(true);
+  };
+
+  const handleUpdateProduct = async (id, updatedData) => {
+    try {
+      const updatedProduct = await updateProduct(id, updatedData);
+      
+      // Update the product list in the state to reflect the change
+      setProducts(products.map(p => p.id === id ? updatedProduct : p));
+
+      setIsEditModalOpen(false); // Close the modal
+      setProductToEdit(null); // Clear the product being edited
+      console.log('Product updated successfully:', updatedProduct);
+      
+    } catch (error) {
+      console.error('Failed to update product:', error);
+      // You can add a state here to show an error message to the user
+    }
   };
 
   return (
@@ -128,13 +151,12 @@ const AdminDashboard = ({ setAuthenticated }) => {
                 <div
                   key={cat.id || idx}
                   className="category-card"
-                  onClick={() => setSelectedCategory(cat)} // Set selected category on click
+                  onClick={() => setSelectedCategory(cat)}
                 >
                   <img
                     src={`${cat.image ? `http://localhost:3000/${cat.image}` : 'https://via.placeholder.com/300x200?text=No+Image'}`}
                     alt={cat.name}
                   />
-
                   <div className="category-info">
                     <p>{cat.products || 0} Products</p>
                     <h3>{cat.name}</h3>
@@ -149,8 +171,8 @@ const AdminDashboard = ({ setAuthenticated }) => {
             <button
               className="back-btn"
               onClick={() => {
-                setSelectedCategory(null); // Go back to categories view
-                setShowForm(false); // Hide form when going back
+                setSelectedCategory(null);
+                setShowForm(false);
               }}
             >
               &larr; Back
@@ -165,7 +187,6 @@ const AdminDashboard = ({ setAuthenticated }) => {
 
             {showForm && (
               <div className="product-form">
-                {/* ... (Product Form fields - unchanged) ... */}
                 <input type="text" name="name" placeholder="Product Name" value={formData.name} onChange={handleInputChange} />
                 <textarea name="description" placeholder="Description" value={formData.description} onChange={handleInputChange}></textarea>
                 <input type="text" name="price" placeholder="Price" value={formData.price} onChange={handleInputChange} />
@@ -182,7 +203,6 @@ const AdminDashboard = ({ setAuthenticated }) => {
               </div>
             )}
 
-            {/* --- NEW: Display Products for the selected category --- */}
             <h3>Products in {selectedCategory.name}</h3>
             {loadingProducts && <p>Loading products for this category...</p>}
             {productsError && <p style={{ color: 'red' }}>{productsError}</p>}
@@ -191,30 +211,36 @@ const AdminDashboard = ({ setAuthenticated }) => {
             <div className="product-grid">
               {!loadingProducts && products.length > 0 && products.map((product) => (
                 <div key={product.id} className="product-card">
-                  {/* Assuming product.image is the path like 'uploads/product-image.jpg' */}
                   <img
                     src={`${product.image ? `http://localhost:3000/${product.image}` : 'https://via.placeholder.com/150x150?text=No+Product+Image'}`}
                     alt={product.name}
                     className="product-image"
                   />
                   <div className="product-details">
-                    <h3>{product.name} <span className="price">${product.price?.toFixed(2) || 'N/A'}</span></h3> {/* Use toFixed for price */}
+                    <h3>{product.name} <span className="price">${product.price?.toFixed(2) || 'N/A'}</span></h3>
                     <p>{product.description}</p>
-                    {/* Display category name if available in product data */}
                     {product.category && <p>Category: {product.category.name}</p>}
                     <div className="actions">
-                      <button>Edit</button>
+                      {/* NEW: OnClick handler for the Edit button */}
+                      <button onClick={() => handleEditClick(product)}>Edit</button>
                       <button>Delete</button>
                     </div>
                   </div>
                 </div>
               ))}
             </div>
-            {/* --- END NEW PRODUCT DISPLAY --- */}
-
           </div>
         )}
       </main>
+
+      {/* NEW: Render the EditProductModal when a product is being edited */}
+      {isEditModalOpen && productToEdit && (
+        <EditProductModal
+          product={productToEdit}
+          onSave={handleUpdateProduct} // This handler calls the API
+          onClose={() => setIsEditModalOpen(false)}
+        />
+      )}
     </div>
   );
 };
