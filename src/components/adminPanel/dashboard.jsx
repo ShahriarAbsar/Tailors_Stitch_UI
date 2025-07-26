@@ -182,13 +182,13 @@ const AdminDashboard = ({ setAuthenticated }) => {
       return;
     }
     if (
-      !formData.name ||
-      !formData.description ||
-      !formData.price ||
+      formData.name ||
+      formData.description ||
+      formData.price ||
       (formData.images.length === 0 && formData.existingImages.length === 0)
     ) {
       alert(
-        "Please fill all product fields and upload at least one image."
+        "Please upload at least one image."
       );
       return;
     }

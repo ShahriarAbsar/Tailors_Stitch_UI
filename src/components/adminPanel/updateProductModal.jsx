@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import './Admin.scss'; // Import your SCSS for styling
+import './admin.scss'; // Import your SCSS for styling
 
 const UpdateProductModal = ({ product, onSave, onClose }) => {
   const [formData, setFormData] = useState({

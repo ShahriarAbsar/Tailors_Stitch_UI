@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import './Admin.scss';
+import './admin.scss';
 import EditProductModal from "./EditProductModal"; // Assuming this is now in the same directory
 import { updateProduct } from "../../api/productService"; // Assuming this is one level up and in an 'api' directory
 
