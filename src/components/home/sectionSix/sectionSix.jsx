@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import image19 from "../../../assets/HomePage/contact 6.png";
+const image19 = "https://ik.imagekit.io/k3nqtn6ih/assets/HomePage/contact%206.png?updatedAt=1753525536236";
 import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css";
 import "./sectionSix.scss";

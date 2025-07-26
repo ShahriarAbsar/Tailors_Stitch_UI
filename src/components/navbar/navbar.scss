@@ -105,7 +105,7 @@
           padding-right: 32px;
           color: rgb(0, 0, 0);
           font-size: 16px;
-          
+
           margin-top: -11px;
         }
       }
@@ -118,7 +118,7 @@
         display: block;
       }
       .hamburger {
-        button {
+        .button {
           background: rgb(255, 255, 255);
           border: none;
           width: 42px;
@@ -127,12 +127,24 @@
           display: flex;
           justify-content: center;
           align-items: center;
+          padding-left: 25px;
+          
+        }
+        .p-button {
+          background: rgb(255, 255, 255);
+          border: none;
+          width: 45px;
+          height: 45px;
+          border-radius: 50%;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          padding-left: 16px;
+
           img {
             width: 38px;
             // background: rgb(255, 255, 255);
           }
-
-          
         }
       }
     }

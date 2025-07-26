@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react";
-import image1 from "../../../assets/HomePage/pic3.1.png";
-import image2 from "../../../assets/HomePage/pic3.2.png";
-import image3 from "../../../assets/HomePage/pic3.3.png";
-import image4 from "../../../assets/HomePage/pic3.4.png";
-import image5 from "../../../assets/HomePage/pic3.5.png";
-import image6 from "../../../assets/HomePage/pic 3.0 left.png";
+const image1 = "https://ik.imagekit.io/k3nqtn6ih/assets/HomePage/pic3.1.png?updatedAt=1753525533489";
+const image2 = "https://ik.imagekit.io/k3nqtn6ih/assets/HomePage/pic3.2.png?updatedAt=1753525533522";
+const image3 ="https://ik.imagekit.io/k3nqtn6ih/assets/HomePage/pic3.3.png?updatedAt=1753525536828";
+const image4 = "https://ik.imagekit.io/k3nqtn6ih/assets/HomePage/pic3.4.png?updatedAt=1753525538069";
+const image5 = "https://ik.imagekit.io/k3nqtn6ih/assets/HomePage/pic3.5.png?updatedAt=1753525538240";
+const image6 = "https://ik.imagekit.io/k3nqtn6ih/assets/HomePage/pic%203.0%20left.png?updatedAt=1753525536882";
+
 import "./sectionThree.scss";
 const sectionThree = () => {
   return (

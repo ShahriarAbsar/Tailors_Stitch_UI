@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
-import image13 from "../../../assets/HomePage/s401.png";
-import image14 from "../../../assets/HomePage/s402.png";
-import image15 from "../../../assets/HomePage/s403.png";
-import image16 from "../../../assets/HomePage/s404.png";
-import image17 from "../../../assets/HomePage/s405.png";
-import image18 from "../../../assets/HomePage/s406.png";
+const image13 = "https://ik.imagekit.io/k3nqtn6ih/assets/HomePage/s401.png?updatedAt=1753525542118";
+const image14 = "https://ik.imagekit.io/k3nqtn6ih/assets/HomePage/s402.png?updatedAt=1753525542914";
+const image15 = "https://ik.imagekit.io/k3nqtn6ih/assets/HomePage/s403.png?updatedAt=1753525543368";
+const image16 = "https://ik.imagekit.io/k3nqtn6ih/assets/HomePage/s404.png?updatedAt=1753525543347";
+const image17 = "https://ik.imagekit.io/k3nqtn6ih/assets/HomePage/s405.png?updatedAt=1753525544890";
+const image18 = "https://ik.imagekit.io/k3nqtn6ih/assets/HomePage/s406.png?updatedAt=1753525551746";
 import "./sectionFive.scss";
 
 

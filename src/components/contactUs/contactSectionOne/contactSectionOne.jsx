@@ -1,5 +1,5 @@
 import React from "react";
-import image1 from "../../../assets/Contacts/contactsHero.png";
+const image1 = "https://ik.imagekit.io/k3nqtn6ih/assets/Contacts/contactsHero.png?updatedAt=1753525532979";
 import "./contactSectionOne.scss";
 
 const contactSectionOne = () => {

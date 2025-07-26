@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import imageOne from "../../../assets/HomePage/Section2Image1.png";
+const imageOne = "https://ik.imagekit.io/k3nqtn6ih/assets/HomePage/Section2Image1.png?updatedAt=1753525551901";
 
 import "./sectionTwo.scss";
 import { NavLink } from "react-router-dom";

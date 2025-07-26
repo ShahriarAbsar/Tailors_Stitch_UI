@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import image1 from "../../../assets/AboutUs/fourfooter1.png";
+const image1 = "https://ik.imagekit.io/k3nqtn6ih/assets/AboutUs/fourfooter1.png?updatedAt=1753525525449";
 import "./sectionFour.scss";
 
 const SectionFour = () => {

@@ -2,10 +2,10 @@ import React, { useEffect, useState } from "react";
 import image19 from "../../../assets/HomePage/contact 6.png";
 import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css";
-import icon1 from "../../../assets/Contacts/mail-01.png";
-import icon2 from "../../../assets/Contacts/message-chat-circle.png";
-import icon3 from "../../../assets/Contacts/marker-pin-02.png";
-import icon4 from "../../../assets/Contacts/phone.png";
+const icon1 = "https://ik.imagekit.io/k3nqtn6ih/assets/Contacts/mail-01.png?updatedAt=1753525525295";
+const icon2 = "https://ik.imagekit.io/k3nqtn6ih/assets/Contacts/message-chat-circle.png?updatedAt=1753525525099";
+const icon3 = "https://ik.imagekit.io/k3nqtn6ih/assets/Contacts/marker-pin-02.png?updatedAt=1753525525188";
+const icon4 = "https://ik.imagekit.io/k3nqtn6ih/assets/Contacts/phone.png?updatedAt=1753525525273";
 import "./contactSectionTwo.scss";
 
 const contactSectionTwo = () => {

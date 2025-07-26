@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from "react";
 import "./navbar.scss";
-import Logo from "../../assets/navImages/Logo.png";
-import logo2 from "../../assets/navImages/DarkLogo.png";
+const Logo = "https://ik.imagekit.io/k3nqtn6ih/assets/navImages/Logo.png?updatedAt=1753525562972";
+const logo2 = "https://ik.imagekit.io/k3nqtn6ih/assets/navImages/DarkLogo.png?updatedAt=1753525559567";
 import { NavLink, useLocation } from "react-router-dom";
 import { Sidebar } from "primereact/sidebar";
 import { Button } from "primereact/button";
-import ham from "../../assets/navImages/ham.png";
-import ham2 from "../../assets/navImages/hamburger2.png";
+const ham = "https://ik.imagekit.io/k3nqtn6ih/assets/navImages/ham.png?updatedAt=1753525559613";
+const ham2 = "https://ik.imagekit.io/k3nqtn6ih/assets/navImages/hamburger2.png?updatedAt=1753525563043";
 
 const Navbar = ({ homeDark = true }) => {
   const location = useLocation();
@@ -73,7 +73,7 @@ const Navbar = ({ homeDark = true }) => {
 
         <div className="card">
           <div className={`hamburger ${isDark ? "nav-light" : "nav-dark"}`}>
-            <Button
+            <Button className="button"
               icon={<img src={isDark ? ham : ham2} alt="menu" />}
               onClick={() => setVisibleRight(true)}
             />

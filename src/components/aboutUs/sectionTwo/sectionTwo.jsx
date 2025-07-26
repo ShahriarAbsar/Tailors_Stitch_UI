@@ -1,7 +1,7 @@
 import React from "react";
 import "./sectionTwo.scss";
-import image1 from "../../../assets/AboutUs/sectionTwoImg1.png";
-import image2 from '../../../assets/AboutUs/sectionTwoImg2.png'
+const image1 = "https://ik.imagekit.io/k3nqtn6ih/assets/AboutUs/sectionTwoImg1.png?updatedAt=1753525529249";
+const image2 = 'https://ik.imagekit.io/k3nqtn6ih/assets/AboutUs/sectionTwoImg2.png?updatedAt=1753525529980'
 const sectionTwo = () => {
   return (
     <div className="AboutSectionTwo">

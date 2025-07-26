@@ -1,17 +1,17 @@
 import React from "react";
 import "./sectionTwo.scss";
 
-import image1 from "../../../assets/ourServices/3.1.png";
-import image2 from "../../../assets/ourServices/3.2.png";
-import image3 from "../../../assets/ourServices/3.3.png";
-import image4 from "../../../assets/ourServices/3.4.png";
-import image5 from "../../../assets/ourServices/3.5.png";
+const image1 = "https://ik.imagekit.io/k3nqtn6ih/assets/ourServices/3.1.png?updatedAt=1753525563047";
+const image2 = "https://ik.imagekit.io/k3nqtn6ih/assets/ourServices/3.2.png?updatedAt=1753525562964";
+const image3 = "https://ik.imagekit.io/k3nqtn6ih/assets/ourServices/3.3.png?updatedAt=1753525563342";
+const image4 = "https://ik.imagekit.io/k3nqtn6ih/assets/ourServices/3.4.png?updatedAt=1753525563782";
+const image5 = "https://ik.imagekit.io/k3nqtn6ih/assets/ourServices/3.5.png?updatedAt=1753525563384";
 
-import image6 from "../../../assets/ourServices/ourServise2.1.png";
-import image7 from "../../../assets/ourServices/ourServise2.2.png";
-import image8 from "../../../assets/ourServices/ourServise2.3.png";
-import image9 from "../../../assets/ourServices/ourServise2.4.png";
-import image10 from "../../../assets/ourServices/ourServise2.5.png";
+const image6 = "https://ik.imagekit.io/k3nqtn6ih/assets/ourServices/ourServise2.1.png?updatedAt=1753525568435";
+const image7 = "https://ik.imagekit.io/k3nqtn6ih/assets/ourServices/ourServise2.2.png?updatedAt=1753525574946";
+const image8 = "https://ik.imagekit.io/k3nqtn6ih/assets/ourServices/ourServise2.3.png?updatedAt=1753525572085";
+const image9 = "https://ik.imagekit.io/k3nqtn6ih/assets/ourServices/ourServise2.4.png?updatedAt=1753525571462";
+const image10 = "https://ik.imagekit.io/k3nqtn6ih/assets/ourServices/ourServise2.5.png?updatedAt=1753525574321";
 
 const sectionTwo = () => {
   const cardData = [
