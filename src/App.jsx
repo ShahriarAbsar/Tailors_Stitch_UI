@@ -36,7 +36,7 @@ const App = () => {
 
       <ScrollToTop />
       <Routes>
-        {/* <Route
+        <Route
           path="/"
           element={
             <>
@@ -44,9 +44,9 @@ const App = () => {
               <Home />
             </>
           }
-        /> */}
+        />
         <Route
-          path="home"
+          path="/"
           element={
             <>
               <Navbar homeDark={true} />

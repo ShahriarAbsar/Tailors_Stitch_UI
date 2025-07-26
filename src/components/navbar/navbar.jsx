@@ -14,7 +14,7 @@ const Navbar = ({ homeDark = true }) => {
   const [visibleRight, setVisibleRight] = useState(false);
 
   useEffect(() => {
-    const isHome = location.pathname === "/home";
+    const isHome = location.pathname === "/";
     if (isHome && homeDark) {
       setIsDark(true);
     } else {
