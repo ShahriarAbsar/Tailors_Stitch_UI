@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback } from "react";
 import axios from "axios";
-import "./Admin.scss";
+import "./admin.scss";
 import { Dialog } from "primereact/dialog";
 import { Button } from 'primereact/button';
 import { InputText } from 'primereact/inputtext';
