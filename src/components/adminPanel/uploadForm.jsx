@@ -31,7 +31,7 @@ const AdminDashboard = ({ setAuthenticated }) => {
   useEffect(() => {
     const fetchCategories = async () => {
       try {
-        const response = await axios.get('http://localhost:3000/category');
+        const response = await axios.get('http://api.tailors-stitch.com/category');
         setCategories(response.data);
       } catch (err) {
         setCategoriesError('Failed to fetch categories. Please try again.');
@@ -48,7 +48,7 @@ const AdminDashboard = ({ setAuthenticated }) => {
     setLoadingProducts(true);
     setProductsError(null);
     try {
-      const response = await axios.get(`http://localhost:3000/product?categoryId=${categoryId}`);
+      const response = await axios.get(`http://api.tailors-stitch.com/product?categoryId=${categoryId}`);
       setProducts(response.data);
     } catch (err) {
       setProductsError(`Failed to fetch products for this category.`);
@@ -154,7 +154,7 @@ const AdminDashboard = ({ setAuthenticated }) => {
                   onClick={() => setSelectedCategory(cat)}
                 >
                   <img
-                    src={`${cat.image ? `http://localhost:3000/${cat.image}` : 'https://via.placeholder.com/300x200?text=No+Image'}`}
+                    src={`${cat.image ? `http://api.tailors-stitch.com/${cat.image}` : 'https://via.placeholder.com/300x200?text=No+Image'}`}
                     alt={cat.name}
                   />
                   <div className="category-info">
@@ -212,7 +212,7 @@ const AdminDashboard = ({ setAuthenticated }) => {
               {!loadingProducts && products.length > 0 && products.map((product) => (
                 <div key={product.id} className="product-card">
                   <img 
-                    src={`${product.image ? `http://localhost:3000/${product.image}` : 'https://via.placeholder.com/150x150?text=No+Product+Image'}`}
+                    src={`${product.image ? `http://api.tailors-stitch.com/${product.image}` : 'https://via.placeholder.com/150x150?text=No+Product+Image'}`}
                     alt={product.name}
                     className="product-image"
                   />

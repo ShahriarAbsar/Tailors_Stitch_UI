@@ -59,7 +59,7 @@ const AdminDashboard = ({ setAuthenticated }) => {
     image: null,
   });
 
-  const apiBaseUrl = 'http://localhost:3000';
+  const apiBaseUrl = 'http://api.tailors-stitch.com';
   const token = localStorage.getItem('accessToken');
   const authHeader = { headers: { Authorization: `Bearer ${token}` } };
 
