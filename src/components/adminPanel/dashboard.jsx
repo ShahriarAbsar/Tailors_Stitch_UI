@@ -2,10 +2,10 @@ import React, { useState, useEffect, useCallback } from "react";
 import axios from "axios";
 import "./admin.scss";
 import { Dialog } from "primereact/dialog";
-import { Button } from 'primereact/button';
-import { InputText } from 'primereact/inputtext';
-import { DataTable } from 'primereact/datatable';
-import { Column } from 'primereact/column';
+import { Button } from "primereact/button";
+import { InputText } from "primereact/inputtext";
+import { DataTable } from "primereact/datatable";
+import { Column } from "primereact/column";
 import { useNavigate } from "react-router-dom";
 
 const AdminDashboard = ({ setAuthenticated }) => {
@@ -47,20 +47,20 @@ const AdminDashboard = ({ setAuthenticated }) => {
   const [showProductDetailModal, setShowProductDetailModal] = useState(false);
   const [loadingProductDetail, setLoadingProductDetail] = useState(false);
   const [productDetailError, setProductDetailError] = useState(null);
-  
+
   const [showCategoryFormModal, setShowCategoryFormModal] = useState(false);
   const [editingCategory, setEditingCategory] = useState(false);
   const [deleteCategoryDialog, setDeleteCategoryDialog] = useState(false);
   const [categoryFormData, setCategoryFormData] = useState({
     id: null,
-    name: '',
-    description: '',
+    name: "",
+    description: "",
     newImage: null,
     image: null,
   });
 
-  const apiBaseUrl = 'https://api.tailors-stitch.com';
-  const token = localStorage.getItem('accessToken');
+  const apiBaseUrl = "https://api.tailors-stitch.com";
+  const token = localStorage.getItem("accessToken");
   const authHeader = { headers: { Authorization: `Bearer ${token}` } };
 
   const fetchCategoriesData = useCallback(async () => {
@@ -150,7 +150,7 @@ const AdminDashboard = ({ setAuthenticated }) => {
     const newImages = formData.images.filter((_, i) => i !== index);
     setFormData({ ...formData, images: newImages });
   };
-  
+
   const removeExistingImage = (imageUrl) => {
     const updatedExistingImages = formData.existingImages.filter(
       (url) => url !== imageUrl
@@ -181,15 +181,9 @@ const AdminDashboard = ({ setAuthenticated }) => {
       alert("Please select a category before adding/editing a product.");
       return;
     }
-    if (
-      formData.name ||
-      formData.description ||
-      formData.price ||
-      (formData.images.length === 0 && formData.existingImages.length === 0)
-    ) {
-      alert(
-        "Please upload at least one image."
-      );
+
+    if (formData.images.length === 0 && formData.existingImages.length === 0) {
+      alert("Please upload at least one image.");
       return;
     }
 
@@ -206,27 +200,37 @@ const AdminDashboard = ({ setAuthenticated }) => {
     productPayload.append("description", formData.description);
     productPayload.append("price", formData.price);
     productPayload.append("categoryId", selectedCategory.id.toString());
-    
+
     formData.images.forEach((imageFile) => {
       productPayload.append("images", imageFile);
     });
-    
+
     if (editingProduct && formData.existingImages.length > 0) {
-        productPayload.append("existingImages", JSON.stringify(formData.existingImages));
+      productPayload.append(
+        "existingImages",
+        JSON.stringify(formData.existingImages)
+      );
     }
 
     if (editingProduct && formData.imagesToDelete.length > 0) {
-      productPayload.append("imagesToDelete", JSON.stringify(formData.imagesToDelete));
+      productPayload.append(
+        "imagesToDelete",
+        JSON.stringify(formData.imagesToDelete)
+      );
     }
 
     try {
       if (editingProduct) {
-        await axios.patch(`${apiBaseUrl}/product/${editingProduct}`, productPayload, {
-          headers: {
-            "Content-Type": "multipart/form-data",
-            Authorization: `Bearer ${token}`,
-          },
-        });
+        await axios.patch(
+          `${apiBaseUrl}/product/${editingProduct}`,
+          productPayload,
+          {
+            headers: {
+              "Content-Type": "multipart/form-data",
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
         alert("Product updated successfully!");
       } else {
         await axios.post(`${apiBaseUrl}/product`, productPayload, {
@@ -238,7 +242,14 @@ const AdminDashboard = ({ setAuthenticated }) => {
         alert("Product added successfully!");
       }
 
-      setFormData({ name: "", description: "", price: "", images: [], existingImages: [], imagesToDelete: [] });
+      setFormData({
+        name: "",
+        description: "",
+        price: "",
+        images: [],
+        existingImages: [],
+        imagesToDelete: [],
+      });
       setShowProductFormModal(false);
       setEditingProduct(null);
       fetchProductsByCategory(1);
@@ -250,7 +261,7 @@ const AdminDashboard = ({ setAuthenticated }) => {
       );
       setFormSubmitError(
         error.response?.data?.message ||
-        "Failed to save product. Please try again."
+          "Failed to save product. Please try again."
       );
     }
   };
@@ -292,7 +303,7 @@ const AdminDashboard = ({ setAuthenticated }) => {
       );
       alert(
         error.response?.data?.message ||
-        `Failed to delete product "${productName}". Please try again.`
+          `Failed to delete product "${productName}". Please try again.`
       );
     }
   };
@@ -304,9 +315,7 @@ const AdminDashboard = ({ setAuthenticated }) => {
     setShowProductDetailModal(true);
 
     try {
-      const response = await axios.get(
-        `${apiBaseUrl}/product/${productId}`
-      );
+      const response = await axios.get(`${apiBaseUrl}/product/${productId}`);
       setSelectedProductDetail(response.data);
     } catch (err) {
       setProductDetailError(
@@ -357,7 +366,13 @@ const AdminDashboard = ({ setAuthenticated }) => {
 
   const openNewCategory = () => {
     setEditingCategory(false);
-    setCategoryFormData({ id: null, name: '', description: '', newImage: null, image: null });
+    setCategoryFormData({
+      id: null,
+      name: "",
+      description: "",
+      newImage: null,
+      image: null,
+    });
     setShowCategoryFormModal(true);
   };
 
@@ -380,30 +395,39 @@ const AdminDashboard = ({ setAuthenticated }) => {
 
   const deleteCategory = async () => {
     try {
-      await axios.delete(`${apiBaseUrl}/category/${categoryFormData.id}`, authHeader);
-      alert('Category Deleted Successfully!');
+      await axios.delete(
+        `${apiBaseUrl}/category/${categoryFormData.id}`,
+        authHeader
+      );
+      alert("Category Deleted Successfully!");
       setDeleteCategoryDialog(false);
-      setCategoryFormData({ id: null, name: '', description: '', newImage: null, image: null });
+      setCategoryFormData({
+        id: null,
+        name: "",
+        description: "",
+        newImage: null,
+        image: null,
+      });
       await fetchCategoriesData();
     } catch (err) {
-      const errorDetail = err.response?.data?.message || 'An error occurred.';
+      const errorDetail = err.response?.data?.message || "An error occurred.";
       alert(errorDetail);
     }
   };
 
   const onCategoryFormChange = (e) => {
     const { name, value } = e.target;
-    setCategoryFormData(prev => ({ ...prev, [name]: value }));
+    setCategoryFormData((prev) => ({ ...prev, [name]: value }));
   };
 
   const onCategoryImageChange = (e) => {
     const file = e.target.files[0];
-    setCategoryFormData(prev => ({ ...prev, newImage: file }));
+    setCategoryFormData((prev) => ({ ...prev, newImage: file }));
   };
 
   const saveCategory = async () => {
     if (!categoryFormData.name.trim()) {
-      alert('Category name is required.');
+      alert("Category name is required.");
       return;
     }
 
@@ -411,13 +435,13 @@ const AdminDashboard = ({ setAuthenticated }) => {
     console.log("Current categoryFormData:", categoryFormData);
 
     const formDataToSend = new FormData();
-    formDataToSend.append('name', categoryFormData.name);
+    formDataToSend.append("name", categoryFormData.name);
     if (categoryFormData.description) {
-      formDataToSend.append('description', categoryFormData.description);
+      formDataToSend.append("description", categoryFormData.description);
     }
     if (categoryFormData.newImage) {
-        console.log("New image detected. Appending to FormData.");
-        formDataToSend.append('image', categoryFormData.newImage);
+      console.log("New image detected. Appending to FormData.");
+      formDataToSend.append("image", categoryFormData.newImage);
     } else {
       console.log("No new image to upload.");
     }
@@ -430,39 +454,67 @@ const AdminDashboard = ({ setAuthenticated }) => {
 
     try {
       if (editingCategory) {
-        console.log(`Sending PATCH request to update category ID: ${categoryFormData.id}`);
-        const response = await axios.patch(`${apiBaseUrl}/category/${categoryFormData.id}`, formDataToSend, authHeader);
+        console.log(
+          `Sending PATCH request to update category ID: ${categoryFormData.id}`
+        );
+        const response = await axios.patch(
+          `${apiBaseUrl}/category/${categoryFormData.id}`,
+          formDataToSend,
+          authHeader
+        );
         console.log("PATCH request successful. Response:", response.data);
-        alert('Category Updated Successfully!');
+        alert("Category Updated Successfully!");
       } else {
         console.log(`Sending POST request to create new category.`);
-        const response = await axios.post(`${apiBaseUrl}/category`, formDataToSend, authHeader);
+        const response = await axios.post(
+          `${apiBaseUrl}/category`,
+          formDataToSend,
+          authHeader
+        );
         console.log("POST request successful. Response:", response.data);
-        alert('Category Created Successfully!');
+        alert("Category Created Successfully!");
       }
       await fetchCategoriesData();
       setShowCategoryFormModal(false);
     } catch (err) {
       console.error("API call failed.", err);
-      const errorDetail = err.response?.data?.message || 'An error occurred.';
+      const errorDetail = err.response?.data?.message || "An error occurred.";
       alert(errorDetail);
     }
   };
-  
+
   const categoryImageTemplate = (rowData) => {
     const imageUrl = rowData.image ? `${apiBaseUrl}/${rowData.image}` : null;
-    return imageUrl ? <img src={imageUrl} alt={rowData.name} style={{ width: '64px', objectFit: 'cover' }} /> : null;
-};
+    return imageUrl ? (
+      <img
+        src={imageUrl}
+        alt={rowData.name}
+        style={{ width: "64px", objectFit: "cover" }}
+      />
+    ) : null;
+  };
 
   const categoryActionTemplate = (rowData) => {
     return (
       <>
-        <Button icon="pi pi-pencil" rounded text className="mr-2" onClick={() => editCategory(rowData)} />
-        <Button icon="pi pi-trash" rounded text severity="danger" onClick={() => confirmDeleteCategory(rowData)} />
+        <Button
+          icon="pi pi-pencil"
+          rounded
+          text
+          className="mr-2"
+          onClick={() => editCategory(rowData)}
+        />
+        <Button
+          icon="pi pi-trash"
+          rounded
+          text
+          severity="danger"
+          onClick={() => confirmDeleteCategory(rowData)}
+        />
       </>
     );
   };
-  
+
   const renderMainContent = () => {
     switch (activeTab) {
       case "dashboard":
@@ -511,7 +563,10 @@ const AdminDashboard = ({ setAuthenticated }) => {
               <Column field="name" header="Name" sortable />
               <Column field="description" header="Description" />
               <Column header="Image" body={categoryImageTemplate} />
-              <Column body={categoryActionTemplate} headerStyle={{ width: '10rem' }} />
+              <Column
+                body={categoryActionTemplate}
+                headerStyle={{ width: "10rem" }}
+              />
             </DataTable>
           </div>
         );
@@ -575,15 +630,30 @@ const AdminDashboard = ({ setAuthenticated }) => {
 
   const categoryDialogFooter = (
     <>
-      <Button label="Cancel" icon="pi pi-times" outlined onClick={() => setShowCategoryFormModal(false)} />
+      <Button
+        label="Cancel"
+        icon="pi pi-times"
+        outlined
+        onClick={() => setShowCategoryFormModal(false)}
+      />
       <Button label="Save" icon="pi pi-check" onClick={saveCategory} />
     </>
   );
 
   const deleteCategoryDialogFooter = (
     <>
-      <Button label="No" icon="pi pi-times" outlined onClick={() => setDeleteCategoryDialog(false)} />
-      <Button label="Yes" icon="pi pi-check" severity="danger" onClick={deleteCategory} />
+      <Button
+        label="No"
+        icon="pi pi-times"
+        outlined
+        onClick={() => setDeleteCategoryDialog(false)}
+      />
+      <Button
+        label="Yes"
+        icon="pi pi-check"
+        severity="danger"
+        onClick={deleteCategory}
+      />
     </>
   );
 
@@ -657,8 +727,12 @@ const AdminDashboard = ({ setAuthenticated }) => {
               onClick={() => {
                 setEditingProduct(null);
                 setFormData({
-                    name: "", description: "", price: "", images: [],
-                    existingImages: [], imagesToDelete: []
+                  name: "",
+                  description: "",
+                  price: "",
+                  images: [],
+                  existingImages: [],
+                  imagesToDelete: [],
                 });
                 setShowProductFormModal(true);
               }}
@@ -667,14 +741,22 @@ const AdminDashboard = ({ setAuthenticated }) => {
             </button>
 
             <Dialog
-              header={editingProduct ? "Edit Product" : `Add Product to ${selectedCategory.name}`}
+              header={
+                editingProduct
+                  ? "Edit Product"
+                  : `Add Product to ${selectedCategory.name}`
+              }
               visible={showProductFormModal}
               style={{ width: "50vw", maxWidth: "600px" }}
               onHide={() => {
                 setShowProductFormModal(false);
                 setFormData({
-                  name: "", description: "", price: "", images: [],
-                  existingImages: [], imagesToDelete: []
+                  name: "",
+                  description: "",
+                  price: "",
+                  images: [],
+                  existingImages: [],
+                  imagesToDelete: [],
                 });
                 setEditingProduct(null);
                 setFormSubmitError(null);
@@ -759,21 +841,42 @@ const AdminDashboard = ({ setAuthenticated }) => {
                     <p style={{ fontWeight: "bold", marginBottom: "10px" }}>
                       Current Images:
                     </p>
-                    <div className="preview-gallery" style={{ display: "flex", flexWrap: "wrap", gap: "10px" }}>
+                    <div
+                      className="preview-gallery"
+                      style={{ display: "flex", flexWrap: "wrap", gap: "10px" }}
+                    >
                       {formData.existingImages.map((imgUrl, i) => (
-                        <div key={`existing-${i}`} className="preview-item" style={{ position: "relative" }}>
+                        <div
+                          key={`existing-${i}`}
+                          className="preview-item"
+                          style={{ position: "relative" }}
+                        >
                           <img
                             src={`${apiBaseUrl}/${imgUrl}`}
                             alt={`Existing Preview ${i}`}
-                            style={{ width: "100px", height: "100px", objectFit: "cover", borderRadius: "2px" }}
+                            style={{
+                              width: "100px",
+                              height: "100px",
+                              objectFit: "cover",
+                              borderRadius: "2px",
+                            }}
                           />
                           <button
                             onClick={() => removeExistingImage(imgUrl)}
                             style={{
-                              position: "absolute", top: "0", right: "0",
-                              background: "#e74c3c", color: "white", border: "none",
-                              borderRadius: "50%", width: "20px", height: "20px",
-                              lineHeight: "1", cursor: "pointer", fontSize: "12px", fontWeight: "bold",
+                              position: "absolute",
+                              top: "0",
+                              right: "0",
+                              background: "#e74c3c",
+                              color: "white",
+                              border: "none",
+                              borderRadius: "50%",
+                              width: "20px",
+                              height: "20px",
+                              lineHeight: "1",
+                              cursor: "pointer",
+                              fontSize: "12px",
+                              fontWeight: "bold",
                             }}
                           >
                             X
@@ -783,7 +886,6 @@ const AdminDashboard = ({ setAuthenticated }) => {
                     </div>
                   </div>
                 )}
-
 
                 <div style={{ marginBottom: "20px" }}>
                   <label
@@ -808,47 +910,66 @@ const AdminDashboard = ({ setAuthenticated }) => {
                 </div>
 
                 {formData.images.length > 0 && (
-                    <div style={{ marginBottom: "20px" }}>
+                  <div style={{ marginBottom: "20px" }}>
                     <p style={{ fontWeight: "bold", marginBottom: "10px" }}>
                       New Images to Upload:
                     </p>
                     <div
-                        className="preview-gallery"
-                        style={{
-                            display: "flex", flexWrap: "wrap", gap: "10px",
-                        }}
+                      className="preview-gallery"
+                      style={{
+                        display: "flex",
+                        flexWrap: "wrap",
+                        gap: "10px",
+                      }}
                     >
-                        {formData.images.map((img, i) => (
+                      {formData.images.map((img, i) => (
                         <div
-                            key={`new-${i}`}
-                            className="preview-item"
-                            style={{ position: "relative" }}
+                          key={`new-${i}`}
+                          className="preview-item"
+                          style={{ position: "relative" }}
                         >
-                            <img
+                          <img
                             src={URL.createObjectURL(img)}
                             alt={`New Preview ${i}`}
-                            style={{ width: "100px", height: "100px", objectFit: "cover", borderRadius: "2px" }}
-                            />
-                            <button
+                            style={{
+                              width: "100px",
+                              height: "100px",
+                              objectFit: "cover",
+                              borderRadius: "2px",
+                            }}
+                          />
+                          <button
                             onClick={() => removeImage(i)}
                             style={{
-                                position: "absolute", top: "0", right: "0",
-                                background: "#e74c3c", color: "white", border: "none",
-                                borderRadius: "50%", width: "20px", height: "20px",
-                                lineHeight: "1", cursor: "pointer", fontSize: "12px", fontWeight: "bold",
+                              position: "absolute",
+                              top: "0",
+                              right: "0",
+                              background: "#e74c3c",
+                              color: "white",
+                              border: "none",
+                              borderRadius: "50%",
+                              width: "20px",
+                              height: "20px",
+                              lineHeight: "1",
+                              cursor: "pointer",
+                              fontSize: "12px",
+                              fontWeight: "bold",
                             }}
-                            >
+                          >
                             X
-                            </button>
+                          </button>
                         </div>
-                        ))}
+                      ))}
                     </div>
                   </div>
                 )}
                 <button
                   onClick={handleProductSubmit}
                   className="btnn"
-                  style={{ backgroundColor: editingProduct ? "#17a2b8" : "#28a745", width: "100%" }}
+                  style={{
+                    backgroundColor: editingProduct ? "#17a2b8" : "#28a745",
+                    width: "100%",
+                  }}
                 >
                   {editingProduct ? "Save Changes" : "Submit Product"}
                 </button>
@@ -1000,7 +1121,7 @@ const AdminDashboard = ({ setAuthenticated }) => {
 
       <Dialog
         visible={showCategoryFormModal}
-        style={{ width: '450px' }}
+        style={{ width: "450px" }}
         header={editingCategory ? "Edit Category" : "Add New Category"}
         modal
         className="p-fluid"
@@ -1008,7 +1129,9 @@ const AdminDashboard = ({ setAuthenticated }) => {
         onHide={() => setShowCategoryFormModal(false)}
       >
         <div className="field">
-          <label htmlFor="name" className="font-bold">Name</label>
+          <label htmlFor="name" className="font-bold">
+            Name
+          </label>
           <InputText
             id="name"
             name="name"
@@ -1019,7 +1142,9 @@ const AdminDashboard = ({ setAuthenticated }) => {
           />
         </div>
         <div className="field mt-3">
-          <label htmlFor="description" className="font-bold">Description</label>
+          <label htmlFor="description" className="font-bold">
+            Description
+          </label>
           <InputText
             id="description"
             name="description"
@@ -1028,30 +1153,48 @@ const AdminDashboard = ({ setAuthenticated }) => {
           />
         </div>
         <div className="field mt-3">
-          <label htmlFor="image" className="font-bold">Image</label>
+          <label htmlFor="image" className="font-bold">
+            Image
+          </label>
           <input type="file" id="image" onChange={onCategoryImageChange} />
         </div>
 
         <div className="mt-3 image-preview-container">
           {categoryFormData.newImage ? (
-            <img src={URL.createObjectURL(categoryFormData.newImage)} alt="Preview" className="w-6rem shadow-2 border-round" />
+            <img
+              src={URL.createObjectURL(categoryFormData.newImage)}
+              alt="Preview"
+              className="w-6rem shadow-2 border-round"
+            />
           ) : categoryFormData.image ? (
-            <img src={`${apiBaseUrl}/${categoryFormData.image}`} alt="Current" className="w-6rem shadow-2 border-round" />
+            <img
+              src={`${apiBaseUrl}/${categoryFormData.image}`}
+              alt="Current"
+              className="w-6rem shadow-2 border-round"
+            />
           ) : null}
         </div>
       </Dialog>
 
       <Dialog
         visible={deleteCategoryDialog}
-        style={{ width: '450px' }}
+        style={{ width: "450px" }}
         header="Confirm Deletion"
         modal
         footer={deleteCategoryDialogFooter}
         onHide={() => setDeleteCategoryDialog(false)}
       >
         <div className="flex align-items-center">
-          <i className="pi pi-exclamation-triangle mr-3" style={{ fontSize: '2rem' }} />
-          {categoryFormData && <span>Are you sure you want to delete category <b>{categoryFormData.name}</b>?</span>}
+          <i
+            className="pi pi-exclamation-triangle mr-3"
+            style={{ fontSize: "2rem" }}
+          />
+          {categoryFormData && (
+            <span>
+              Are you sure you want to delete category{" "}
+              <b>{categoryFormData.name}</b>?
+            </span>
+          )}
         </div>
       </Dialog>
     </div>
