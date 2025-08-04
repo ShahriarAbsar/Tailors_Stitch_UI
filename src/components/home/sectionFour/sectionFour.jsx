@@ -19,11 +19,11 @@ const SectionFour = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get("http://api.tailors-stitch.com/category");
+        const response = await axios.get("https://api.tailors-stitch.com/category");
         const data = response.data;
 
         const formattedData = data.map((item) => ({
-          image: `http://api.tailors-stitch.com/${item.image}`,
+          image: `https://api.tailors-stitch.com/${item.image}`,
           title: item.name,
           // *** CHANGE: Use the category id in the path ***
           path: `/category/${item.id}`,

@@ -11,7 +11,7 @@ const Login = ({ setAuthenticated }) => {
 
   const handleLogin = async () => {
     try {
-      const response = await axios.post('http://api.tailors-stitch.com/auth/login', {
+      const response = await axios.post('https://api.tailors-stitch.com/auth/login', {
         email: email,
         password: password,
       });

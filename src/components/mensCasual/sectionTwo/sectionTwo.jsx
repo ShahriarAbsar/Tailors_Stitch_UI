@@ -13,7 +13,7 @@ const SectionTwo = ({ categoryId }) => {
       setError(null);
       try {
         const response = await axios.get(
-          `http://api.tailors-stitch.com/product?categoryId=${categoryId}`
+          `https://api.tailors-stitch.com/product?categoryId=${categoryId}`
         );
         const productsData = response.data[0];
         setProducts(productsData);
