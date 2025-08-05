@@ -16,7 +16,7 @@
     justify-content: center;
     gap: 64px;
 
-    @media (max-width: 450px) {
+    @media (max-width: 500px) {
       max-width: 320px;
       padding: 0 0px;
       margin-bottom: 60px;
@@ -58,12 +58,13 @@
 
         font-size: clamp(28px, 5vw, 56px);
         font-style: normal;
-        font-weight: 300;
+        
         line-height: 120%; /* 67.2px */
         text-transform: uppercase;
         margin-bottom: 48px;
-        font-weight: 600;
-        @media (max-width: 450px) {
+        font-weight: 300;
+        font-family: BricolageGrotesqueSemi;
+        @media (max-width: 500px) {
           margin-bottom: 10px;
         }
       }
@@ -83,7 +84,7 @@
         justify-self: center;
       }
 
-      @media (max-width: 450px) {
+      @media (max-width: 500px) {
         grid-template-columns: 1fr;
         max-width: 310px;
       }
@@ -101,7 +102,7 @@
         @media (max-width: 1450px) {
           max-width: 490px;
         }
-        @media (max-width: 450px) {
+        @media (max-width: 500px) {
           max-width: 310px;
         }
         @media (max-width: 320px) {
@@ -123,6 +124,11 @@
           justify-content: center;
           align-items: flex-start;
           gap: 10px;
+          
+          h4{
+            font-family: BricolageGrotesqueSemi;
+            font-size: clamp(20px , 1.5vw , 24px);
+          }
         }
       }
       .box:hover {

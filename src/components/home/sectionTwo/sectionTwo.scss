@@ -10,7 +10,7 @@
     gap: 40px; // optional spacing between left and right columns
     width: 100%;
     max-width: 1370px;
-    padding: 0 32px;
+    padding: 0 30px;
     align-items: center;
     justify-content: center;
     gap: 121px;
@@ -19,7 +19,7 @@
       grid-template-columns: 1fr;
     }
 
-    @media (max-width: 450px) {
+    @media (max-width: 500px) {
       margin-top: 64px;
       margin-bottom: 64px;
       gap: 32px;
@@ -37,7 +37,7 @@
         justify-self: center;
       }
 
-      @media (max-width: 450px) {
+      @media (max-width: 500px) {
         max-width: 320px;
       }
       @media (max-width: 320px) {
@@ -54,11 +54,15 @@
           font-size: clamp(32px, 5vw, 56px);
           font-weight: bold;
           color: black;
+          font-family: BricolageGrotesqueSemi;
+          font-weight: 500;
         }
         h2 {
           font-size: clamp(32px, 5vw, 56px);
           font-weight: 200;
           color: black;
+          font-family: BricolageGrotesqueExlignt;
+          // font-weight: 100;
         }
       }
       .leftBodyText {
@@ -96,7 +100,12 @@
           max-width: 245px;
           font-size: clamp(12px, 1.5vw, 20px);
 
-          @media (max-width: 450px) {
+          h4{
+            font-family: BricolageGrotesqueReg;
+            font-size: clamp(16px , 1.5vw ,18px);
+            font-weight: 200;
+          }
+          @media (max-width: 500px) {
             padding: 10px 14px;
           }
           @media (max-width: 320px) {
@@ -116,7 +125,7 @@
             align-self: center;
             margin-right: 30px;
 
-            @media (max-width: 450px) {
+            @media (max-width: 500px) {
               width: 140px;
               margin-right: 1px;
             }
@@ -136,7 +145,7 @@
         width: 536px;
         height: auto;
 
-        @media (max-width: 450px) {
+        @media (max-width: 500px) {
           max-width: 100%;
         }
         @media (max-width: 320px) {

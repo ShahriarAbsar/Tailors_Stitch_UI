@@ -9,10 +9,10 @@ const sectionSix = () => {
   return (
     <section className="six">
         <div className="sixBody">
-          <div className="sixHeading">
+          {/* <div className="sixHeading">
             <h1>WE OFFER A WIDE</h1>
             <h2>RANGE OF SERVICES</h2>
-          </div>
+          </div> */}
           <div className="sixMainBody">
             <div className="mainBodyLeft">
               <img src={image19} alt="" />

@@ -56,12 +56,12 @@
       }
       h1 {
         color: #1a1a1a;
-
+        font-family: BricolageGrotesqueSemi;
         text-align: center;
 // border: 2px solid red;
         font-size: clamp(28px, 5vw, 56px);
         font-style: normal;
-        font-weight: 600;
+        font-weight: 500;
         line-height: 120%; /* 67.2px */
         text-transform: uppercase;
         margin-bottom: 20px;
@@ -71,7 +71,7 @@
         color: #3b3b3b;
 
         text-align: center;
-
+        font-family: BricolageGrotesqueReg;
         font-size: clamp(16px, 1.5vw, 18px);
         font-style: normal;
         font-weight: 400;
@@ -94,7 +94,7 @@
         justify-self: center;
       }
 
-      @media (max-width: 450px) {
+      @media (max-width: 500px) {
         row-gap: 40px;
       }
       @media (max-width: 320px) {
@@ -112,18 +112,26 @@
         }
         @media (max-width: 450px) {
           max-width: 343px;
+          
+          // border: 2px solid red;
         }
         @media (max-width: 320px) {
           max-width: 280px;
         }
         .image {
           justify-self: center;
+          // border: 2px solid red;
+          @media(max-width:500px){
+            
+            display: flex;
+            justify-content: center;
+          }
           img {
             max-width: 62px;
             width: 100%;
             object-fit: cover;
 
-            @media (max-width: 450px) {
+            @media (max-width: 500px) {
               max-width: 40px;
             }
           }
@@ -139,13 +147,26 @@
           gap: 20px;
           justify-self: center;
 
+          
+          
           h4 {
+
+            font-family: BricolageGrotesqueSemi;
+            font-size: clamp(20px , 1.5vw ,24px);
+            font-weight: 100;
+            @media(max-width:500px){
+              width: 100%;
+            // border: 2px solid green;
+            text-align: center;
+          }
           }
         }
         .titleDescription {
           max-width: 352px;
           justify-self: center;
           text-align: center;
+          font-family: BricolageGrotesqueReg;
+          font-size: clamp(14px , 1.5vw ,16px);
         }
       }
     }

@@ -2,17 +2,17 @@
       margin: 0;
       padding: 0;
       box-sizing: border-box;
-      font-family: BricolageGrotesque ;
+      // font-family: BricolageGrotesque ;
       scrollbar-width: none;
       
 }
 
 body{
  background: #FFFFFF;
- font-family: BricolageGrotesque ;
+//  font-family: BricolageGrotesque ;
 }
 span{
-   font-family: BricolageGrotesque ;   
+   font-family: BricolageGrotesMedium ;   
 }
 
 a{
@@ -21,6 +21,28 @@ a{
 }
 
 @font-face {
-      font-family: BricolageGrotesque;
-      src: url('./assets/Fonts/Bricolage_Grotesque/BricolageGrotesque-VariableFont_opsz\,wdth\,wght.ttf');
+      font-family: BricolageGrotesqueReg;
+      src: url('./assets/Fonts/Bricolage_Grotesque/static/BricolageGrotesque-Regular.ttf');
+}
+@font-face {
+      font-family: BricolageGrotesqueSemi;
+      src: url('./assets/Fonts/Bricolage_Grotesque/static/BricolageGrotesque-SemiBold.ttf');
+}
+@font-face {
+      font-family: BricolageGrotesqueExlignt;
+      src: url('./assets/Fonts/Bricolage_Grotesque/static/BricolageGrotesque_24pt-ExtraLight.ttf');
+}
+@font-face {
+      font-family: BricolageGrotesquelignt;
+      src: url('./assets/Fonts/Bricolage_Grotesque/static/BricolageGrotesque-Light.ttf');
+}
+
+@font-face {
+      font-family: BricolageGrotesBold;
+      src: url('./assets/Fonts/Bricolage_Grotesque/static/BricolageGrotesque-Bold.ttf');
+}
+
+@font-face {
+      font-family: BricolageGrotesMedium;
+      src: url('./assets/Fonts/Bricolage_Grotesque/static/BricolageGrotesque-Medium.ttf');
 }

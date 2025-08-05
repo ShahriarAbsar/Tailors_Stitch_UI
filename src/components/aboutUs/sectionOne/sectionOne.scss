@@ -46,13 +46,19 @@ margin-bottom: 120px;
 
           font-size: clamp(32px , 5vw , 56px);
           font-style: normal;
-          font-weight: 700;
+          font-weight: 500;
           line-height: 120%; /* 67.2px */
           text-transform: uppercase;
 
+          font-family: BricolageGrotesBold;
           @media(max-width:1000px){
                   justify-self: center;
             }
+
+            @media(max-width:500px){
+            // border: 2px solid red;
+            text-align: center;
+          }
         }
       }
       .oneBodyTopRight {
@@ -72,7 +78,7 @@ margin-bottom: 120px;
         p {
           color: #3b3b3b;
 
-          
+          font-family: BricolageGrotesqueReg;
           font-size: 16px;
           font-style: normal;
           font-weight: 400;
@@ -81,7 +87,8 @@ margin-bottom: 120px;
           
         }
         :nth-child(1){
-            font-weight: 600;
+          font-family: BricolageGrotesqueSemi;
+            font-weight: 500;
         }
       }
     }

@@ -27,6 +27,7 @@ const contactSectionTwo = () => {
               </p>
             </div>
             <div className="mainBodyLeftBody">
+              {/* box 1 */}
               <div className="box1">
                 <div className="icon">
                   <img src={icon1} alt="" />
@@ -41,6 +42,7 @@ const contactSectionTwo = () => {
                   <h1>info@tailors-stitch.com</h1>
                 </div>
               </div>
+              {/* box 2 */}
               <div className="box1">
                 <div className="icon">
                   <img src={icon2} alt="" />
@@ -55,6 +57,7 @@ const contactSectionTwo = () => {
                   <h1>Start new chat</h1>
                 </div>
               </div>
+              {/* box 3 */}
               <div className="box1">
                 <div className="icon">
                   <img src={icon3} alt="" />
@@ -69,6 +72,7 @@ const contactSectionTwo = () => {
                   <h1>House 117/A, Road 13, Sector 10 Uttara, Dhaka-1230</h1>
                 </div>
               </div>
+              {/* box 4 */}
               <div className="box1">
                 <div className="icon">
                   <img src={icon4} alt="" />

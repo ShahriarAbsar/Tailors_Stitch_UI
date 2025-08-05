@@ -1,17 +1,27 @@
 import React from "react";
 import "./sectionTwo.scss";
 
-const image1 = "https://ik.imagekit.io/k3nqtn6ih/assets/ourServices/3.1.png?updatedAt=1753525563047";
-const image2 = "https://ik.imagekit.io/k3nqtn6ih/assets/ourServices/3.2.png?updatedAt=1753525562964";
-const image3 = "https://ik.imagekit.io/k3nqtn6ih/assets/ourServices/3.3.png?updatedAt=1753525563342";
-const image4 = "https://ik.imagekit.io/k3nqtn6ih/assets/ourServices/3.4.png?updatedAt=1753525563782";
-const image5 = "https://ik.imagekit.io/k3nqtn6ih/assets/ourServices/3.5.png?updatedAt=1753525563384";
+const image1 =
+  "https://ik.imagekit.io/k3nqtn6ih/assets/ourServices/3.1.png?updatedAt=1753525563047";
+const image2 =
+  "https://ik.imagekit.io/k3nqtn6ih/assets/ourServices/3.2.png?updatedAt=1753525562964";
+const image3 =
+  "https://ik.imagekit.io/k3nqtn6ih/assets/ourServices/3.3.png?updatedAt=1753525563342";
+const image4 =
+  "https://ik.imagekit.io/k3nqtn6ih/assets/ourServices/3.4.png?updatedAt=1753525563782";
+const image5 =
+  "https://ik.imagekit.io/k3nqtn6ih/assets/ourServices/3.5.png?updatedAt=1753525563384";
 
-const image6 = "https://ik.imagekit.io/k3nqtn6ih/assets/ourServices/ourServise2.1.png?updatedAt=1753525568435";
-const image7 = "https://ik.imagekit.io/k3nqtn6ih/assets/ourServices/ourServise2.2.png?updatedAt=1753525574946";
-const image8 = "https://ik.imagekit.io/k3nqtn6ih/assets/ourServices/ourServise2.3.png?updatedAt=1753525572085";
-const image9 = "https://ik.imagekit.io/k3nqtn6ih/assets/ourServices/ourServise2.4.png?updatedAt=1753525571462";
-const image10 = "https://ik.imagekit.io/k3nqtn6ih/assets/ourServices/ourServise2.5.png?updatedAt=1753525574321";
+const image6 =
+  "https://ik.imagekit.io/k3nqtn6ih/assets/ourServices/ourServise2.1.png?updatedAt=1753525568435";
+const image7 =
+  "https://ik.imagekit.io/k3nqtn6ih/assets/ourServices/ourServise2.2.png?updatedAt=1753525574946";
+const image8 =
+  "https://ik.imagekit.io/k3nqtn6ih/assets/ourServices/ourServise2.3.png?updatedAt=1753525572085";
+const image9 =
+  "https://ik.imagekit.io/k3nqtn6ih/assets/ourServices/ourServise2.4.png?updatedAt=1753525571462";
+const image10 =
+  "https://ik.imagekit.io/k3nqtn6ih/assets/ourServices/ourServise2.5.png?updatedAt=1753525574321";
 
 const sectionTwo = () => {
   const cardData = [
@@ -46,6 +56,7 @@ const sectionTwo = () => {
           </div>
 
           <div className="serviceCards">
+            {/* card 1 */}
             <div className="card">
               <div className="card1left">
                 <img src={image1} alt="" />
@@ -56,31 +67,34 @@ const sectionTwo = () => {
                 </h4>
               </div>
               <div className="card1right">
-                
-                  <img src={image6} alt="" />
-                
+                <img src={image6} alt="" />
               </div>
             </div>
+            {/* card 2 */}
             <div className="card">
               <div className="card1right">
                 <img src={image7} alt="" />
               </div>
               <div className="card1left">
                 <img src={image2} alt="" />
-                <h1>Product Development</h1>
+                <h1>
+                  Technical Pack <br /> preparation
+                </h1>
+
                 <h4>
-                  Our team works closely with you to develop products that meet
-                  your specific requirements.
+                  We ensure that all technical details are meticulously prepared
+                  to facilitate smooth production.
                 </h4>
               </div>
             </div>
+            {/* card 3 */}
             <div className="card">
               <div className="card1left">
                 <img src={image3} alt="" />
-                <h1>Product Development</h1>
+                <h1>Wash Development</h1>
                 <h4>
-                  Our team works closely with you to develop products that meet
-                  your specific requirements.
+                  We specialize in creating unique wash effects to enhance the
+                  aesthetic appeal of your garments.
                 </h4>
               </div>
               <div className="card1right">
@@ -89,26 +103,30 @@ const sectionTwo = () => {
                 </div>
               </div>
             </div>
+            {/* card 4 */}
             <div className="card">
               <div className="card1right">
                 <img src={image9} alt="" />
               </div>
               <div className="card1left">
                 <img src={image4} alt="" />
-                <h1>Product Development</h1>
+                <h1>
+                  Artwork Technique <br /> Development
+                </h1>
                 <h4>
-                  Our team works closely with you to develop products that meet
-                  your specific requirements.
+                  Our experts craft innovative artwork techniques to elevate
+                  your brand's visual identity.
                 </h4>
               </div>
             </div>
+            {/* card 5 */}
             <div className="card">
               <div className="card1left">
                 <img src={image5} alt="" />
-                <h1>Product Development</h1>
+                <h1>Pattern and Sample Making</h1>
                 <h4>
-                  Our team works closely with you to develop products that meet
-                  your specific requirements.
+                  Our skilled artisans create precise patterns and samples to
+                  guarantee a perfect fit and quality.
                 </h4>
               </div>
               <div className="card1right">
@@ -117,8 +135,8 @@ const sectionTwo = () => {
             </div>
           </div>
         </div>
-        <div className="serviceBottom"></div>
-        <div className="serviceFooter"></div>
+        {/* <div className="serviceBottom"></div>
+        <div className="serviceFooter"></div> */}
       </div>
     </div>
   );

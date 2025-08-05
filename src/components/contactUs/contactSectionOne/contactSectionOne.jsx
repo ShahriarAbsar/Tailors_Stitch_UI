@@ -8,7 +8,7 @@ const contactSectionOne = () => {
       <div className="contactSectionOneBody">
         <div className="contactoneBodyTop">
           <div className="contactBodyTopLeft">
-            <h1>COntact</h1>
+            <h1>Contact</h1>
             <h1>us</h1>
           </div>
           <div className="contactBodyTopRight">
