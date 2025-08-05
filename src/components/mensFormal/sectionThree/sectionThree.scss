@@ -15,9 +15,16 @@
       align-self: center;
       justify-self: center;
       padding-top: 32px;
+      @media(max-width:500px){
+          // border: 2px solid red;
+          display: flex;
+          justify-content: center;
+          padding-top: 5%;
+        }
       img {
         max-width: 120px;
         width: 100%;
+        
       }
     }
     .allProductFooterMiddle {
@@ -50,6 +57,12 @@
       justify-self: center;
       margin-top: 32px;
       padding-bottom: 40px;
+      @media(max-width:500px){
+          // border: 2px solid red;
+          display: flex;
+          justify-content: center;
+          padding-bottom: 5%;
+        }
       .btn {
         display: flex;
         padding: 12px 18px;

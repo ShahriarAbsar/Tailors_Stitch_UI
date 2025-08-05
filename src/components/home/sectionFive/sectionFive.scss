@@ -71,7 +71,7 @@
         color: #3b3b3b;
 
         text-align: center;
-font-family: BricolageGrotesqueReg;
+        font-family: BricolageGrotesqueReg;
         font-size: clamp(16px, 1.5vw, 18px);
         font-style: normal;
         font-weight: 400;
@@ -112,12 +112,18 @@ font-family: BricolageGrotesqueReg;
         }
         @media (max-width: 500px) {
           max-width: 343px;
+          // border: 2px solid red;
         }
         @media (max-width: 320px) {
           max-width: 280px;
         }
         .image {
           justify-self: center;
+
+          @media(max-width:500px){
+            display: flex;
+              justify-content: center;
+          }
           img {
             max-width: 62px;
             width: 100%;
@@ -125,6 +131,7 @@ font-family: BricolageGrotesqueReg;
 
             @media (max-width: 500px) {
               max-width: 40px;
+              
             }
           }
         }
@@ -138,11 +145,18 @@ font-family: BricolageGrotesqueReg;
           align-items: flex-start;
           gap: 20px;
           justify-self: center;
-
+          // border: 2px solid red;
+          
           h4 {
             font-family: BricolageGrotesqueSemi;
-            font-size: clamp(20px ,1.5vw , 20px);
+            font-size: clamp(20px, 1.5vw, 20px);
             font-weight: 300;
+            
+            @media(max-width:500px){
+              width: 100%;
+            // border: 2px solid green;
+            text-align: center;
+          }
           }
         }
         .titleDescription {
@@ -150,9 +164,9 @@ font-family: BricolageGrotesqueReg;
           justify-self: center;
           text-align: center;
 
-          p{
+          p {
             font-family: BricolageGrotesqueReg;
-            font-size: clamp(14px ,1.5vw , 16px);
+            font-size: clamp(14px, 1.5vw, 16px);
             font-weight: 100;
           }
         }

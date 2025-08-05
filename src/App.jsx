@@ -7,7 +7,7 @@ import Navbar from "./components/navbar/navbar.jsx";
 import Home from "./components/home/home.jsx";
 import About from "./components/aboutUs/aboutUs.jsx";
 import Services from "./components/ourServices/ourServices.jsx";
-
+import Casual from "./components/mensCasual/mensCasual.jsx"
 // Import the new CategoryPage component
 import CategoryPage from "./components/categoryPage.jsx"; // Assuming CategoryPage.jsx is in components/
 
@@ -68,12 +68,13 @@ const App = () => {
         {/*
           // REMOVED: Individual category routes are now replaced by a single dynamic route
           <Route path="/mensFormalwear" element={<MensFormalwear />} />
-          <Route path="/menscasualwear" element={<Menscasualwear />} />
+          
           <Route path="/womensFormalwear" element={<WomensFormalwear />} />
           <Route path="/womensCasualwear" element={<Womenscasualwear />} />
           <Route path="/womensKnitwear" element={<WomensKnitwear />} />
           <Route path="/kidswear" element={<Kids />} />
         */}
+        <Route path="/casual" element={<Casual />} />
 
         {/* NEW: Dynamic route for all product categories */}
         {/* The :categoryName parameter will be captured by CategoryPage */}
