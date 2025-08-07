@@ -16,8 +16,8 @@ const image6 =
   "https://ik.imagekit.io/k3nqtn6ih/assets/ourServices/ourServise2.1.png?updatedAt=1753525568435";
 const image7 =
   "https://ik.imagekit.io/k3nqtn6ih/assets/ourServices/ourServise2.2.png?updatedAt=1753525574946";
-const image8 =
-  "https://ik.imagekit.io/k3nqtn6ih/assets/ourServices/ourServise2.3.png?updatedAt=1753525572085";
+const image19 =
+  "https://ik.imagekit.io/k3nqtn6ih/assets/ourServices/ourServise2.3.png?updatedAt=1754590429446";
 const image9 =
   "https://ik.imagekit.io/k3nqtn6ih/assets/ourServices/ourServise2.4.png?updatedAt=1753525571462";
 const image10 =
@@ -91,6 +91,22 @@ const sectionTwo = () => {
             <div className="card">
               <div className="card1left">
                 <img src={image3} alt="" />
+                <h1>
+                  Wash Development
+                </h1>
+                <h4>
+                  We specialize in creating unique wash effects to enhance the
+                  aesthetic appeal of your garments.
+                </h4>
+              </div>
+              <div className="card1right">
+                <img src={image19} alt="" />
+              </div>
+              
+            </div>
+            {/* <div className="card">
+              <div className="card1left">
+                <img src={image3} alt="" />
                 <h1>Wash Development</h1>
                 <h4>
                   We specialize in creating unique wash effects to enhance the
@@ -99,10 +115,10 @@ const sectionTwo = () => {
               </div>
               <div className="card1right">
                 <div className="image">
-                  <img src={image8} alt="" />
+                  <img src={image19} alt="" />
                 </div>
               </div>
-            </div>
+            </div> */}
             {/* card 4 */}
             <div className="card">
               <div className="card1right">

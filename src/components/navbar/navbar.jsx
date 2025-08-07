@@ -37,7 +37,7 @@ const Navbar = ({ homeDark = true }) => {
           <li>
             <NavLink
               to="/home"
-              className={({ isActive }) => (isActive ? "btn1 active" : "btn1")}
+              className={({ isActive }) => (isActive ? "btn1 active" : "btn1" )}
             >
               Home
             </NavLink>
@@ -67,7 +67,10 @@ const Navbar = ({ homeDark = true }) => {
             </NavLink>
           </li>
           <li>
-            <button className="btn2">Get In Touch</button>
+            <NavLink to="/contact">
+                <button className="btn2" >Get In Touch</button>
+            </NavLink>
+            
           </li>
         </ul>
 
@@ -131,7 +134,7 @@ const Navbar = ({ homeDark = true }) => {
                 </NavLink>
               </li>
               <li>
-                <NavLink>
+                <NavLink to="/contact">
                   <button
                     onClick={() => setVisibleRight(false)}
                     className="btn2"

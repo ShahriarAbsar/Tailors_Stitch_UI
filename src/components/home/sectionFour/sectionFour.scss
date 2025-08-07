@@ -4,7 +4,8 @@
   align-items: center;
 
   .fourBody {
-    margin-top: 140px;
+    margin-top: 40px;
+    //margin-top: 140px;
     margin-bottom: 140px;
     display: grid;
     grid-template-columns: 1fr;
@@ -40,6 +41,9 @@
       border: none;
       display: none;
       justify-self: center;
+      font-family: BricolageGrotesqueSemi;
+      font-size: 16px;
+      font-weight: 400;
       @media (max-width: 1000px) {
         display: block;
       }

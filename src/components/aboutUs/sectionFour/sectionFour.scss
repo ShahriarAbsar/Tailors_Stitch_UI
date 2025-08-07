@@ -84,20 +84,30 @@
           color: #000000;
         }
 
+        .spn{
+          @media(max-width:500px){
+            max-width: 265px;
+          }
+          @media(max-width:320px){
+            max-width: 200px;
+          }
+        }
+
         .icon {
           border: 1px solid #9ba2b3;
           display: flex;
           align-items: center;
           justify-content: center;
-          width: 24px;
-          height: 24px;
+          width: 25px;
+          height: 25px;
           border-radius: 50%;
           background-color: #00000000; // or any color
           color: #9ba2b3;
-          font-size: 18px;
+          font-size: 24px;
           font-weight: bold;
           margin-left: auto; // if you want it to align right
-          padding-top: 2px;
+          padding-top: 0px;
+          margin: 0px;
         }
       }
 
@@ -198,6 +208,9 @@
         box-shadow: 0px 1px 2px 0px rgba(16, 24, 40, 0.05);
         border: none;
         color: white;
+        font-family: BricolageGrotesqueReg;
+        
+        font-size: 16px;
       }
     }
   }

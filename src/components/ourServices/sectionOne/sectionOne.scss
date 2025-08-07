@@ -61,8 +61,10 @@ margin-bottom: 120px;
                   justify-self: center;
             }
             @media(max-width:500px){
-            // border: 2px solid red;
-            text-align: center;
+            //  border: 2px solid red;
+             justify-self: left;
+             padding-left: 4%;
+            // text-align: left;
           } 
         }
       }

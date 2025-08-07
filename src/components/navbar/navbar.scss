@@ -9,14 +9,15 @@
   display: flex; // Add this
   justify-content: center; // Horizontally center .navInside
   align-items: center; // Vertically center .navInside
-  border-bottom: 1px solid white;
+  border-bottom: 1px solid #b6b5b5;
   // mix-blend-mode: difference;
 
   &.nav-dark {
-    background: transparent;
+    background: rgba(255, 254, 254, 0);
     .btn1,
     .btn2 {
       color: rgb(242, 240, 240);
+      // background: rgb(199, 0, 0);
       filter: invert(1);
     }
 
@@ -25,7 +26,7 @@
   }
 
   &.nav-light {
-    background: transparent;
+    background: rgba(0, 0, 0, 0.137);
     .btn1,
     .btn2 {
       color: rgb(0, 0, 0);
@@ -69,14 +70,18 @@
     ul {
       display: flex;
       justify-content: space-between;
-      gap: 32px;
+      gap: 15px;
       list-style: none;
       align-items: center;
+      justify-self: center;
 
       @media (max-width: 1000px) {
         display: none; // Hide on mobile
       }
       li {
+        
+        
+
         .btn1 {
           border: none;
           border-radius: 40px;
@@ -86,10 +91,11 @@
           text-decoration: none;
           transition: background-color 0.3s ease, color 0.3s ease;
           cursor: pointer;
-          font: inherit;
-
+          font-family: BricolageGrotesqueReg;;
+          font-size: 16px;
+          font-weight: 400;
           &.active {
-            background-color: rgb(223, 222, 222);
+            background-color: rgb(255, 255, 255);
             color: rgb(0, 0, 0);
           }
 
@@ -106,7 +112,8 @@
           padding-right: 32px;
           color: rgb(0, 0, 0);
           font-size: 16px;
-
+          font-family: BricolageGrotesqueReg;
+          font-weight: 500;
           margin-top: -11px;
         }
       }
@@ -207,7 +214,7 @@
         text-decoration: none;
         transition: background-color 0.3s ease, color 0.3s ease;
         cursor: pointer;
-        font: inherit;
+        font-family: BricolageGrotesqueReg;
 
         &.active {
           background-color: black;
@@ -237,6 +244,7 @@
         padding-right: 32px;
         color: rgb(0, 0, 0);
         font-size: 16px;
+        font-family: BricolageGrotesqueReg;
       }
       a {
         text-decoration: none; // Remove underline from links

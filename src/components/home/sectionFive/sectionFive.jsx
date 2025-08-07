@@ -91,7 +91,7 @@ const sectionFive = () => {
           </div>
           <div className="box">
             <div className="image">
-              <img src={image17} alt="product 1" />
+              <img src={image18} alt="product 1" />
             </div>
             <div className="title">
               <h4>Innovation</h4>
@@ -106,7 +106,7 @@ const sectionFive = () => {
           </div>
           <div className="box">
             <div className="image">
-              <img src={image18} alt="product 1" />
+              <img src={image17} alt="product 1" />
             </div>
             <div className="title">
               <h4>Sustainability</h4>

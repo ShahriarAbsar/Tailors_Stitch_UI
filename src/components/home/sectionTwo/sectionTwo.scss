@@ -74,6 +74,8 @@
         p {
           margin: 55px 0;
           text-align: justify;
+          font-family: BricolageGrotesqueReg;
+          font-size: clamp(16px, 1.5vw , 20px);
         }
         :nth-child(1) {
           margin-bottom: 30px;
@@ -98,10 +100,11 @@
           color: #fff;
           border: none;
           max-width: 245px;
+          
           font-size: clamp(12px, 1.5vw, 20px);
 
           h4{
-            font-family: BricolageGrotesqueReg;
+            font-family: BricolageGrotesqueSemi;
             font-size: clamp(16px , 1.5vw ,18px);
             font-weight: 200;
           }
@@ -115,6 +118,9 @@
             text-decoration: none;
             color: #fff;
           }
+        }
+        .btn:hover{
+          scale: 1.02;
         }
         .line {
           align-self: center;

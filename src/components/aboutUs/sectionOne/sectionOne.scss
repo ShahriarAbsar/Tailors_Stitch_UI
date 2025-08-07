@@ -57,7 +57,9 @@ margin-bottom: 120px;
 
             @media(max-width:500px){
             // border: 2px solid red;
-            text-align: center;
+            text-align: left;
+            justify-self: left;
+            padding-left: 4%;
           }
         }
       }
