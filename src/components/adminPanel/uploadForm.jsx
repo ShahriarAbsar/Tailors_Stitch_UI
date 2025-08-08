@@ -160,7 +160,7 @@ const AdminDashboard = ({ setAuthenticated }) => {
                   <div className="category-info">
                     <p>{cat.products || 0} Products</p>
                     <h3>{cat.name}</h3>
-                    <p>{cat.description}</p>
+                    {/* <p>{cat.description}</p> */}
                   </div>
                 </div>
               ))}
@@ -188,7 +188,7 @@ const AdminDashboard = ({ setAuthenticated }) => {
             {showForm && (
               <div className="product-form">
                 <input type="text" name="name" placeholder="Product Name" value={formData.name} onChange={handleInputChange} />
-                <textarea name="description" placeholder="Description" value={formData.description} onChange={handleInputChange}></textarea>
+                {/* <textarea name="description" placeholder="Description" value={formData.description} onChange={handleInputChange}></textarea> */}
                 <input type="text" name="price" placeholder="Price" value={formData.price} onChange={handleInputChange} />
                 <input type="file" multiple accept="image/*" onChange={handleImageUpload} />
                 <div className="preview-gallery">
@@ -218,7 +218,7 @@ const AdminDashboard = ({ setAuthenticated }) => {
                   />
                   <div className="product-details">
                     <h3>{product.name} <span className="price">${product.price?.toFixed(2) || 'N/A'}</span></h3>
-                    <p>{product.description}</p>
+                    {/* <p>{product.description}</p> */}
                     {product.category && <p>Category: {product.category.name}</p>}
                     <div className="actions">
                       {/* NEW: OnClick handler for the Edit button */}

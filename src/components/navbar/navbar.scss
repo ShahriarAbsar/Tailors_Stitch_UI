@@ -13,10 +13,10 @@
   // mix-blend-mode: difference;
 
   &.nav-dark {
-    background: rgba(255, 254, 254, 0);
+    background: rgba(255, 254, 254, 0.371);
     .btn1,
     .btn2 {
-      color: rgb(242, 240, 240);
+      color: rgb(255, 255, 255);
       // background: rgb(199, 0, 0);
       filter: invert(1);
     }
@@ -26,7 +26,7 @@
   }
 
   &.nav-light {
-    background: rgba(0, 0, 0, 0.137);
+    background: rgba(0, 0, 0, 0.259);
     .btn1,
     .btn2 {
       color: rgb(0, 0, 0);
@@ -91,9 +91,9 @@
           text-decoration: none;
           transition: background-color 0.3s ease, color 0.3s ease;
           cursor: pointer;
-          font-family: BricolageGrotesqueReg;;
           font-size: 16px;
-          font-weight: 400;
+          font-family: BricolageGrotesqueSemi;
+          font-weight: 500;
           &.active {
             background-color: rgb(255, 255, 255);
             color: rgb(0, 0, 0);
@@ -111,10 +111,12 @@
           padding-left: 32px;
           padding-right: 32px;
           color: rgb(0, 0, 0);
+          background: rgb(255, 255, 255);
           font-size: 16px;
-          font-family: BricolageGrotesqueReg;
+          font-family: BricolageGrotesqueSemi;
           font-weight: 500;
-          margin-top: -11px;
+          // margin-top: -15px;
+          margin-bottom: 6.5%;
         }
       }
     }
@@ -167,7 +169,10 @@
   color: #4b5563;
   border: 0 none;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+
+  
 }
+
 .p-sidebar .p-sidebar-header {
   padding: 1rem;
   position: relative;
@@ -192,7 +197,7 @@
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    gap: 32px;
+    gap: 0px;
     list-style: none;
     align-items: flex-start; // use flex-start instead of 'left'
     margin-left: 10%;
@@ -245,6 +250,8 @@
         color: rgb(0, 0, 0);
         font-size: 16px;
         font-family: BricolageGrotesqueReg;
+
+        margin-left: 10px;
       }
       a {
         text-decoration: none; // Remove underline from links

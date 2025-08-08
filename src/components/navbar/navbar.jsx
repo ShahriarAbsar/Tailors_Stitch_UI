@@ -58,17 +58,17 @@ const Navbar = ({ homeDark = true }) => {
               Our Service
             </NavLink>
           </li>
-          <li>
+          {/* <li>
             <NavLink
               to="/contact"
               className={({ isActive }) => (isActive ? "btn1 active" : "btn1")}
             >
               Contact
             </NavLink>
-          </li>
+          </li> */}
           <li>
             <NavLink to="/contact">
-                <button className="btn2" >Get In Touch</button>
+                <button className="btn2" >Contact Us</button>
             </NavLink>
             
           </li>

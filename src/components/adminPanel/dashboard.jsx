@@ -561,7 +561,7 @@ const AdminDashboard = ({ setAuthenticated }) => {
             >
               <Column field="id" header="ID" sortable />
               <Column field="name" header="Name" sortable />
-              <Column field="description" header="Description" />
+              {/* <Column field="description" header="Description" /> */}
               <Column header="Image" body={categoryImageTemplate} />
               <Column
                 body={categoryActionTemplate}
@@ -1142,7 +1142,7 @@ const AdminDashboard = ({ setAuthenticated }) => {
           />
         </div>
         <div className="field mt-3">
-          <label htmlFor="description" className="font-bold">
+          {/* <label htmlFor="description" className="font-bold">
             Description
           </label>
           <InputText
@@ -1150,7 +1150,7 @@ const AdminDashboard = ({ setAuthenticated }) => {
             name="description"
             value={categoryFormData.description}
             onChange={onCategoryFormChange}
-          />
+          /> */}
         </div>
         <div className="field mt-3">
           <label htmlFor="image" className="font-bold">

@@ -74,7 +74,7 @@ const App = () => {
           <Route path="/womensKnitwear" element={<WomensKnitwear />} />
           <Route path="/kidswear" element={<Kids />} />
         */}
-        <Route path="/casual" element={<Casual />} />
+        <Route path="/casual" element={<Dashboard />} />
 
         {/* NEW: Dynamic route for all product categories */}
         {/* The :categoryName parameter will be captured by CategoryPage */}

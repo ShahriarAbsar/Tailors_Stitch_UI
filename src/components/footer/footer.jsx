@@ -1,8 +1,9 @@
 import React from "react";
 import "./footer.scss";
 import Logo from "../../assets/Footer/Logo.png";
+import { NavLink } from "react-router-dom";
 
-const footer = () => {
+const footer = ({ scrollToSection }) => {
   return (
     <div className="footerContainer">
       <div className="footerBody">
@@ -19,19 +20,19 @@ const footer = () => {
           <div className="footerBodyTopRight">
             <div className="ulLeft">
               <ul>
-                <li>Product</li>
-                <li>Overview</li>
-                <li>About Us</li>
-                <li>For Brands</li>
+                <li  onClick={() => scrollToSection(3)} > Product</li>
+                {/* <li>Overview</li> */}
+                <li><NavLink to='/about'>About Us</NavLink></li>
+                {/* <li>For Brands</li> */}
               </ul>
             </div>
             <div className="ulRight">
               <ul>
-                <li>Resources</li>
-                <li>Contact Us</li>
+                {/* <li>Resources</li> */}
+                <li onClick={() => scrollToSection(5)}>Contact Us</li>
                 <li>Newsletter</li>
-                <li>Help center</li>
-                <li>Support</li>
+                {/* <li>Help center</li> */}
+                <li> <NavLink to='/contact'>Support</NavLink></li>
               </ul>
             </div>
 
