@@ -16,6 +16,11 @@ const AdminDashboard = ({ setAuthenticated }) => {
   const [loadingSubscribers, setLoadingSubscribers] = useState(false);
   const [subscribersError, setSubscribersError] = useState(null);
 
+  //Contacts state management
+  const [contacts, setContacts] = useState([]);
+  const [loadingContacts, setLoadingContacts] = useState(false);
+  const [contactsError, setContactsError] = useState(null);
+
   const [activeTab, setActiveTab] = useState("dashboard");
 
   const [totalCategories, setTotalCategories] = useState(0);
@@ -88,6 +93,21 @@ const AdminDashboard = ({ setAuthenticated }) => {
     }
   }, [apiBaseUrl, authHeader]);
 
+  //contacts function
+  const fetchContacts = useCallback(async () => {
+    setLoadingContacts(true);
+    setContactsError(null);
+    try {
+      const response = await axios.get(`${apiBaseUrl}/contact`, authHeader);
+      setContacts(response.data);
+    } catch (err) {
+      setContactsError("Failed to fetch contact messages. Please try again.");
+      console.error("Error fetching contacts:", err);
+    } finally {
+      setLoadingContacts(false);
+    }
+  }, [apiBaseUrl, authHeader]);
+
   const handleTabChange = (tabName) => {
     setActiveTab(tabName);
     setSelectedCategory(null);
@@ -102,6 +122,10 @@ const AdminDashboard = ({ setAuthenticated }) => {
 
     if (tabName === "subscribers") {
       fetchSubscribers();
+    }
+
+    if (tabName === "contacts") {
+      fetchContacts();
     }
   };
 
@@ -600,6 +624,29 @@ const AdminDashboard = ({ setAuthenticated }) => {
                 <Column field="id" header="ID" style={{ width: "5rem" }} />
                 <Column field="email" header="Email" />
                 <Column field="createdAt" header="Subscribed On" />
+              </DataTable>
+            )}
+          </div>
+        );
+
+      case "contacts":
+        return (
+          <div>
+            <h2>Contacts</h2>
+            {loadingContacts && <p>Loading contact messages...</p>}
+            {contactsError && <p className="error">{contactsError}</p>}
+            {!loadingContacts && !contactsError && (
+              <DataTable
+                value={contacts}
+                paginator
+                rows={10}
+                emptyMessage="No contact messages found."
+              >
+                <Column field="id" header="ID" style={{ width: "5rem" }} />
+                <Column field="name" header="Name" />
+                <Column field="email" header="Email" />
+                <Column field="message" header="Message" />
+                <Column field="createdAt" header="Received On" />
               </DataTable>
             )}
           </div>
