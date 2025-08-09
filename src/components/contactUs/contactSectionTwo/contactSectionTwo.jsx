@@ -1,22 +1,63 @@
-import React, { useEffect, useState } from "react";
-import image19 from "../../../assets/HomePage/contact 6.png";
+import React, { useState } from "react";
+import axios from "axios";
 import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css";
-const icon1 = "https://ik.imagekit.io/k3nqtn6ih/assets/Contacts/mail-01.png?updatedAt=1753525525295";
-const icon2 = "https://ik.imagekit.io/k3nqtn6ih/assets/Contacts/message-chat-circle.png?updatedAt=1753525525099";
-const icon3 = "https://ik.imagekit.io/k3nqtn6ih/assets/Contacts/marker-pin-02.png?updatedAt=1753525525188";
-const icon4 = "https://ik.imagekit.io/k3nqtn6ih/assets/Contacts/phone.png?updatedAt=1753525525273";
+const icon1 =
+  "https://ik.imagekit.io/k3nqtn6ih/assets/Contacts/mail-01.png?updatedAt=1753525525295";
+const icon2 =
+  "https://ik.imagekit.io/k3nqtn6ih/assets/Contacts/message-chat-circle.png?updatedAt=1753525525099";
+const icon3 =
+  "https://ik.imagekit.io/k3nqtn6ih/assets/Contacts/marker-pin-02.png?updatedAt=1753525525188";
+const icon4 =
+  "https://ik.imagekit.io/k3nqtn6ih/assets/Contacts/phone.png?updatedAt=1753525525273";
 import "./contactSectionTwo.scss";
 
-const contactSectionTwo = () => {
+const ContactSectionTwo = () => {
   const [phone, setPhone] = useState("");
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [email, setEmail] = useState("");
+  const [message, setMessage] = useState("");
+
+  const [loading, setLoading] = useState(false);
+  const [submitSuccess, setSubmitSuccess] = useState("");
+  const [submitError, setSubmitError] = useState("");
+
+  const apiBaseUrl = "http://localhost:3001/contact";
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+    setSubmitSuccess("");
+    setSubmitError("");
+
+    try {
+      const res = await axios.post(apiBaseUrl, {
+        firstName,
+        lastName,
+        email,
+        phone,
+        message,
+      });
+      setSubmitSuccess(res.data.message || "Message sent successfully!");
+      setFirstName("");
+      setLastName("");
+      setEmail("");
+      setPhone("");
+      setMessage("");
+    } catch (error) {
+      setSubmitError(
+        error.response?.data?.message ||
+          "Failed to send message. Please try again."
+      );
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <section className="contactSectionTwo">
       <div className="contactSectionTwoBody">
-        {/* <div className="contactSectionTwoHeading">
-          <h1>WE OFFER A WIDE</h1>
-          <h2>RANGE OF SERVICES</h2>
-        </div> */}
         <div className="contactSectionTwoMainBody">
           <div className="contactmainBodyLeft">
             <div className="mainBodyLeftHeading">
@@ -27,7 +68,6 @@ const contactSectionTwo = () => {
               </p>
             </div>
             <div className="mainBodyLeftBody">
-              {/* box 1 */}
               <div className="box1">
                 <div className="icon">
                   <img src={icon1} alt="" />
@@ -42,7 +82,6 @@ const contactSectionTwo = () => {
                   <h1>info@tailors-stitch.com</h1>
                 </div>
               </div>
-              {/* box 2 */}
               <div className="box1">
                 <div className="icon">
                   <img src={icon2} alt="" />
@@ -57,7 +96,6 @@ const contactSectionTwo = () => {
                   <h1>Start new chat</h1>
                 </div>
               </div>
-              {/* box 3 */}
               <div className="box1">
                 <div className="icon">
                   <img src={icon3} alt="" />
@@ -72,7 +110,6 @@ const contactSectionTwo = () => {
                   <h1>House 117/A, Road 13, Sector 10 Uttara, Dhaka-1230</h1>
                 </div>
               </div>
-              {/* box 4 */}
               <div className="box1">
                 <div className="icon">
                   <img src={icon4} alt="" />
@@ -89,27 +126,45 @@ const contactSectionTwo = () => {
               </div>
             </div>
           </div>
+
           <div className="contactmainBodyRight">
             <div className="contactforms">
-              {/* <div className="contactformHeading">
-                <h1>Contact Us</h1>
-                <p>Our team would love to hear from you.</p>
-              </div> */}
               <div className="contactforms">
-                <form>
+                <form onSubmit={handleSubmit}>
                   <div className="formGroupName">
                     <div className="firstName">
-                      <label htmlFor="name">First Name</label>
-                      <input type="text" placeholder="First Name" required />
+                      <label htmlFor="firstName">First Name</label>
+                      <input
+                        id="firstName"
+                        type="text"
+                        placeholder="First Name"
+                        required
+                        value={firstName}
+                        onChange={(e) => setFirstName(e.target.value)}
+                      />
                     </div>
                     <div className="lastName">
-                      <label htmlFor="name">Last Name</label>
-                      <input type="text" placeholder="Last Name" required />
+                      <label htmlFor="lastName">Last Name</label>
+                      <input
+                        id="lastName"
+                        type="text"
+                        placeholder="Last Name"
+                        required
+                        value={lastName}
+                        onChange={(e) => setLastName(e.target.value)}
+                      />
                     </div>
                   </div>
                   <div className="formGroup">
                     <label htmlFor="email">Email</label>
-                    <input type="email" placeholder="Your Email" required />
+                    <input
+                      id="email"
+                      type="email"
+                      placeholder="Your Email"
+                      required
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
+                    />
                   </div>
                   <div className="formGroup">
                     <label htmlFor="phone">Phone</label>
@@ -121,19 +176,45 @@ const contactSectionTwo = () => {
                       inputClass="phoneInput"
                     />
                   </div>
-
                   <div className="formGroup">
                     <label htmlFor="message">Message</label>
                     <textarea
+                      id="message"
                       placeholder="Leave us a message"
                       rows="4"
                       required
-                    ></textarea>
+                      value={message}
+                      onChange={(e) => setMessage(e.target.value)}
+                    />
+                  </div>
+                  <div className="button">
+                    <button className="btn3" type="submit" disabled={loading}>
+                      {loading ? "Sending..." : "Send Message"}
+                    </button>
+                    {submitSuccess && (
+                      <p
+                        style={{
+                          color: "#4ade80",
+                          marginTop: "0.5rem",
+                          fontWeight: "bold",
+                        }}
+                      >
+                        {submitSuccess}
+                      </p>
+                    )}
+                    {submitError && (
+                      <p
+                        style={{
+                          color: "red",
+                          marginTop: "0.5rem",
+                          fontWeight: "bold",
+                        }}
+                      >
+                        {submitError}
+                      </p>
+                    )}
                   </div>
                 </form>
-                <div className="button">
-                  <button className="btn3">Send Message</button>
-                </div>
               </div>
             </div>
           </div>
@@ -143,4 +224,4 @@ const contactSectionTwo = () => {
   );
 };
 
-export default contactSectionTwo;
+export default ContactSectionTwo;
