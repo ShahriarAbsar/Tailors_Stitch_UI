@@ -11,6 +11,11 @@ import { useNavigate } from "react-router-dom";
 const AdminDashboard = ({ setAuthenticated }) => {
   const navigate = useNavigate();
 
+  //subscribers state management
+  const [subscribers, setSubscribers] = useState([]);
+  const [loadingSubscribers, setLoadingSubscribers] = useState(false);
+  const [subscribersError, setSubscribersError] = useState(null);
+
   const [activeTab, setActiveTab] = useState("dashboard");
 
   const [totalCategories, setTotalCategories] = useState(0);
@@ -60,8 +65,45 @@ const AdminDashboard = ({ setAuthenticated }) => {
   });
 
   const apiBaseUrl = "http://localhost:3001";
+  // Mock API data to simulate a GET request response.
+  // Replace this with a real fetch call to your backend API.
+  // ---------------------------------------------------------------------
+
   const token = localStorage.getItem("accessToken");
   const authHeader = { headers: { Authorization: `Bearer ${token}` } };
+
+  //subscriber function
+  const fetchSubscribers = useCallback(async () => {
+    setLoadingSubscribers(true);
+    setSubscribersError(null);
+    try {
+      const response = await axios.get(`${apiBaseUrl}/subscriber`, authHeader);
+      console.log(response);
+      setSubscribers(response.data);
+    } catch (err) {
+      setSubscribersError("Failed to fetch subscribers. Please try again.");
+      console.error("Error fetching subscribers:", err);
+    } finally {
+      setLoadingSubscribers(false);
+    }
+  }, [apiBaseUrl, authHeader]);
+
+  const handleTabChange = (tabName) => {
+    setActiveTab(tabName);
+    setSelectedCategory(null);
+    setShowProductFormModal(false);
+    setFormSubmitError(null);
+    setCurrentPage(1);
+    setTotalProductsInCategory(0);
+    setSelectedProductDetail(null);
+    setShowProductDetailModal(false);
+    setLoadingProductDetail(false);
+    setProductDetailError(null);
+
+    if (tabName === "subscribers") {
+      fetchSubscribers();
+    }
+  };
 
   const fetchCategoriesData = useCallback(async () => {
     try {
@@ -335,18 +377,18 @@ const AdminDashboard = ({ setAuthenticated }) => {
     navigate("/login");
   };
 
-  const handleTabChange = (tabName) => {
-    setActiveTab(tabName);
-    setSelectedCategory(null);
-    setShowProductFormModal(false);
-    setFormSubmitError(null);
-    setCurrentPage(1);
-    setTotalProductsInCategory(0);
-    setSelectedProductDetail(null);
-    setShowProductDetailModal(false);
-    setLoadingProductDetail(false);
-    setProductDetailError(null);
-  };
+  // const handleTabChange = (tabName) => {
+  //   setActiveTab(tabName);
+  //   setSelectedCategory(null);
+  //   setShowProductFormModal(false);
+  //   setFormSubmitError(null);
+  //   setCurrentPage(1);
+  //   setTotalProductsInCategory(0);
+  //   setSelectedProductDetail(null);
+  //   setShowProductDetailModal(false);
+  //   setLoadingProductDetail(false);
+  //   setProductDetailError(null);
+  // };
 
   const totalPages = Math.ceil(totalProductsInCategory / productsPerPage);
   const canGoNext = currentPage < totalPages;
@@ -541,6 +583,28 @@ const AdminDashboard = ({ setAuthenticated }) => {
             </p>
           </div>
         );
+
+      case "subscribers":
+        return (
+          <div>
+            <h2>Subscribers</h2>
+            {loadingSubscribers && <p>Loading subscribers...</p>}
+            {subscribersError && <p className="error">{subscribersError}</p>}
+            {!loadingSubscribers && !subscribersError && (
+              <DataTable
+                value={subscribers}
+                paginator
+                rows={10}
+                emptyMessage="No subscribers found."
+              >
+                <Column field="id" header="ID" style={{ width: "5rem" }} />
+                <Column field="email" header="Email" />
+                <Column field="createdAt" header="Subscribed On" />
+              </DataTable>
+            )}
+          </div>
+        );
+
       case "manageCategories":
         return (
           <div className="category-management-container">
@@ -692,6 +756,20 @@ const AdminDashboard = ({ setAuthenticated }) => {
           >
             Settings
           </button> */}
+
+          <button
+            className={activeTab === "subscribers" ? "active" : ""}
+            onClick={() => handleTabChange("subscribers")}
+          >
+            Manage Subscribers
+          </button>
+          <button
+            className={activeTab === "contacts" ? "active" : ""}
+            onClick={() => handleTabChange("contacts")}
+          >
+            Contacts
+          </button>
+
           <button className="logout-sidebar-btn" onClick={handleLogout}>
             Logout
           </button>
