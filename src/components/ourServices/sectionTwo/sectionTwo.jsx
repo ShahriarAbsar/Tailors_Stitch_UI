@@ -75,54 +75,56 @@ const sectionTwo = () => {
               <div className="card1right">
                 <img src={image7} alt="" />
               </div>
-              <div className="card1left">
+              <div className="card2left">
                 <img src={image2} alt="" />
-                <h1>Product Development</h1>
+                <h1>
+                  Technical Pack <br /> Preparation
+                </h1>
                 <h4>
-                  Our team works closely with you to develop products that meet
-                  your specific requirements.
+                  We ensure that all technical details are meticulously prepared
+                  to facilitate smooth production.
                 </h4>
               </div>
-              
             </div>
             {/* card 3 */}
             <div className="card">
               <div className="card1left">
                 <img src={image3} alt="" />
-                <h1>Product Development</h1>
+                <h1>Wash Development</h1>
                 <h4>
-                  Our team works closely with you to develop products that meet
-                  your specific requirements.
+                  OWe specialize in creating unique wash effects to enhance the
+                  aesthetic appeal of your garments.
                 </h4>
               </div>
               <div className="card1right">
                 <img src={image19} alt="" />
               </div>
             </div>
-            
+
             {/* card 4 */}
             <div className="card">
               <div className="card1right">
                 <img src={image9} alt="" />
               </div>
-              <div className="card1left">
+              <div className="card2left">
                 <img src={image4} alt="" />
-                <h1>Product Development</h1>
+                <h1>
+                  Artwork Technique <br /> Development
+                </h1>
                 <h4>
-                  Our team works closely with you to develop products that meet
-                  your specific requirements.
+                  Our experts craft innovative artwork techniques to elevate
+                  your brand's visual identity.
                 </h4>
               </div>
-              
             </div>
             {/* card 5 */}
             <div className="card">
-              <div className="card1left">
+              <div className="card2left">
                 <img src={image5} alt="" />
-                <h1>Product Development</h1>
+                <h1>Pattern and Sample <br /> Making</h1>
                 <h4>
-                  Our team works closely with you to develop products that meet
-                  your specific requirements.
+                  Our skilled artisans create precise patterns and samples to
+                  guarantee a perfect fit and quality.
                 </h4>
               </div>
               <div className="card1right">
