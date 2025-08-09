@@ -73,8 +73,6 @@
         }
       }
 
-
-
       .footerBodyTopRight {
         max-width: 622px;
         width: 100%;
@@ -232,7 +230,6 @@
       font-weight: 600;
     }
 
-
     .footerBodyBottom {
       border-top: 1px solid rgba(146, 141, 141, 0.235);
       display: flex;
@@ -240,6 +237,18 @@
       justify-content: space-between;
       padding-top: 32px;
       margin-bottom: 48px;
+
+      .success-message {
+        color: white;
+        margin-top: 0.5rem;
+        font-weight: 600;
+      }
+
+      .error-message {
+        color: white;
+        margin-top: 0.5rem;
+        font-weight: 600;
+      }
 
       .copyRight {
         p {
