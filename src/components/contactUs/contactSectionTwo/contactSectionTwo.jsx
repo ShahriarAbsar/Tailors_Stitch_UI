@@ -23,7 +23,7 @@ const ContactSectionTwo = () => {
   const [submitSuccess, setSubmitSuccess] = useState("");
   const [submitError, setSubmitError] = useState("");
 
-  const apiBaseUrl = "http://localhost:3001/contact";
+  const apiBaseUrl = "https://api.tailors-stitch.com/contact";
 
   const handleSubmit = async (e) => {
     e.preventDefault();

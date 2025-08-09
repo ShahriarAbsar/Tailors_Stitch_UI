@@ -10,7 +10,7 @@ const Footer = ({ scrollToSection }) => {
   const [message, setMessage] = useState(null); // success or error message
   const [error, setError] = useState(false);
 
-  const apiBaseUrl = "http://localhost:3001"; // Update this if needed
+  const apiBaseUrl = "https://api.tailors-stitch.com"; // Update this if needed
 
   const handleSubscribe = async () => {
     if (!email.trim()) {

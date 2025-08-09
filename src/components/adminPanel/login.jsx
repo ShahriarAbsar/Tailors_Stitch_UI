@@ -11,10 +11,13 @@ const Login = ({ setAuthenticated }) => {
 
   const handleLogin = async () => {
     try {
-      const response = await axios.post("http://localhost:3001/auth/login", {
-        email: email,
-        password: password,
-      });
+      const response = await axios.post(
+        "https://api.tailors-stitch.com/auth/login",
+        {
+          email: email,
+          password: password,
+        }
+      );
 
       const { access_token, user } = response.data;
 

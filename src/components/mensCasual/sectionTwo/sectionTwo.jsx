@@ -13,7 +13,7 @@ const SectionTwo = ({ categoryId }) => {
       setError(null);
       try {
         const response = await axios.get(
-          `http://localhost:3001/product?categoryId=${categoryId}`
+          `https://api.tailors-stitch.com/product?categoryId=${categoryId}`
         );
         const productsData = response.data[0];
         setProducts(productsData);
@@ -58,7 +58,7 @@ const SectionTwo = ({ categoryId }) => {
                 <img
                   src={
                     product.images && product.images.length > 0
-                      ? `http://localhost:3001/${product.images[0]}`
+                      ? `https://api.tailors-stitch.com/${product.images[0]}`
                       : "https://via.placeholder.com/300x400?text=No+Image"
                   }
                   alt={product.name}

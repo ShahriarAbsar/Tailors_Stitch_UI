@@ -69,7 +69,7 @@ const AdminDashboard = ({ setAuthenticated }) => {
     image: null,
   });
 
-  const apiBaseUrl = "http://localhost:3001";
+  const apiBaseUrl = "https://api.tailors-stitch.com";
   // Mock API data to simulate a GET request response.
   // Replace this with a real fetch call to your backend API.
   // ---------------------------------------------------------------------

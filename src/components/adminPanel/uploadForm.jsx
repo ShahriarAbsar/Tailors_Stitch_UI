@@ -31,7 +31,9 @@ const AdminDashboard = ({ setAuthenticated }) => {
   useEffect(() => {
     const fetchCategories = async () => {
       try {
-        const response = await axios.get("http://localhost:3001/category");
+        const response = await axios.get(
+          "https://api.tailors-stitch.com/category"
+        );
         setCategories(response.data);
       } catch (err) {
         setCategoriesError("Failed to fetch categories. Please try again.");
@@ -49,7 +51,7 @@ const AdminDashboard = ({ setAuthenticated }) => {
     setProductsError(null);
     try {
       const response = await axios.get(
-        `http://localhost:3001/product?categoryId=${categoryId}`
+        `https://api.tailors-stitch.com/product?categoryId=${categoryId}`
       );
       setProducts(response.data);
     } catch (err) {
@@ -163,7 +165,7 @@ const AdminDashboard = ({ setAuthenticated }) => {
                   <img
                     src={`${
                       cat.image
-                        ? `http://localhost:3001/${cat.image}`
+                        ? `https://api.tailors-stitch.com/${cat.image}`
                         : "https://via.placeholder.com/300x200?text=No+Image"
                     }`}
                     alt={cat.name}
@@ -254,7 +256,7 @@ const AdminDashboard = ({ setAuthenticated }) => {
                     <img
                       src={`${
                         product.image
-                          ? `http://localhost:3001/${product.image}`
+                          ? `https://api.tailors-stitch.com/${product.image}`
                           : "https://via.placeholder.com/150x150?text=No+Product+Image"
                       }`}
                       alt={product.name}

@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API_BASE_URL = "http://localhost:3001"; // Your backend base URL
+const API_BASE_URL = "https://api.tailors-stitch.com"; // Your backend base URL
 
 // Named export for the update function
 export const updateProduct = async (id, updatedProductData) => {
