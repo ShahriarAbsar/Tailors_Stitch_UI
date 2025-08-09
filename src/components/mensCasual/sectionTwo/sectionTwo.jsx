@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react';
-import axios from 'axios';
-import './sectionTwo.scss';
+import React, { useEffect, useState } from "react";
+import axios from "axios";
+import "./sectionTwo.scss";
 
 const SectionTwo = ({ categoryId }) => {
   const [products, setProducts] = useState([]);
@@ -13,7 +13,7 @@ const SectionTwo = ({ categoryId }) => {
       setError(null);
       try {
         const response = await axios.get(
-          `https://api.tailors-stitch.com/product?categoryId=${categoryId}`
+          `http://localhost:3001/product?categoryId=${categoryId}`
         );
         const productsData = response.data[0];
         setProducts(productsData);
@@ -34,7 +34,7 @@ const SectionTwo = ({ categoryId }) => {
     if (products.length > 0 && products[0].category) {
       return products[0].category.name.toUpperCase();
     }
-    return 'PRODUCTS'; 
+    return "PRODUCTS";
   };
 
   return (
@@ -58,7 +58,7 @@ const SectionTwo = ({ categoryId }) => {
                 <img
                   src={
                     product.images && product.images.length > 0
-                      ? `https://api.tailors-stitch.com/${product.images[0]}`
+                      ? `http://localhost:3001/${product.images[0]}`
                       : "https://via.placeholder.com/300x400?text=No+Image"
                   }
                   alt={product.name}

@@ -59,7 +59,7 @@ const AdminDashboard = ({ setAuthenticated }) => {
     image: null,
   });
 
-  const apiBaseUrl = "https://api.tailors-stitch.com";
+  const apiBaseUrl = "http://localhost:3001";
   const token = localStorage.getItem("accessToken");
   const authHeader = { headers: { Authorization: `Bearer ${token}` } };
 
@@ -770,7 +770,7 @@ const AdminDashboard = ({ setAuthenticated }) => {
                   </p>
                 )}
 
-                <div style={{ marginBottom: "15px" }}>
+                {/* <div style={{ marginBottom: "15px" }}>
                   <label
                     htmlFor="productName"
                     style={{
@@ -834,7 +834,7 @@ const AdminDashboard = ({ setAuthenticated }) => {
                     onChange={handleInputChange}
                     className="admin-input"
                   />
-                </div>
+                </div> */}
 
                 {formData.existingImages.length > 0 && (
                   <div style={{ marginBottom: "20px" }}>

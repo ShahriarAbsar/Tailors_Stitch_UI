@@ -1,23 +1,23 @@
-import axios from 'axios';
+import axios from "axios";
 
-const API_BASE_URL = 'https://tailors-stitch.com'; // Your backend base URL
+const API_BASE_URL = "http://localhost:3001"; // Your backend base URL
 
 // Named export for the update function
 export const updateProduct = async (id, updatedProductData) => {
   try {
-    const token = localStorage.getItem('accessToken');
+    const token = localStorage.getItem("accessToken");
     if (!token) {
-      throw new Error('No authentication token found. Please log in.');
+      throw new Error("No authentication token found. Please log in.");
     }
-    
+
     // The endpoint matches your API: PATCH /product/:id
     const response = await axios.patch(
-      `${API_BASE_URL}/product/${id}`, 
-      updatedProductData, 
+      `${API_BASE_URL}/product/${id}`,
+      updatedProductData,
       {
         headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`,
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
         },
       }
     );
