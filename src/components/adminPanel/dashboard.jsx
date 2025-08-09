@@ -643,7 +643,8 @@ const AdminDashboard = ({ setAuthenticated }) => {
                 emptyMessage="No contact messages found."
               >
                 <Column field="id" header="ID" style={{ width: "5rem" }} />
-                <Column field="name" header="Name" />
+                <Column field="firstName" header="First Name" />
+                <Column field="lastName" header="Last Name" />
                 <Column field="email" header="Email" />
                 <Column field="message" header="Message" />
                 <Column field="createdAt" header="Received On" />
