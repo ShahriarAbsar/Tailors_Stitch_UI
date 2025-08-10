@@ -3,12 +3,18 @@ import "./footer.scss";
 import Logo from "../../assets/Footer/Logo.png";
 import { NavLink } from "react-router-dom";
 import axios from "axios";
+import { useNavigate, useLocation } from "react-router-dom";
 
 const Footer = ({ scrollToSection }) => {
   const [email, setEmail] = useState("");
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState(null); // success or error message
   const [error, setError] = useState(false);
+
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  
 
   const apiBaseUrl = "https://api.tailors-stitch.com"; // Update this if needed
 
@@ -62,8 +68,8 @@ const Footer = ({ scrollToSection }) => {
             </div>
             <div className="ulRight">
               <ul>
-                <li onClick={() => scrollToSection(5)}>Contact Us</li>
-                <li>Newsletter</li>
+                <li ><NavLink to="/contact">Contact Us</NavLink></li>
+                <li ><NavLink to="/services">Our services</NavLink></li>
                 <li>
                   <NavLink to="/contact">Support</NavLink>
                 </li>

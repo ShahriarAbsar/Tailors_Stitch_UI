@@ -5,11 +5,12 @@ import SectionThree from "./sectionThree/sectionThree";
 import SectionFour from "./sectionFour/sectionFour";
 import SectionFive from "./sectionFive/sectionFive";
 import SectionSix from "./sectionSix/sectionSix";
-import Footer from "../footer/footer"
+// import Footer from "../footer/footer"
 
 import "./home.scss";
 
-const home = () => {
+const home = ({ onLoaded }) => {
+  
 
   const sectionRefs = [
     useRef(null),
@@ -20,9 +21,40 @@ const home = () => {
     useRef(null),
   ];
 
-  const scrollToSection = (index) => {
-    sectionRefs[index].current.scrollIntoView({ behavior: "smooth" });
+  // const scrollToSection = (index) => {
+  //   sectionRefs[index].current.scrollIntoView({ behavior: "smooth" });
+  // };
+
+  // const smoothScroll = (index) => {
+  //   if (sectionRefs[index]?.current) {
+  //     sectionRefs[index].current.scrollIntoView({ behavior: "smooth" });
+  //   }
+  // };
+  const smoothScroll = (index) => {
+    if (sectionRefs[index]?.current) {
+      sectionRefs[index].current.scrollIntoView({ behavior: "smooth" });
+    }
   };
+
+  // Listen for scroll requests from App.jsx
+  // useEffect(() => {
+  //   const handler = (e) => {
+  //     smoothScroll(e.detail);
+  //   };
+  //   window.addEventListener("scrollToSection", handler);
+  //   return () => window.removeEventListener("scrollToSection", handler);
+  // }, []);
+  useEffect(() => {
+    const handler = (e) => smoothScroll(e.detail);
+    window.addEventListener("scrollToSection", handler);
+
+    // Call onLoaded after mount to notify App
+    if (onLoaded) onLoaded();
+
+    return () => window.removeEventListener("scrollToSection", handler);
+  }, []);
+
+  
   return (
     <>
 
@@ -34,7 +66,7 @@ const home = () => {
       <div ref={sectionRefs[4]}><SectionFive /></div>
       <div ref={sectionRefs[5]}><SectionSix /></div>
 
-      <Footer scrollToSection={scrollToSection} />
+      {/* <Footer scrollToSection={scrollToSection} /> */}
       {/* <SectionOne />
       <SectionTwo />
       <SectionThree />

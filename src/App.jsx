@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useRef,useState, useEffect } from "react";
 // src/index.js or src/App.js
 import "primereact/resources/themes/saga-blue/theme.css"; // Or any other theme
 import "primereact/resources/primereact.min.css";
@@ -19,6 +19,8 @@ import Dashboard from "./components/adminPanel/dashboard.jsx";
 import Login from "./components/adminPanel/login.jsx";
 import { Navigate } from "react-router-dom";
 import ScrollToTop from "./components/ScrollToTop.jsx";
+import Footer from "./components/footer/footer.jsx";
+import { useNavigate, useLocation} from "react-router-dom";
 
 const App = () => {
   // *** CRUCIAL CHANGE: Initialize authenticated state from localStorage ***
@@ -27,6 +29,48 @@ const App = () => {
     // Returns true if a token exists, false otherwise
     return !!token;
   });
+
+  const navigate = useNavigate();
+  const location = useLocation();
+  const [homeLoaded, setHomeLoaded] = React.useState(false);
+
+  // We’ll store section index in here temporarily if navigating from another page
+  const sectionToScroll = useRef(null);
+
+  // const scrollToSection = (index) => {
+  //   if (location.pathname === "/") {
+  //     // Already on Home — just dispatch an event for Home to handle
+  //     window.dispatchEvent(new CustomEvent("scrollToSection", { detail: index }));
+  //   } else {
+  //     // Store the index so we can use it after navigation
+  //     sectionToScroll.current = index;
+  //     navigate("/");
+  //   }
+  // };
+
+  // // Listen for when we land on Home
+  // useEffect(() => {
+  //   if (location.pathname === "/" && sectionToScroll.current !== null) {
+  //     window.dispatchEvent(new CustomEvent("scrollToSection", { detail: sectionToScroll.current }));
+  //     sectionToScroll.current = null; // reset
+  //   }
+  // }, [location.pathname]);
+
+  const scrollToSection = (index) => {
+    if (location.pathname === "/") {
+      window.dispatchEvent(new CustomEvent("scrollToSection", { detail: index }));
+    } else {
+      sectionToScroll.current = index;
+      navigate("/");
+    }
+  };
+
+  useEffect(() => {
+    if (location.pathname === "/" && sectionToScroll.current !== null) {
+      window.dispatchEvent(new CustomEvent("scrollToSection", { detail: sectionToScroll.current }));
+      sectionToScroll.current = null;
+    }
+  }, [location.pathname]);
 
   return (
     <div>
@@ -41,7 +85,7 @@ const App = () => {
           element={
             <>
               <Navbar homeDark={true} />
-              <Home />
+              <Home onLoaded={() => setHomeLoaded(true)} />
             </>
           }
         />
@@ -102,6 +146,8 @@ const App = () => {
         {/* Optional: Redirect any unknown paths to home or login */}
         <Route path="*" element={<Navigate to="/" />} />
       </Routes>
+
+      {homeLoaded && <Footer scrollToSection={scrollToSection} />}
     </div>
   );
 };

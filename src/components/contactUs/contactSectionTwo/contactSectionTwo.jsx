@@ -25,6 +25,8 @@ const ContactSectionTwo = () => {
 
   const apiBaseUrl = "https://api.tailors-stitch.com/contact";
 
+  
+  
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
@@ -121,7 +123,7 @@ const ContactSectionTwo = () => {
                   <p>Mon-Fri from 8am to 5pm.</p>
                 </div>
                 <div className="mail">
-                  <h1>+88 (017) 89996864</h1>
+                  <h1>+8801789996864</h1>
                 </div>
               </div>
             </div>
