@@ -7,7 +7,7 @@ import Navbar from "./components/navbar/navbar.jsx";
 import Home from "./components/home/home.jsx";
 import About from "./components/aboutUs/aboutUs.jsx";
 import Services from "./components/ourServices/ourServices.jsx";
-import Casual from "./components/mensCasual/mensCasual.jsx"
+import Casual2 from "./components/mensCasual/mensCasual.jsx"
 // Import the new CategoryPage component
 import CategoryPage from "./components/categoryPage.jsx"; // Assuming CategoryPage.jsx is in components/
 
@@ -75,6 +75,7 @@ const App = () => {
           <Route path="/kidswear" element={<Kids />} />
         */}
         <Route path="/casual" element={<Dashboard />} />
+        <Route path="/formal" element={<Casual2 />} />
 
         {/* NEW: Dynamic route for all product categories */}
         {/* The :categoryName parameter will be captured by CategoryPage */}

@@ -92,8 +92,8 @@
           transition: background-color 0.3s ease, color 0.3s ease;
           cursor: pointer;
           font-size: 16px;
-          font-family: BricolageGrotesqueSemi;
-          font-weight: 500;
+          font-family: BricolageGrotesqueReg;
+          font-weight: 400;
           &.active {
             background-color: rgb(255, 255, 255);
             color: rgb(0, 0, 0);
@@ -113,7 +113,7 @@
           color: rgb(0, 0, 0);
           background: rgb(255, 255, 255);
           font-size: 16px;
-          font-family: BricolageGrotesqueSemi;
+          font-family: BricolageGrotesqueReg;
           font-weight: 500;
           // margin-top: -15px;
           margin-bottom: 6.5%;
@@ -220,6 +220,7 @@
         transition: background-color 0.3s ease, color 0.3s ease;
         cursor: pointer;
         font-family: BricolageGrotesqueReg;
+        font-weight: 400;
 
         &.active {
           background-color: black;
@@ -250,6 +251,7 @@
         color: rgb(0, 0, 0);
         font-size: 16px;
         font-family: BricolageGrotesqueReg;
+        font-weight: 400;
 
         margin-left: 10px;
       }

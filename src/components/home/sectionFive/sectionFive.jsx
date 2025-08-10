@@ -6,11 +6,11 @@ const image14 =
 const image15 =
   "https://ik.imagekit.io/k3nqtn6ih/assets/HomePage/s403.png?updatedAt=1753525543368";
 const image16 =
-  "https://ik.imagekit.io/k3nqtn6ih/assets/HomePage/s404.png?updatedAt=1753525543347";
+  "https://ik.imagekit.io/k3nqtn6ih/assets/HomePage/s404.png?updatedAt=1754819135185";
 const image17 =
   "https://ik.imagekit.io/k3nqtn6ih/assets/HomePage/s405.png?updatedAt=1753525544890";
 const image18 =
-  "https://ik.imagekit.io/k3nqtn6ih/assets/HomePage/s406.png?updatedAt=1753525551746";
+  "https://ik.imagekit.io/k3nqtn6ih/assets/HomePage/s406.png?updatedAt=1754818891854";
 import "./sectionFive.scss";
 
 const sectionFive = () => {

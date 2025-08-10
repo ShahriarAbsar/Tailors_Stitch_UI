@@ -121,7 +121,7 @@ const ContactSectionTwo = () => {
                   <p>Mon-Fri from 8am to 5pm.</p>
                 </div>
                 <div className="mail">
-                  <h1>+1 (555) 000-0000</h1>
+                  <h1>+88 (017) 89996864</h1>
                 </div>
               </div>
             </div>

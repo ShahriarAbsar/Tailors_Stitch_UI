@@ -1,6 +1,7 @@
 import React from "react";
 import './sectionThree.scss'
 import image1 from "../../../assets/AboutUs/fourfooter1.png"
+import { NavLink } from "react-router-dom";
 const sectionThree = () => {
   return (
     <div className="allBody">
@@ -16,7 +17,7 @@ const sectionThree = () => {
           </p>
         </div>
         <div className="allProductFooterBottom">
-          <button className="btn">Get in Touch</button>
+          <button className="btn"> <NavLink to = '/contact'>Get in Touch</NavLink> </button>
         </div>
       </div>
     </div>
